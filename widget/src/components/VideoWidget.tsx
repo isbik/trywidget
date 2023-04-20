@@ -1,0 +1,347 @@
+import {
+  batch,
+  createEffect,
+  createMemo,
+  createSignal,
+  getOwner,
+  onCleanup,
+  onMount,
+  runWithOwner,
+  Show,
+} from "solid-js";
+import { setGlobalShow, settingsState } from "../store";
+import { CTAButton } from "./CTAButton";
+import { XMarkIcon } from "../icons/XMark";
+import { SpeakerXMarkIcon } from "../icons/SpeakerXMark";
+import { SpeakerWaveIcon } from "../icons/SpeakerWave";
+import { Title } from "./Title";
+import { SocialButtons } from "./SocialButtons";
+let short =
+  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
+let long =
+  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+
+type Props = {};
+
+const BORDER_WIDTH = 4;
+
+export const VideoWidget = (props: Props) => {
+  const settings = settingsState();
+
+  let wrapperRef: HTMLDivElement;
+  let videoRef: HTMLVideoElement;
+  const [expanded, setExpanded] = createSignal(false);
+  const [hideWidget, setHideWidget] = createSignal(true);
+
+  const calculatePosition = () => {
+    const settings = settingsState();
+
+    if (!wrapperRef) return;
+
+    wrapperRef.style.bottom = settings?.edgeMargins + "px";
+
+    if (settings.placement === "left") {
+      wrapperRef.style.left = settings?.edgeMargins + "px";
+      wrapperRef.style.right = "initial";
+    }
+
+    if (settings.placement === "right") {
+      wrapperRef.style.right = settings?.edgeMargins + "px";
+      wrapperRef.style.left = "initial";
+    }
+  };
+
+  createEffect(() => {
+    calculatePosition();
+  });
+
+  onMount(() => {
+    window.addEventListener("resize", calculatePosition);
+  });
+
+  onCleanup(() => {
+    window.removeEventListener("resize", calculatePosition);
+  });
+
+  onMount(() => {
+    if (settings.showingCondition === "immediately") {
+      setHideWidget(false);
+    }
+
+    if (settings.showingCondition === "time") {
+      let timeout = setTimeout(() => {
+        setHideWidget(() => false);
+      }, settings.showingAfterTime * 1000);
+
+      onCleanup(() => clearInterval(timeout));
+    }
+
+    if (settings.showingCondition === "intersection") {
+      setTimeout(() => {
+        const callback = (entries: IntersectionObserverEntry[]) => {
+          if (entries[0].isIntersecting) {
+            setHideWidget(false);
+          }
+        };
+
+        let observer = new IntersectionObserver(callback);
+
+        observer.observe(document.querySelector(settings.showingSelector)!);
+      }, 1);
+    }
+  });
+
+  const onClickWrapper = (event: MouseEvent) => {
+    setExpanded(true);
+    setMuted(false);
+
+    if (!expanded()) {
+      videoRef.currentTime = 0;
+    }
+  };
+
+  const wrapperWidth = createMemo(() => {
+    const settings = settingsState();
+    const maxWidth =
+      document.documentElement.clientWidth -
+      settings.edgeMargins * 2 -
+      BORDER_WIDTH * 2;
+
+    if (expanded()) {
+      return Math.min(
+        settings.width * settings.scaleView - settings.edgeMargins * 3,
+        maxWidth,
+      );
+    }
+
+    return Math.min(settings.width, maxWidth);
+  });
+
+  const wrapperHeight = createMemo(() => {
+    const settings = settingsState();
+    const maxHeight =
+      window.innerHeight - settings.edgeMargins * 2 - BORDER_WIDTH * 2;
+
+    if (expanded()) {
+      return Math.min(settings.height * settings.scaleView, maxHeight);
+    }
+
+    if (settings.shape === "circle") {
+      return Math.min(settings.width, maxHeight, wrapperWidth());
+    }
+
+    return Math.min(settings.height, maxHeight);
+  });
+
+  const [playing, setPlaying] = createSignal(true);
+  const [muted, setMuted] = createSignal(true);
+
+  const onClickVideo = () => {
+    if (!expanded()) return;
+
+    setPlaying((p) => !p);
+
+    if (playing()) {
+      videoRef.play();
+    } else {
+      videoRef.pause();
+    }
+  };
+
+  const handleMuteClick = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setMuted((p) => !p);
+  };
+
+  const handleCloseClick = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!expanded()) {
+      setGlobalShow(false);
+      return;
+    }
+
+    setExpanded(false);
+
+    setMuted(true);
+    videoRef.currentTime = 0;
+  };
+
+  const [currentTime, setCurrentTime] = createSignal(0);
+  const [totalTime, setTotalTime] = createSignal(0);
+
+  onMount(() => {
+    videoRef.addEventListener("loadeddata", () => {
+      setTotalTime(videoRef.duration);
+    });
+
+    videoRef.addEventListener("timeupdate", (event) => {
+      setCurrentTime(videoRef.currentTime);
+    });
+  });
+
+  const wrapperBorderRadius = createMemo(() => {
+    const settings = settingsState();
+
+    return settings.shape === "circle" && !expanded()
+      ? "50%"
+      : settings.borderRadius + "px";
+  });
+
+  const closeIconTop = createMemo(() => {
+    const settings = settingsState();
+
+    return (
+      (settings.shape === "circle" && !expanded() ? wrapperWidth() / 10 : 8) +
+      "px"
+    );
+  });
+
+  const closeIconRight = createMemo(() => {
+    const settings = settingsState();
+
+    return (
+      (settings.shape === "circle" && !expanded()
+        ? wrapperWidth() / 2 - 12
+        : 8) + "px"
+    );
+  });
+
+  const wrapperBorder = createMemo(() => {
+    const settings = settingsState();
+
+    return settings.showBorder ? undefined : "none";
+  });
+
+  return (
+    <>
+      <style>
+        {`
+            .vw-wrapper{
+              border: ${BORDER_WIDTH}px solid ${settingsState().borderColor} 
+            }
+
+            .vw-wrapper:hover {
+              transform: ${expanded() ? "" : "translateY(-10px)"};
+              border: ${BORDER_WIDTH}px solid ${
+          settingsState().borderHoverColor
+        } 
+            }
+
+            .close-icon {
+                display: ${!expanded() && "none"};
+            }
+            .vw-wrapper:hover .close-icon{
+              display: flex;
+            }
+          `}
+      </style>
+      <div
+        draggable
+        data-vidget-id="test"
+        ref={wrapperRef!}
+        class="vw-wrapper fixed transition-[border,transform,border-radius]  cursor-pointer"
+        style={{
+          border: wrapperBorder(),
+          "transform-origin": `bottom ${settings.placement}`,
+          "border-radius": wrapperBorderRadius(),
+          overflow: "hidden",
+          display: hideWidget() ? "none" : "block",
+          background: "inherit",
+        }}
+        onclick={onClickWrapper}
+      >
+        <div
+          class="relative transition-all"
+          style={{
+            width: wrapperWidth() + "px",
+            height: wrapperHeight() + "px",
+            "transform-origin": "bottom right",
+          }}
+        >
+          <button
+            onclick={handleCloseClick}
+            class="close-icon absolute z-10 bg-slate-300/50 rounded-full w-6 h-6 flex items-center justify-center transition-[top,right]"
+            style={{
+              top: closeIconTop(),
+              right: closeIconRight(),
+            }}
+          >
+            <XMarkIcon class="w-4" />
+          </button>
+
+          {expanded() && settingsState().showControls && (
+            <>
+              <button
+                onclick={handleMuteClick}
+                class="absolute top-10 right-2 z-10 bg-slate-300/50 rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                {muted() ? (
+                  <SpeakerXMarkIcon class="w-4" />
+                ) : (
+                  <SpeakerWaveIcon class="w-4" />
+                )}
+              </button>
+            </>
+          )}
+          {expanded() && <Title />}
+
+          <div class="flex">
+            <video
+              ref={videoRef!}
+              class="absolute left-1/2 top-1/2 h-full w-full object-cover"
+              src={short}
+              loop
+              playsinline
+              muted={muted()}
+              preload="auto"
+              style={{
+                transform: "translate(-50%,-50%)",
+              }}
+              onclick={onClickVideo}
+              autoplay
+              // @ts-ignore
+              disablePictureInPicture
+            ></video>
+
+            {expanded() && (
+              <div
+                class="absolute z-10 left-2 right-2 flex flex-col bottom-0"
+                style={{
+                  bottom: settings.borderRadius / 2 + "px",
+                }}
+              >
+                <SocialButtons />
+
+                {currentTime() > settingsState().ctaTimeToShow && <CTAButton />}
+
+                {settingsState().showControls && (
+                  <div class="relative rounded-full overflow-hidden mb-1">
+                    <div class="w-full bg-black/80 h-[5px]"></div>
+                    <div
+                      class="w-full bg-red-400 h-[3px] absolute top-[1px]"
+                      style={{
+                        width: (currentTime() / totalTime()) * 100 + "%",
+                      }}
+                    ></div>
+                  </div>
+                )}
+
+                <a
+                  href="https://videoparty.ru"
+                  target="_blank"
+                  class="bg-black/80 p-[2px] text-center text-white text-[12px] -mx-2 -mb-2.5 w-[calc(100%+16px)]"
+                >
+                  Видеовиджет VP
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};

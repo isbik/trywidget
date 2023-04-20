@@ -1,0 +1,48 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next  lint",
+    "lint:fix": "next lint -- --fix",
+    "prod": "next export -o build",
+    "swagger": "node scripts/swagger.js"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.0.17",
+    "@radix-ui/react-dialog": "^1.0.3",
+    "effector": "^22.4.1",
+    "effector-react": "^22.4.0",
+    "keen-slider": "^6.8.5",
+    "ky": "^0.33.0",
+    "next": "13.1.1",
+    "nookies": "^2.5.2",
+    "patronum": "^1.12.3",
+    "react": "18.2.0",
+    "react-color": "^2.19.3",
+    "react-colorful": "^5.6.1",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.8",
+    "tailwind-merge": "^1.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.15.10",
+    "@types/react": "18.0.30",
+    "@types/react-dom": "18.0.11",
+    "autoprefixer": "^10.4.13",
+    "daisyui": "^2.51.5",
+    "eslint": "^8.30.0",
+    "eslint-config-next": "13.1.1",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.2",
+    "postcss": "^8.4.20",
+    "swagger-typescript-api": "^12.0.2",
+    "tailwindcss": "^3.3.1",
+    "typescript": "^5.0.4"
+  }
+}
