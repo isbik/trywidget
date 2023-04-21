@@ -53,7 +53,7 @@ export const AppLayout = ({ children }: Props) => {
                 )}
             >
                 <div className="flex items-center gap-3 p-4 mb-16">
-                    <img className="w-8 h-8" src="/static/google.svg" alt="logo" />
+                    <img className="w-8 h-8" src="/static/logo.svg" alt="logo" />
                     <p className="leading-2">Video Party</p>
                 </div>
 
@@ -62,8 +62,8 @@ export const AppLayout = ({ children }: Props) => {
                         <li key={url} className={'centered ' + className}>
                             <Link
                                 className={cn(
-                                    'w-full p-4 text-neutral flex gap-2',
-                                    router.asPath === url && 'bg-base-300 text-neutral-focus'
+                                    'w-full p-4 flex gap-2',
+                                    router.asPath === url && 'bg-base-300'
                                 )}
                                 href={url}
                             >

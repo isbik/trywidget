@@ -28,7 +28,7 @@ const WidgetPage = (props: Props) => {
             <p className="mb-4">Видео</p>
 
             <div
-                className="flex flex-row gap-4 p-4 border card border-base-300"
+                className="flex flex-row gap-4 p-4 border card border-base-300 bg-base-200"
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
             >

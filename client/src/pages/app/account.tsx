@@ -9,7 +9,7 @@ const AccountPage = (props: Props) => {
         <AppLayout>
             <h1 className="mb-16 text-3xl">Настройки аккаунта</h1>
 
-            <div className="mb-8 border rounded-md border-base-300 sm:w-96 bg-base-100">
+            <div className="mb-8 border rounded-md bg-base-200 border-base-300 sm:w-96">
                 <div className="card-body">
                     <h2 className="card-title">Текущий план</h2>
                     <span className="mb-4 text-primary">Базовый тариф</span>
@@ -24,7 +24,7 @@ const AccountPage = (props: Props) => {
                     </Link>
                 </div>
             </div>
-            <div className="border rounded-md border-base-300 sm:w-96 bg-base-100">
+            <div className="border rounded-md border-base-300 sm:w-96 bg-base-200">
                 <div className="card-body">
                     <h2 className="card-title">Пароль</h2>
                     <div className="w-full max-w-xs form-control">

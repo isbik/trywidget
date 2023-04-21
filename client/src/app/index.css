@@ -12,6 +12,10 @@
     }
 }
 
+.btn {
+    @apply animate-none;
+}
+
 
 /* Custom styles */
 

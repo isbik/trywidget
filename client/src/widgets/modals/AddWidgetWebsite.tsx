@@ -11,11 +11,11 @@ type Props = {
 export const AddWidgetWebsiteModal = ({ id, open, setOpen }: Props) => (
     <Dialog.Root open={open}>
         <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 bg-black/80" />
-            <Dialog.Content className="fixed max-w-md p-4 px-6 -translate-x-1/2 -translate-y-1/2 bg-white top-1/2 left-1/2 rounded-xl">
+            <Dialog.Overlay className="fixed inset-0 bg-base-300/80" />
+            <Dialog.Content className="fixed max-w-md p-4 px-6 -translate-x-1/2 -translate-y-1/2 bg-base-100 top-1/2 left-1/2 rounded-xl">
                 <Dialog.Title className="mb-6 text-2xl">Добавить виджет на сайт</Dialog.Title>
 
-                <Dialog.Description className="DialogDescription">
+                <Dialog.Description className="">
                     <p className="mb-2 text-lg font-medium">
                         1. Скопируйте сгенерированный фрагмент кода виджета
                     </p>

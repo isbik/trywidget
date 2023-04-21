@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { GoogleIcon } from '../shared/ui/icons/Google';
 
 type Props = {
     type?: 'login' | 'register';
@@ -33,12 +34,12 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
                         </p>
 
                         <div className="flex gap-2">
-                            <Link href="/" className="btn btn-outline grow" type="submit">
+                            <Link href="/" className="btn btn-outline flex-[0_1_50%]" type="submit">
                                 На главную
                             </Link>
                             <button
                                 onClick={handleSendAgain}
-                                className="btn btn-primary grow"
+                                className="btn btn-primary flex-[0_1_50%]"
                                 type="button"
                             >
                                 Отправить заново
@@ -56,11 +57,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
                             href={'/api/auth/oauth/google/callback'}
                             className="gap-2 p-2 px-4 btn btn-outline flex-nowrap whitespace-nowrap"
                         >
-                            <img
-                                src="/static/google.svg"
-                                className="w-full h-full"
-                                alt="Вход через google"
-                            />
+                            <GoogleIcon className="w-full h-full" />
                             Войти через Google
                         </Link>
                     </div>

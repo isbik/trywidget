@@ -2,10 +2,12 @@ import Link from 'next/link';
 
 export const Header = () => {
     return (
-        <header className="items-center container flex gap-4 pt-4">
+        <header className="container flex items-center gap-4 pt-4">
             <p className="badge badge-primary">Виджеты</p>
 
-            <button className="btn btn-ghost mr-auto">Тарифы</button>
+            <Link href={'/pricing'} className="mr-auto btn btn-ghost">
+                Тарифы
+            </Link>
             <Link href="/login" className="btn btn-ghost">
                 Войти
             </Link>
