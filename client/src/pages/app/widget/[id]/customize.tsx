@@ -114,7 +114,7 @@ const WidgetPage = (props: Props) => {
                     <form
                         onSubmit={methods.handleSubmit(onSubmit)}
                         className={cn(
-                            'min-w-[300px] w-[300px] border-r border-base-300 bg-base-100 h-full relative overflow-auto flex flex-col',
+                            'min-w-[300px] w-[300px] border-r border-base-300 bg-base-100 h-full relative overflow-auto flex flex-col no-scrollbar',
                             collapsed && 'hidden',
                             'max-sm:absolute h-full'
                         )}

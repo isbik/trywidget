@@ -24,7 +24,7 @@ export const StyleSettings = (props: Props) => {
 
     return (
         <>
-            <CustomizeInputSwitch name="showControls" title="Показывать элементы управления" />
+            <CustomizeInputSwitch name="showControls" title="Элементы управления" />
 
             <CustomizeDivider title="Размеры" />
 

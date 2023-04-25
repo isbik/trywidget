@@ -15,7 +15,7 @@ import { HexColorPicker } from 'react-colorful';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 export const CustomizeDivider = ({ title }: { title: string }) => {
-    return <div className="p-2 pt-4 text-sm font-bold border-t border-base-200">{title}</div>;
+    return <div className="p-2 pt-2 text-sm font-bold border-t border-base-200">{title}</div>;
 };
 
 export const CustomizeBlock = ({
