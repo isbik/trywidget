@@ -724,10 +724,6 @@ core-js-pure@^3.25.1:
   resolved "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.26.1.tgz"
   integrity sha512-VVXcDpp/xJ21KdULRq/lXdLzQAtX7+37LzpyfFM973il0tWSsDEoyzG38G14AjTpK9VTfiNM9jnFauq/CpaWGQ==
 
-"core@file:C:\\Users\\root\\Desktop\\video-lab\\video-widget\\packages\\errors":
-  version "1.0.0"
-  resolved "file:packages/errors"
-
 cosmiconfig@7.0.1:
   version "7.0.1"
   resolved "https://registry.npmjs.org/cosmiconfig/-/cosmiconfig-7.0.1.tgz"

@@ -12,9 +12,9 @@ const LoginPage = (props: Props) => {
     };
 
     return (
-        <div className="h-full bg-base-300 centered">
+        <div className="h-full bg-[#EEF1F7] centered">
             <form
-                className="max-w-md shadow-xl card w-96 bg-base-100 card-body"
+                className="max-w-md border card w-96 bg-base-100 card-body"
                 onSubmit={handleSubmit}
             >
                 {isSubmitted ? (

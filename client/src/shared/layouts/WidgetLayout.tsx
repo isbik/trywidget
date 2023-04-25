@@ -21,7 +21,7 @@ export const WidgetLayout = ({ children }: Props) => {
 
             <h1 className="mb-8 text-4xl">Управление виджетом</h1>
 
-            <div className="mb-8 btn-group">
+            <div className="mb-8 bg-white btn-group">
                 <Link
                     href={`/app/widget/${id}`}
                     className={cn('btn', router.asPath !== `/app/widget/${id}` && 'btn-outline')}

@@ -9,6 +9,11 @@ module.exports = {
       center: true,
       "padding": "16px"
     },
+    extend: {
+      colors: {
+        primary: "#0066FF"
+      }
+    }
   },
   daisyui: {
     themes: ["light", ""],

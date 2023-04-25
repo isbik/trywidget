@@ -42,13 +42,13 @@ export const AppLayout = ({ children }: Props) => {
     return (
         <main
             className={cn(
-                'flex max-sm:flex-col transition-all pl-[240px]',
+                'flex max-sm:flex-col transition-all pl-[240px] bg-base-200 h-full',
                 !openDrawer && 'max-sm:pl-0'
             )}
         >
             <nav
                 className={cn(
-                    'transition-all min-w-[240px] w-[240px] h-screen flex flex-col fixed left-0 bg-base-200',
+                    'transition-all min-w-[240px] w-[240px] h-screen flex flex-col fixed left-0 border-r bg-white',
                     !openDrawer && 'max-sm:-translate-x-full'
                 )}
             >
@@ -63,13 +63,11 @@ export const AppLayout = ({ children }: Props) => {
                             <Link
                                 className={cn(
                                     'w-full p-4 flex gap-2',
-                                    router.asPath === url && 'bg-base-300'
+                                    router.asPath === url && 'bg-[#EEF1F7] text-primary'
                                 )}
                                 href={url}
                             >
-                                <Icon
-                                    className={cn('w-4', router.asPath === url && 'text-primary')}
-                                />
+                                <Icon className={cn('w-4')} />
                                 {title}
                             </Link>
                         </li>
@@ -84,7 +82,7 @@ export const AppLayout = ({ children }: Props) => {
                 </div>
             </nav>
 
-            <div className="p-2 bg-base-300 sm:hidden">
+            <div className="p-2 bg-[#EEF1F7] sm:hidden">
                 <button className="btn btn-sm btn-square" onClick={() => setOpenDrawer((p) => !p)}>
                     <Bars3Icon />
                 </button>

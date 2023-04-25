@@ -13,9 +13,13 @@
 }
 
 .btn {
-    @apply animate-none;
+    @apply normal-case animate-none;
 }
 
+.toggle:checked {
+    background-color: #0066FF;
+    border-color: #0066FF
+}
 
 /* Custom styles */
 
@@ -42,4 +46,18 @@ body {
     #root {
         padding-right: 0px;
     }
+}
+
+
+
+/* Overrides */
+.no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
 }

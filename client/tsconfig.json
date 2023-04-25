@@ -17,14 +17,20 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "paths": {
       "@vw/*": [
         "./*"
       ]
     },
+    "incremental": true
   },
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
   ]
 }

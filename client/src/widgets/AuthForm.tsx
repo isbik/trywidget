@@ -25,7 +25,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
     const handleSendAgain = () => {};
 
     return (
-        <form className="max-w-md shadow-xl bg-base-100 card w-96 card-body" onSubmit={onSubmit}>
+        <form className="max-w-md border bg-base-100 card w-96 card-body" onSubmit={onSubmit}>
             {isSubmitted && (
                 <>
                     <>

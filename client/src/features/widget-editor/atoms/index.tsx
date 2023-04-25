@@ -210,7 +210,10 @@ export const CustomizeInputShape = ({ title, name }: { name: string; title: stri
             <div className="text-white btn-group">
                 <button
                     type="button"
-                    className={cn('btn-sm btn', value === 'rectangle' && 'btn-active')}
+                    className={cn(
+                        'btn-sm btn btn-ghost text-black border-base-300',
+                        value === 'rectangle' && 'bg-primary text-white'
+                    )}
                     onClick={() => setValue(name, 'rectangle')}
                 >
                     <RectangleIcon className="w-4" />
@@ -218,7 +221,10 @@ export const CustomizeInputShape = ({ title, name }: { name: string; title: stri
 
                 <button
                     type="button"
-                    className={cn('btn-sm btn', value === 'square' && 'btn-active')}
+                    className={cn(
+                        'btn-sm btn btn-ghost text-black border-base-300',
+                        value === 'square' && 'bg-primary text-white'
+                    )}
                     onClick={() => setValue(name, 'square')}
                 >
                     <SquareIcon className="w-4" />
@@ -226,7 +232,10 @@ export const CustomizeInputShape = ({ title, name }: { name: string; title: stri
 
                 <button
                     type="button"
-                    className={cn('btn-sm btn', value === 'circle' && 'btn-active')}
+                    className={cn(
+                        'btn-sm btn btn-ghost text-black border-base-300',
+                        value === 'circle' && 'bg-primary text-white'
+                    )}
                     onClick={() => setValue(name, 'circle')}
                 >
                     <CircleIcon className="w-4" />
@@ -256,7 +265,10 @@ export const CustomizeInputAlign = ({
                 <button
                     onClick={() => setValue(name, 'left')}
                     type="button"
-                    className={cn('btn-sm btn', value === 'left' && 'btn-active')}
+                    className={cn(
+                        'btn-sm btn btn-ghost border-base-300 text-black',
+                        value === 'left' && 'bg-primary text-white'
+                    )}
                 >
                     <Bars3BottomLeftIcon className="w-4" />
                 </button>
@@ -264,7 +276,10 @@ export const CustomizeInputAlign = ({
                     <button
                         onClick={() => setValue(name, 'center')}
                         type="button"
-                        className={cn('btn-sm btn', value === 'center' && 'btn-active')}
+                        className={cn(
+                            'btn-sm btn btn-ghost border-base-300 text-black',
+                            value === 'center' && 'bg-primary text-white'
+                        )}
                     >
                         <Bars3Icon className="w-4" />
                     </button>
@@ -272,7 +287,10 @@ export const CustomizeInputAlign = ({
                 <button
                     onClick={() => setValue(name, 'right')}
                     type="button"
-                    className={cn('btn-sm btn', value === 'right' && 'btn-active')}
+                    className={cn(
+                        'btn-sm btn btn-ghost border-base-300 text-black',
+                        value === 'right' && 'bg-primary text-white'
+                    )}
                 >
                     <Bars3BottomRightIcon className="w-4" />
                 </button>

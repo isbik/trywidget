@@ -28,7 +28,7 @@ const WidgetPage = (props: Props) => {
             <p className="mb-4">Видео</p>
 
             <div
-                className="flex flex-row gap-4 p-4 border card border-base-300 bg-base-200"
+                className="flex flex-row gap-4 p-4 bg-white border card border-base-300"
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
             >
@@ -36,7 +36,7 @@ const WidgetPage = (props: Props) => {
                     <div className="flex items-center gap-6">
                         <button
                             type="button"
-                            className="text-4xl border rounded-2xl btn w-36 h-36 centered btn-outline"
+                            className="text-4xl border rounded-2xl btn w-36 h-36 centered btn-outline border-[#EEF1F7]"
                             onClick={() => setVideo('video')}
                         >
                             <PlusIcon className="w-6" />

@@ -5,7 +5,7 @@ type Props = {};
 
 const LoginPage = (props: Props) => {
     return (
-        <div className="h-full bg-base-300 centered">
+        <div className="h-full bg-[#EEF1F7] centered">
             <AuthForm title="Вход на сайт" />
         </div>
     );

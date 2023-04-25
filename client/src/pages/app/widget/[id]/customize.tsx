@@ -69,7 +69,10 @@ const WidgetPage = (props: Props) => {
                         'max-sm:absolute'
                     )}
                 >
-                    <Link href={'/app/widget/1'} className="btn btn-outline btn-sm btn-square">
+                    <Link
+                        href={'/app/widget/1'}
+                        className="btn btn-outline btn-sm btn-square border-base-300"
+                    >
                         <XMarkIcon className="w-4" />
                     </Link>
                     {!collapsed && <span className="font-medium text-[20px]">Редактирование</span>}
@@ -116,15 +119,15 @@ const WidgetPage = (props: Props) => {
                             'max-sm:absolute h-full'
                         )}
                     >
-                        <div className="sticky top-0 z-10 items-center w-full pt-2 tabs centered bg-base-100">
+                        <div className="sticky top-0 z-10 items-center w-full border-b centered bg-base-100">
                             {TABS.map(({ name, title }) => (
                                 <button
                                     onClick={() => setTab(name)}
                                     type="button"
                                     key={name}
                                     className={cn(
-                                        'grow tab tab-bordered',
-                                        name === tab && 'tab-active'
+                                        'grow m-1 py-2 hover:bg-primary/30 rounded-lg',
+                                        name === tab && 'text-primary bg-primary/20'
                                     )}
                                 >
                                     {title}

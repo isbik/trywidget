@@ -11,7 +11,7 @@ type Props = {
 export const AddWidgetWebsiteModal = ({ id, open, setOpen }: Props) => (
     <Dialog.Root open={open}>
         <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 bg-base-300/80" />
+            <Dialog.Overlay className="fixed inset-0 bg-black/80" />
             <Dialog.Content className="fixed max-w-md p-4 px-6 -translate-x-1/2 -translate-y-1/2 bg-base-100 top-1/2 left-1/2 rounded-xl">
                 <Dialog.Title className="mb-6 text-2xl">Добавить виджет на сайт</Dialog.Title>
 
@@ -20,7 +20,7 @@ export const AddWidgetWebsiteModal = ({ id, open, setOpen }: Props) => (
                         1. Скопируйте сгенерированный фрагмент кода виджета
                     </p>
 
-                    <div className="p-2 mb-2 rounded bg-base-200">
+                    <div className="p-2 mb-2 rounded bg-[#EEF1F7] select-all">
                         <code>
                             {`<script src="${id}" id="widget" data-nscript="afterInteractive"></script>`}
                         </code>
