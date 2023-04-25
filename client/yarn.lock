@@ -1733,7 +1733,7 @@ keen-slider@^6.8.5:
   resolved "https://registry.npmjs.org/keen-slider/-/keen-slider-6.8.5.tgz"
   integrity sha512-9yoosfffgTCrkmbX8kCUMWsn9KDgPSkxBof5/0yXde001D1xao7i9ppfxQCCK0MLnoCa+Rdssby0jFbTTUM4rw==
 
-ky@^0.33.0:
+ky@^0.33.3:
   version "0.33.3"
   resolved "https://registry.npmjs.org/ky/-/ky-0.33.3.tgz"
   integrity sha512-CasD9OCEQSFIam2U8efFK81Yeg8vNMTBUqtMOHlrcWQHqUX3HeCl9Dr31u4toV7emlH8Mymk5+9p0lL6mKb/Xw==

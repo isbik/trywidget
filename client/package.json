@@ -17,7 +17,7 @@
     "effector": "^22.4.1",
     "effector-react": "^22.4.0",
     "keen-slider": "^6.8.5",
-    "ky": "^0.33.0",
+    "ky": "^0.33.3",
     "next": "13.1.1",
     "nookies": "^2.5.2",
     "patronum": "^1.12.3",
