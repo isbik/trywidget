@@ -22,7 +22,7 @@ export const CTASettings = (props: Props) => {
 
     return (
         <>
-            <CustomizeInputSwitch className="font-bold" name="ctaShow" title="Показывать кнопку" />
+            <CustomizeInputSwitch className="font-bold" name="ctaShow" title="CTA" />
 
             {ctaShow && (
                 <>

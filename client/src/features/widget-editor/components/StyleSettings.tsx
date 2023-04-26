@@ -7,6 +7,7 @@ import {
     CustomizeDivider,
     CustomizeInputShape,
     CustomizeInputAlign,
+    CustomizeExpand,
 } from '../atoms';
 import { useFormContext } from 'react-hook-form';
 
@@ -26,21 +27,21 @@ export const StyleSettings = (props: Props) => {
         <>
             <CustomizeInputSwitch name="showControls" title="Элементы управления" />
 
-            <CustomizeDivider title="Размеры" />
+            <CustomizeExpand title="Размеры">
+                <CustomizeInputShape name="shape" title="Форма" />
 
-            <CustomizeInputShape name="shape" title="Форма" />
+                <CustomizeInputNumber name="height" title="Высота" />
 
-            <CustomizeInputNumber name="height" title="Высота" />
+                {shape === 'rectangle' && <CustomizeInputNumber name="width" title="Ширина" />}
 
-            {shape === 'rectangle' && <CustomizeInputNumber name="width" title="Ширина" />}
+                <CustomizeInputNumber name="scaleView" title="Увеличение в режиме просмотра" />
+            </CustomizeExpand>
 
-            <CustomizeInputNumber name="scaleView" title="Увеличение в режиме просмотра" />
+            <CustomizeExpand title="Положение виджета">
+                <CustomizeInputAlign center={false} name="placement" title="Угол" />
+                <CustomizeInputNumber name="edgeMargins" title="Отступ от краев" />
+            </CustomizeExpand>
 
-            <CustomizeDivider title="Положение виджета" />
-
-            <CustomizeInputAlign center={false} name="placement" title="Угол" />
-
-            <CustomizeInputNumber name="edgeMargins" title="Отступ от краев" />
             {/* <CustomizeInputSwitch name="isDragWidget" title="Перетаскивание виджета" /> */}
             {/* <CustomizeDivider title="Кнопка play" />
 
@@ -50,19 +51,19 @@ export const StyleSettings = (props: Props) => {
             <CustomizeInputColor title="Цвет иконки" />
             <CustomizeDivider title="Рамка" /> */}
 
-            <CustomizeDivider title="Рамка" />
+            <CustomizeExpand title="Рамка">
+                <CustomizeInputSwitch name="showBorder" title="Показывать рамку" />
+                <CustomizeInputNumber name="borderRadius" title="Скругление" />
+                <CustomizeInputColor name="borderColor" title="Цвет рамки" />
+                <CustomizeInputColor name="borderHoverColor" title="Цвет при наведении" />
+            </CustomizeExpand>
 
-            <CustomizeInputSwitch name="showBorder" title="Показывать рамку" />
-            <CustomizeInputNumber name="borderRadius" title="Скругление" />
-            <CustomizeInputColor name="borderColor" title="Цвет рамки" />
-            <CustomizeInputColor name="borderHoverColor" title="Цвет при наведении" />
+            <CustomizeExpand title="Заголовок">
+                <CustomizeInputSwitch name="showTitle" title="Показывать заголовок" />
+                <CustomizeInputColor name="titleColor" title="Цвет заголовка" />
 
-            <CustomizeDivider title="Заголовок" />
-
-            <CustomizeInputSwitch name="showTitle" title="Показывать заголовок" />
-            <CustomizeInputColor name="titleColor" title="Цвет заголовка" />
-
-            <CustomizeInputAlign name="titleAlign" title="Выравнивание" />
+                <CustomizeInputAlign name="titleAlign" title="Выравнивание" />
+            </CustomizeExpand>
         </>
     );
 };

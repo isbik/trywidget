@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     CustomizeDivider,
+    CustomizeExpand,
     CustomizeInputCreateList,
     CustomizeInputNumber,
     CustomizeInputSelect,
@@ -19,55 +20,55 @@ export const ShowingSettings = (props: Props) => {
 
     return (
         <>
-            <CustomizeDivider title="Проигрывание видео" />
             <CustomizeInputSwitch name="showingPreview" title="Отображение превью" />
 
-            <CustomizeDivider title="Появление виджета" />
-            <CustomizeInputSelect
-                name="showingCondition"
-                title="Условие"
-                items={[
-                    { id: 'immediately', name: 'Сразу' },
-                    { id: 'time', name: 'Через время' },
-                    { id: 'intersection', name: 'При видимости элемента' },
-                ]}
-            />
+            <CustomizeExpand title="Появление виджета">
+                <CustomizeInputSelect
+                    name="showingCondition"
+                    title="Условие"
+                    items={[
+                        { id: 'immediately', name: 'Сразу' },
+                        { id: 'time', name: 'Через время' },
+                        { id: 'intersection', name: 'При видимости элемента' },
+                    ]}
+                />
 
-            {showingCondition === 'time' && (
-                <CustomizeInputNumber name="showingAfterTime" title="Время секунд" />
-            )}
+                {showingCondition === 'time' && (
+                    <CustomizeInputNumber name="showingAfterTime" title="Время секунд" />
+                )}
 
-            {showingCondition === 'intersection' && (
-                <CustomizeInputText name="showingSelector" title="Селектор" />
-            )}
+                {showingCondition === 'intersection' && (
+                    <CustomizeInputText name="showingSelector" title="Селектор" />
+                )}
+            </CustomizeExpand>
 
-            <CustomizeDivider title="Повторный показ" />
+            <CustomizeExpand title="Повторный показ">
+                <CustomizeInputNumber name="showingAgainTime" title="Время" />
 
-            <CustomizeInputNumber name="showingAgainTime" title="Время" />
+                <CustomizeInputSelect
+                    name="showingAgainUnit"
+                    title="Единица измерения"
+                    items={[
+                        { id: 'second', name: 'Секунда' },
+                        { id: 'minute', name: 'Минуты' },
+                        { id: 'hour', name: 'Час' },
+                    ]}
+                />
+            </CustomizeExpand>
 
-            <CustomizeInputSelect
-                name="showingAgainUnit"
-                title="Единица измерения"
-                items={[
-                    { id: 'second', name: 'Секунда' },
-                    { id: 'minute', name: 'Минуты' },
-                    { id: 'hour', name: 'Час' },
-                ]}
-            />
+            <CustomizeExpand title="Страницы">
+                <CustomizeInputSwitch name="showingAllPages" title="На всех страницах" />
 
-            <CustomizeDivider title="Страницы" />
-
-            <CustomizeInputSwitch name="showingAllPages" title="На всех страницах" />
-
-            {!showingAllPages && (
-                <>
-                    <CustomizeInputCreateList name="showingOnlyPages" title="Страницы" />
-                    <CustomizeInputCreateList
-                        name="showingIgnorePages"
-                        title="Исключить Страницы"
-                    />
-                </>
-            )}
+                {!showingAllPages && (
+                    <>
+                        <CustomizeInputCreateList name="showingOnlyPages" title="Страницы" />
+                        <CustomizeInputCreateList
+                            name="showingIgnorePages"
+                            title="Исключить Страницы"
+                        />
+                    </>
+                )}
+            </CustomizeExpand>
         </>
     );
 };

@@ -21,29 +21,32 @@ export const WidgetLayout = ({ children }: Props) => {
 
             <h1 className="mb-8 text-4xl">Управление виджетом</h1>
 
-            <div className="mb-8 bg-white btn-group">
+            <div className="items-center mb-8 tabs">
                 <Link
                     href={`/app/widget/${id}`}
-                    className={cn('btn', router.asPath !== `/app/widget/${id}` && 'btn-outline')}
+                    className={cn(
+                        'tab tab-bordered',
+                        router.asPath === `/app/widget/${id}` && 'tab-active'
+                    )}
                 >
                     Видео
                 </Link>
                 <Link
                     href={`/app/widget/${id}/analytics`}
                     className={cn(
-                        'btn',
-                        router.asPath !== `/app/widget/${id}/analytics` && 'btn-outline'
+                        'tab tab-bordered',
+                        router.asPath === `/app/widget/${id}/analytics` && 'tab-active'
                     )}
                 >
                     Аналитика
                 </Link>
                 <Link
                     href={'/app/widget/' + id + '/' + 'customize'}
-                    className={cn('btn btn-outline')}
+                    className={cn('tab tab-bordered')}
                 >
                     Настройка
                 </Link>
-                <button onClick={() => setOpen(true)} className="btn btn-outline">
+                <button onClick={() => setOpen(true)} className="tab tab-bordered">
                     Добавить на сайт
                 </button>
             </div>

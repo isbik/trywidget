@@ -19,8 +19,9 @@ export const WidgetPreview = ({ device, setFrame }: Props) => {
     }, []);
 
     return (
-        <div className="grow bg-[url('/static/empty.jpg')] bg-[length:400px_400px] p-8 justify-center flex overflow-auto -m-2">
+        <div className="grow bg-[#A9A9A9] bg-[length:400px_400px] p-8 justify-center flex overflow-auto -m-2">
             <iframe
+                className="rounded"
                 title="Виджет"
                 ref={iframeRef}
                 src={window.location.origin + '/embed/widget'}

@@ -1,4 +1,4 @@
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { AppLayout } from '@vw/src/shared/ui/components/AppLayout';
 import { ResponsiveTable } from '@vw/src/shared/ui/components/ResponsiveTable/ResponsiveTable';
 import { AddWidgetWebsiteModal } from '@vw/src/widgets/modals/AddWidgetWebsite';
@@ -20,6 +20,11 @@ const AppPage = (props: Props) => {
 
             <AppLayout>
                 <h1 className="mb-16 text-4xl">Видеовиджеты</h1>
+
+                <button className="gap-2 mb-8 btn bg-primary centered btn-primary">
+                    <PlusIcon className="w-6" />
+                    Создать виджет
+                </button>
 
                 <ResponsiveTable
                     items={[

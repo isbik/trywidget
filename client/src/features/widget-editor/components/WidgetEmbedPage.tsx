@@ -1,8 +1,6 @@
 import Script from 'next/script';
 
-type Props = {};
-
-export const WidgetPreview = (props: Props) => {
+export const WidgetPreview = () => {
     return (
         <main className="p-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">

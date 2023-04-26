@@ -44,7 +44,6 @@ const AccountPage = (props: Props) => {
                     <ul>
                         <li>3 видеовиджета</li>
                         <li>1 сайт</li>
-                        <li>7 000 уникальных показов в месяц</li>
                         <li>Базовая аналитика за 30 дней</li>
                     </ul>
                     <Link href="/plans" className="btn">

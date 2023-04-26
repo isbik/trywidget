@@ -1,4 +1,4 @@
-import urllib
+from urllib.parse import urlencode
 import requests
 
 from django.http import HttpRequest,  JsonResponse
@@ -12,13 +12,14 @@ def google(request: HttpRequest):
     url = "https://accounts.google.com/o/oauth2/v2/auth"
     params = {
         "response_type": "code",
-        "redirect_uri":  request.build_absolute_uri(
-            '/') + "oauth/google/callback",
+        # "redirect_uri":  request.build_absolute_uri(
+        #     '/') + "oauth/google/callback",
+        "redirect_uri":  "http://localhost:8000/oauth/google/callback",
         "scope": SCOPES,
         "client_id": settings.GOOGLE_CLIENT_ID
     }
 
-    return JsonResponse({'link': "{}{}".format(url, params)})
+    return JsonResponse({'link': "{}?{}".format(url, urlencode(params))})
 
 
 def google_callback(request: HttpRequest):

@@ -5,17 +5,19 @@ import {
     Bars3BottomLeftIcon,
     Bars3Icon,
     Bars3BottomRightIcon,
+    ChevronDownIcon,
 } from '@heroicons/react/24/solid';
 import { cn } from '@vw/src/shared/lib/cn';
+import { SlideDown } from '@vw/src/shared/ui/components/SlideDown';
 import { CircleIcon } from '@vw/src/shared/ui/icons/Circle';
 import { RectangleIcon } from '@vw/src/shared/ui/icons/Rectangle';
 import { SquareIcon } from '@vw/src/shared/ui/icons/Square';
-import { DetailedHTMLProps, HTMLAttributes, useState } from 'react';
+import React, { DetailedHTMLProps, HTMLAttributes, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 export const CustomizeDivider = ({ title }: { title: string }) => {
-    return <div className="p-2 pt-2 text-sm font-bold border-t border-base-200">{title}</div>;
+    return <div className="p-4 py-2 text-sm font-bold border-t border-base-200">{title}</div>;
 };
 
 export const CustomizeBlock = ({
@@ -23,14 +25,23 @@ export const CustomizeBlock = ({
     children,
 }: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => {
     return (
-        <div className={cn('flex items-center justify-between gap-2 p-2', className)}>
+        <div className={cn('flex items-center justify-between gap-2 p-2 px-4', className)}>
             {children}
         </div>
     );
 };
 
-const CustomizeLabel = ({ title }: { title: string }) => {
-    return <p className="text-sm">{title}</p>;
+type CustomizeLabelProps = { title: string } & React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLParagraphElement>,
+    HTMLParagraphElement
+>;
+
+const CustomizeLabel = ({ title, className, ...props }: CustomizeLabelProps) => {
+    return (
+        <p className={cn('text-sm', className)} {...props}>
+            {title}
+        </p>
+    );
 };
 
 export const CustomizeInputNumber = ({ title, name }: { name: string; title: string }) => {
@@ -295,6 +306,43 @@ export const CustomizeInputAlign = ({
                     <Bars3BottomRightIcon className="w-4" />
                 </button>
             </div>
+        </CustomizeBlock>
+    );
+};
+
+export const CustomizeExpand = ({
+    title,
+    className,
+    children,
+    open = true,
+}: {
+    title: string;
+    className?: string;
+    children: React.ReactNode;
+    open?: boolean;
+    onToggle?: () => void;
+}) => {
+    const [closed, setClosed] = useState(!open);
+    return (
+        <CustomizeBlock className={cn('flex flex-col items-start justify-start p-0', className)}>
+            <button
+                className={cn(
+                    'flex items-center w-full p-4 py-2 border-t border-base-300',
+                    !closed && 'border-b'
+                )}
+                type="button"
+                onClick={() => setClosed((p) => !p)}
+            >
+                <CustomizeLabel className="text-lg font-medium" title={title} />
+
+                <ChevronDownIcon
+                    className={cn('w-4 ml-auto transition-all', !closed && 'rotate-180')}
+                />
+            </button>
+
+            <SlideDown closed={closed} transitionOnAppear={false}>
+                {children}
+            </SlideDown>
         </CustomizeBlock>
     );
 };
