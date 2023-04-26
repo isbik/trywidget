@@ -41,7 +41,8 @@ INSTALLED_APPS = [
 ]
 
 MY_APPS = [
-    'apps.users',
+    'apps.users.apps.UsersConfig',
+    'apps.files.apps.FilesConfig',
 ]
 
 INSTALLED_APPS += MY_APPS
