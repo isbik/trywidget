@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { cn } from '../../lib/cn';
 import {
     ArrowRightOnRectangleIcon,
+    ArrowUpCircleIcon,
     Bars3Icon,
     FilmIcon,
-    LifebuoyIcon,
     LinkIcon,
     UserIcon,
 } from '@heroicons/react/24/solid';
@@ -54,7 +54,7 @@ export const AppLayout = ({ children }: Props) => {
             >
                 <div className="flex items-center gap-3 p-4 mb-16">
                     <img className="w-8 h-8" src="/static/logo.svg" alt="logo" />
-                    <p className="leading-2">Video Party</p>
+                    <p className="font-black leading-5">Embedless</p>
                 </div>
 
                 <ul className="flex flex-col grow text-[14px] overflow-y-auto">
@@ -74,11 +74,20 @@ export const AppLayout = ({ children }: Props) => {
                     ))}
                 </ul>
 
-                <div className="flex items-center p-4 border-t border-base-300">
-                    test@gmail.com
-                    <Link href="/" className="ml-auto btn btn-sm btn-circle btn-outline">
-                        <ArrowRightOnRectangleIcon className="w-3" />
-                    </Link>
+                <div className="flex flex-col p-4 border-t border-base-300">
+                    <p className="text-xs font-bold">Базовый тариф</p>
+                    <div className="flex items-center">
+                        test@gmail.com
+                        <Link href="/" className="ml-auto btn btn-sm btn-circle btn-outline">
+                            <ArrowRightOnRectangleIcon className="w-3" />
+                        </Link>
+                    </div>
+
+                    {/* TODO show button when plan is going expired or trial has 3 days left */}
+                    <button className="items-center gap-2 mt-4 text-sm btn btn-sm btn-warning">
+                        <ArrowUpCircleIcon className="w-4" />
+                        Обновить тариф
+                    </button>
                 </div>
             </nav>
 

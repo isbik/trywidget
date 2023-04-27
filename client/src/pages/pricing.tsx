@@ -26,7 +26,7 @@ const PlansPage = () => {
             <main>
                 <div className="container pt-16 mb-32 text-center">
                     <h1 className="mb-16 text-3xl font-black md:text-5xl">
-                        Выберите подходящий для вас план
+                        Выберите подходящий для вас тариф
                     </h1>
 
                     <div className="flex justify-center gap-2 mb-16">

@@ -26,6 +26,23 @@ const AppPage = (props: Props) => {
                     Создать виджет
                 </button>
 
+                {/* <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-error">
+                    Вы достигли предела своего тарифа. Пожалуйста, обновите тариф.
+                </Link>
+
+                <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-warning">
+                    Ваша подписка заканчивается через 3 дня. Пожалуйста, продлите тариф.
+                </Link>
+
+                <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-warning">
+                    Тестовый период заканчивается через 3 дня. Пожалуйста, продлите тариф.
+                </Link>
+
+                <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-error">
+                    Срок действия вашего тарифа истёк и видеовиджеты на ваших сайтах стали
+                    недоступны. Пожалуйста, продлите тариф.
+                </Link> */}
+
                 <ResponsiveTable
                     items={[
                         {

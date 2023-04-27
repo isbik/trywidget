@@ -64,7 +64,7 @@ const WidgetPage = (props: Props) => {
                             <CloudArrowUpIcon className="w-6" />
                             <p>Загрузить</p>
                         </button>
-                        <p className="text-2xl">Добавьте или перенесите сюда видео до 50мб</p>
+                        <p className="text-2xl">Добавьте или перенесите видео до 50мб</p>
                     </div>
                 )}
                 {video && (

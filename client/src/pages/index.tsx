@@ -21,7 +21,7 @@ const Home = () => {
                             <span className="block p-1 bg-yellow-300 w-fit">за секунды.</span>
                         </h1>
                         <p className="mb-12 max-w-[450px]">
-                            Донесите свое сообщение с помощью видео-виджетов! Привлекайте свою
+                            Донесите свое сообщение с помощью видеовиджетов! Привлекайте свою
                             аудиторию и увеличивайте конверсию с помощью настраиваемых
                             видеовиджетов.
                         </p>
@@ -31,7 +31,7 @@ const Home = () => {
                         <Labels />
                     </div>
 
-                    <div className="relative ml-auto w-fit">
+                    <div className="relative ml-auto w-fit max-md:hidden">
                         <img
                             className="max-w-[500px] absolute h-full right-0"
                             src="/static/landing/woman.png"

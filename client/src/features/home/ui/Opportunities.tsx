@@ -111,7 +111,7 @@ export const Opportunities = (props: Props) => {
                     <div className="flex-col items-center max-md:text-center grow">
                         <h3 className="mb-4 text-2xl font-bold md:text-4xl">Удобный редактор</h3>
 
-                        <div className="flex flex-col gap-1 mb-4 max-w-[200px]">
+                        <label className="flex flex-col gap-1 mb-4 max-w-[200px]">
                             Форма
                             <input
                                 onChange={({ target }) => {
@@ -122,8 +122,8 @@ export const Opportunities = (props: Props) => {
                                 type="range"
                                 className="range range-primary range-sm"
                             />
-                        </div>
-                        <div className="flex flex-col gap-1 mb-4 max-w-[200px]">
+                        </label>
+                        <label className="flex flex-col gap-1 mb-4 max-w-[200px]">
                             Размер
                             <input
                                 onChange={({ target }) => {
@@ -132,10 +132,10 @@ export const Opportunities = (props: Props) => {
                                 min={1}
                                 max={5}
                                 type="range"
-                                className="range range-primary range-sm"
+                                className="range range-primary range-sm "
                             />
-                        </div>
-                        <div className="flex flex-col gap-1 mb-8 max-w-[200px]">
+                        </label>
+                        <label className="flex flex-col gap-1 mb-8 max-w-[200px]">
                             Цвет
                             <input
                                 onChange={({ target }) => {
@@ -146,7 +146,7 @@ export const Opportunities = (props: Props) => {
                                 type="range"
                                 className="range range-primary range-sm"
                             />
-                        </div>
+                        </label>
 
                         <div className="flex gap-1 mb-4 max-w-[200px]">
                             <SparklesIcon className="w-6 text-primary" />

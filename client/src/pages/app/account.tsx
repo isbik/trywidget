@@ -39,7 +39,7 @@ const AccountPage = (props: Props) => {
 
             <div className="mb-8 bg-white border rounded-md border-base-300 sm:w-96">
                 <div className="card-body">
-                    <h2 className="card-title">Текущий план</h2>
+                    <h2 className="card-title">Текущий тариф</h2>
                     <span className="mb-4 text-primary">Базовый тариф</span>
                     <ul>
                         <li>3 видеовиджета</li>

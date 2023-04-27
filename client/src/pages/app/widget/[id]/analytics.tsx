@@ -1,7 +1,6 @@
-import { AppLayout } from '@vw/src/shared/ui/components/AppLayout';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import { InformationCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import React from 'react';
+import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { WidgetLayout } from '@vw/src/shared/layouts/WidgetLayout';
 import { useForm } from 'react-hook-form';
 

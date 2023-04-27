@@ -12,7 +12,7 @@ export const GetStartedNow = (props: Props) => {
                 </p>
 
                 <p className="mb-8 max-w-[400px]">
-                    Попробуйте видео-виджет сегодня и выведите свое присутствие в Интернете на новый
+                    Попробуйте видеовиджет сегодня и выведите свое присутствие в Интернете на новый
                     уровень!
                 </p>
                 <button className="mb-8 btn btn-primary bg-primary btn-wide">Начать сейчас</button>

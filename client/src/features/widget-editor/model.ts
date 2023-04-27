@@ -1,5 +1,8 @@
+import { WidgetSettings } from '@vw/src/shared/types';
 import { createEvent, createStore } from 'effector';
-export const setWidgetSettings = createEvent();
+
+export const setWidgetSettings = createEvent<WidgetSettings>();
+
 export const $widgetSettings = createStore({
     showControls: false,
     shape: 'rectangle',
