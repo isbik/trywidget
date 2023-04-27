@@ -16,6 +16,7 @@ import { SpeakerXMarkIcon } from "../icons/SpeakerXMark";
 import { SpeakerWaveIcon } from "../icons/SpeakerWave";
 import { Title } from "./Title";
 import { SocialButtons } from "./SocialButtons";
+import { openWidgetMetric } from "../lib/metrics";
 let short =
   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
 let long =
@@ -98,6 +99,8 @@ export const VideoWidget = (props: Props) => {
     if (!expanded()) {
       videoRef.currentTime = 0;
     }
+
+    openWidgetMetric();
   };
 
   const wrapperWidth = createMemo(() => {

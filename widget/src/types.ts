@@ -44,6 +44,11 @@ export interface WidgetSettings {
   showingAllPages: boolean;
   showingOnlyPages: string[];
   showingIgnorePages: string[];
+
+  enableVkPixel: boolean;
+  enableGoogleAnalytics: boolean;
+  enableYandexAnalytics: boolean;
+  yandexCounter: string;
 }
 
 export const SETTINGS_DEFAULT: WidgetSettings = {
@@ -97,4 +102,9 @@ export const SETTINGS_DEFAULT: WidgetSettings = {
   showingAllPages: true,
   showingOnlyPages: [],
   showingIgnorePages: ["test.com"],
+
+  enableVkPixel: false,
+  enableGoogleAnalytics: false,
+  enableYandexAnalytics: false,
+  yandexCounter: "123",
 };

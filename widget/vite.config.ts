@@ -10,7 +10,7 @@ export default defineConfig({
     port: 3001,
   },
   build: {
-    outDir: "../video-widget/public/",
+    outDir: "../client/public/",
     lib: {
       entry: "src/index.tsx",
       name: bundle_filename,
