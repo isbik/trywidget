@@ -41,7 +41,8 @@ INSTALLED_APPS = [
 ]
 
 MY_APPS = [
-    'apps.users',
+    'apps.users.apps.UsersConfig',
+    'apps.files.apps.FilesConfig',
 ]
 
 INSTALLED_APPS += MY_APPS
@@ -116,3 +117,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+TEMP_ROOT = os.path.join(BASE_DIR, 'temp')
+
+API_URL = os.environ.get('API_URL')

@@ -1,6 +1,8 @@
 from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse, HttpRequest
 import os
 from django.conf import settings
+from .services import save_file
+from apps.users.models import User
 
 
 def upload(request):
@@ -22,7 +24,7 @@ def upload(request):
     file_data = request.FILES.get('file').read()
     file_name = request.POST.get('file_name')
 
-    file_path = os.path.join(settings.STATIC_ROOT, f'{file_name}')
+    file_path = os.path.join(settings.TEMP_ROOT, f'{file_name}')
 
     if content_range_start == 0:
         file_dir = os.path.dirname(file_path)
@@ -39,7 +41,15 @@ def upload(request):
     file_handle.close()
 
     if content_range_end == content_range_size - 1:
-        return JsonResponse({'message': 'File upload complete'})
+        #TODO  user id
+        user = User.objects.get(pk=1)
+        file = save_file(file_name, content_range_size, user)
+
+        return JsonResponse({'id': file.pk,
+                             'url': settings.API_URL + file.url,
+                             'user': user.pk,
+                             'size': file.size,
+                             'created_at': file.created_at})
 
     response = HttpResponse(status=204)
     return response
