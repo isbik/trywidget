@@ -1,12 +1,29 @@
-FROM python:3
+FROM python:3.9-slim-buster
 
-ENV PYTHONUNBUFFERED 1
+# Install system dependencies
+RUN apt-get update \
+    && apt-get install -y netcat gcc postgresql-client libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-WORKDIR /app/code/
+# Create and set the working directory
+WORKDIR /usr/src/app
 
-COPY ./requirements.txt /app/requirements.txt
+# Copy requirements.txt
+COPY requirements.txt .
 
-RUN pip install -r /app/requirements.txt
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application files
+COPY . .
+
+# Run migrations and collectstatic
+RUN python manage.py migrate --no-input
+RUN python manage.py collectstatic --no-input
 
 
+CMD python manage.py runserver  
