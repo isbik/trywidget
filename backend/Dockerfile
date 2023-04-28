@@ -10,7 +10,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Create and set the working directory
-WORKDIR /usr/src/app
+WORKDIR /APP
 
 # Copy requirements.txt
 COPY requirements.txt .
@@ -21,9 +21,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application files
 COPY . .
 
-# Run migrations and collectstatic
-# RUN python manage.py migrate --no-input
+
 RUN python manage.py collectstatic --no-input
 
 
-CMD python manage.py runserver  
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
