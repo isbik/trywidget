@@ -7,6 +7,7 @@ import { AnyWebsite } from '../features/home/ui/AnyWebsite';
 import { Review } from '../features/home/ui/Review';
 import { UseCases } from '../features/home/ui/UseCases';
 import { Opportunities } from '../features/home/ui/Opportunities';
+import Link from 'next/link';
 
 const Home = () => {
     return (
@@ -25,9 +26,12 @@ const Home = () => {
                             аудиторию и увеличивайте конверсию с помощью настраиваемых
                             видеовиджетов.
                         </p>
-                        <button className="px-6 py-3 mb-2 text-white transition-all border rounded w-fit bg-primary border-primary hover:scale-110">
+                        <Link
+                            href="/login"
+                            className="px-6 py-3 mb-2 text-white transition-all border rounded w-fit bg-primary border-primary hover:scale-110"
+                        >
                             Начать пользоваться
-                        </button>
+                        </Link>
                         <Labels />
                     </div>
 

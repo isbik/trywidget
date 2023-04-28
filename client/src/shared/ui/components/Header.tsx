@@ -12,7 +12,7 @@ export const Header = () => {
                     Тарифы
                 </Link>
 
-                <Link href={'/app'} className="rounded btn btn-primary bg-primary">
+                <Link href={'/login'} className="rounded btn btn-primary bg-primary">
                     Бесплатный период
                 </Link>
             </div>

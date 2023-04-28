@@ -102,13 +102,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
                             />
                         </div>
                     )}
-                    <div className="flex items-center justify-between mb-8">
-                        <div className="form-control">
-                            <label className="gap-2 cursor-pointer label">
-                                <input type="checkbox" className="checkbox" />
-                                <span className="label-text">Запомнить меня</span>
-                            </label>
-                        </div>
+                    <div className="flex items-center justify-end mb-8">
                         <Link className="text-secondary" href="/forgot">
                             Забыли пароль?
                         </Link>

@@ -1,4 +1,5 @@
 import { Labels } from '@vw/src/features/home/ui/Labels';
+import Link from 'next/link';
 import React from 'react';
 
 type Props = {};
@@ -15,7 +16,9 @@ export const GetStartedNow = (props: Props) => {
                     Попробуйте видеовиджет сегодня и выведите свое присутствие в Интернете на новый
                     уровень!
                 </p>
-                <button className="mb-8 btn btn-primary bg-primary btn-wide">Начать сейчас</button>
+                <Link href={'/login'} className="mb-8 btn btn-primary bg-primary btn-wide">
+                    Начать сейчас
+                </Link>
                 <Labels />
             </div>
         </div>
