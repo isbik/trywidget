@@ -1,10 +1,7 @@
 import dotenv
 import os
 
-
-# Load environment variables from .env file
 dotenv.load_dotenv()
-
 
 print(os.environ.get('POSTGRES_DB'))
 print(os.environ.get('POSTGRES_USER'))
@@ -18,5 +15,8 @@ DATABASES = {
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
         'HOST': 'postgres',
         'PORT': 5432,
+        'OPTIONS': {
+            'client_encoding': 'UTF8',
+        },
     }
 }

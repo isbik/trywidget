@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { GoogleIcon } from '../shared/ui/icons/Google';
+import { CONFIG } from '../shared/config';
 
 type Props = {
     type?: 'login' | 'register';
@@ -18,7 +19,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
         },
     });
 
-    const onSubmit = handleSubmit((data) => {
+    const onSubmit = handleSubmit(() => {
         setIsSubmitted(true);
     });
 
@@ -54,7 +55,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
 
                     <div className="my-4 centered">
                         <Link
-                            href={'/api/auth/oauth/google/callback'}
+                            href={CONFIG.API_URL + '/auth/oauth/google/callback'}
                             className="gap-2 p-2 px-4 btn btn-outline flex-nowrap whitespace-nowrap"
                         >
                             <GoogleIcon className="w-full h-full" />
