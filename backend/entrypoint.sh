@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # Миграции базы данных Django.
-python manage.py makemigrations
 python manage.py migrate
 
 
