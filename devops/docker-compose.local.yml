@@ -14,7 +14,7 @@ services:
       - redis
     volumes:
       - /static:/static
-      - ./app:/app
+      - /app:/app
 
   redis:
     image: redis:6.2-alpine
@@ -33,7 +33,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-
 
   # client:
   #   build: ../client
