@@ -19,8 +19,6 @@ def google(request: HttpRequest):
         "client_id": settings.GOOGLE_CLIENT_ID
     }
 
-    
-
     return JsonResponse({'link': "{}?{}".format(url, urlencode(params))})
 
 

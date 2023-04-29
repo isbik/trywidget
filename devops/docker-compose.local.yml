@@ -14,7 +14,7 @@ services:
       - redis
     volumes:
       - /static:/static
-      - /app:/app
+      - ../backend/:/app
 
   redis:
     image: redis:6.2-alpine
