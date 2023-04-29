@@ -1,13 +1,17 @@
-from urllib.parse import urlencode
 import requests
 
-from django.http import HttpRequest,  JsonResponse
+from urllib.parse import urlencode
+from rest_framework.decorators import api_view
+from django.contrib.auth import get_user_model
+
+from django.http import HttpRequest, HttpResponseBadRequest,  JsonResponse
 from django.conf import settings
 
 
 SCOPES = 'email profile'
 
 
+@api_view(['GET'])
 def google(request: HttpRequest):
     url = "https://accounts.google.com/o/oauth2/v2/auth"
     params = {
@@ -22,6 +26,7 @@ def google(request: HttpRequest):
     return JsonResponse({'link': "{}?{}".format(url, urlencode(params))})
 
 
+@api_view(['GET'])
 def google_callback(request: HttpRequest):
     code = request.GET.get('code')
 
@@ -54,3 +59,30 @@ def google_callback(request: HttpRequest):
     # TODO using email create user and then create oauth, also good to add errors handing
 
     return JsonResponse({'data': data, 'user': user_data})
+
+
+@api_view(['POST'])
+def login(request: HttpRequest):
+    email = request.POST['email']
+    password = request.POST['password']
+
+    return JsonResponse({'data': 'login'})
+
+
+@api_view(['POST'])
+def register(request: HttpRequest):
+
+    User = get_user_model()
+
+    email = request.data['email']
+    password = request.data['password']
+
+    found = User.objects.filter(email=email)
+    if found:
+        error = {
+            "detail": 'Пользователь с email {} уже существует'.format(email)}
+        return HttpResponseBadRequest(JsonResponse(error))
+
+    User.objects.create_user(email=email, password=password)
+
+    return JsonResponse({'data': 'ok'})

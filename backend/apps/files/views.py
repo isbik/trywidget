@@ -1,16 +1,13 @@
 from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse, HttpRequest
 import os
 from django.conf import settings
-
+from rest_framework.decorators import api_view
 from .services import save_file
 from apps.users.models import User
 
 
+@api_view(['POST'])
 def upload(request):
-
-    if request.method != 'POST':
-        return HttpResponseBadRequest('Invalid request method')
-
     content_range = request.headers.get('Content-Range')
     if not content_range:
         return HttpResponseBadRequest('Content-Range header is missing')

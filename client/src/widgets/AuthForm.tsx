@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { GoogleIcon } from '../shared/ui/icons/Google';
 import { CONFIG } from '../shared/config';
+import { cn } from '../shared/lib/cn';
+import { api } from '../api/api';
 
 type Props = {
     type?: 'login' | 'register';
@@ -11,7 +13,15 @@ type Props = {
 
 export const AuthForm = ({ title, type = 'login' }: Props) => {
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const { register, handleSubmit } = useForm({
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+
+    const {
+        register,
+        handleSubmit,
+        formState: { isValid },
+    } = useForm({
         defaultValues: {
             email: '',
             password: '',
@@ -19,9 +29,35 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
         },
     });
 
-    const onSubmit = handleSubmit(() => {
-        setIsSubmitted(true);
+    const onSubmit = handleSubmit(async (data) => {
+        setError('');
+
+        setLoading(true);
+
+        if (type === 'login') await handleLogin(data);
+        if (type === 'register') await handleRegister(data);
+
+        setLoading(false);
     });
+
+    const handleLogin = async (data) => {
+        api.post('oauth/register');
+    };
+
+    const handleRegister = async (data) => {
+        if (data.password !== data.passwordAgain) {
+            setError('Пароли не совпадают');
+            return;
+        }
+
+        try {
+            await api.post('oauth/register', { json: data }).json();
+            setIsSubmitted(true);
+        } catch (error) {
+            const json = await (error as any).response.json();
+            setError(json?.detail || '');
+        }
+    };
 
     const handleSendAgain = () => {};
 
@@ -74,7 +110,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
                             type="email"
                             placeholder="Введите ваш email адрес"
                             className="input input-bordered"
-                            {...register('email')}
+                            {...register('email', { required: true })}
                         />
                     </div>
                     <div className="form-control">
@@ -86,7 +122,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
                             type="password"
                             placeholder="Введите ваш пароль"
                             className="input input-bordered"
-                            {...register('password')}
+                            {...register('password', { min: 8, required: true })}
                         />
                     </div>
                     {type === 'register' && (
@@ -99,7 +135,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
                                 type="password"
                                 placeholder="Подтвердите ваш пароль"
                                 className="input input-bordered"
-                                {...register('passwordAgain')}
+                                {...register('passwordAgain', { min: 8, required: true })}
                             />
                         </div>
                     )}
@@ -109,7 +145,13 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
                         </Link>
                     </div>
 
-                    <button className="mb-4 btn btn-primary" type="submit">
+                    <p className="text-center text-error">{error}</p>
+
+                    <button
+                        disabled={loading || !isValid}
+                        className={cn('mb-4 btn btn-primary', loading && 'loading')}
+                        type="submit"
+                    >
                         {type === 'login' && 'Войти'}
                         {type === 'register' && 'Создать аккаунт'}
                     </button>
