@@ -135,5 +135,10 @@ API_URL = os.environ.get('API_URL')
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+
 ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+
+
+CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost:3000')
+
