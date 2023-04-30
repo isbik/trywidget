@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 MY_APPS = [
     'apps.users.apps.UsersConfig',
     'apps.files.apps.FilesConfig',
+    'apps.widgets.apps.WidgetsConfig',
 ]
 
 INSTALLED_APPS += MY_APPS
