@@ -7,10 +7,7 @@ from django.conf import settings
 class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
-            name = 'admin@gmail.com'
-            password = '12345234234234'
-            get_user_model().objects.create_superuser(email=name,
-                                                      password=password)
-            print(name, password)
+            get_user_model().objects.create_superuser(email=settings.ADMIN_EMAIL,
+                                                      password=settings.ADMIN_PASSWORD)
         except IntegrityError:
             print('user with this email is already exists')

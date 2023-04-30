@@ -52,6 +52,7 @@ MY_APPS = [
     'apps.files.apps.FilesConfig',
     'apps.emails.apps.EmailsConfig',
     'apps.plans.apps.PlansConfig',
+    'apps.oauth.apps.OauthConfig',
 ]
 
 INSTALLED_APPS += MY_APPS
@@ -134,5 +135,5 @@ API_URL = os.environ.get('API_URL')
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-ADMIN_EMAIL = 'admin@gmail.com'
-ADMIN_PASSWORD = 'sadfwqqqaa'
+ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
