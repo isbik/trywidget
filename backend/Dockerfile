@@ -17,7 +17,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1

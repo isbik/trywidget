@@ -130,3 +130,6 @@ API_URL = os.environ.get('API_URL')
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost:3000')

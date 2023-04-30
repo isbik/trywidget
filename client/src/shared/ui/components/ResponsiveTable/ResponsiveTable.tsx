@@ -64,7 +64,7 @@ export const ResponsiveTable = <T extends MinTableItem>({
             {items.map((item) => {
                 return renderRow(
                     item,
-                    'mb-5 flex flex-col gap-4 rounded-md border border-base-300 p-5 lg:hidden',
+                    'mb-5 flex flex-col gap-4 rounded-md border border-base-300 p-5 lg:hidden bg-white',
                     'p-0',
                     {
                         mobile: true,
