@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 
 urlpatterns = [
@@ -7,6 +6,5 @@ urlpatterns = [
     path('google/callback', views.google_callback, name='google oauth callback'),
 
 
-    path('register', views.register, name='register'),
-    path('login', views.login, name='login'),
+    path('register', views.RegisterView.as_view(), name='register'),
 ]

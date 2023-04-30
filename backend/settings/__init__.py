@@ -7,10 +7,11 @@ from .database import *
 from .oauth import *
 from .celery import *
 from .email import *
+from .drf import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+print(BASE_DIR)
 PROJECT_ROOT = os.path.dirname(__file__)
 
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 MY_APPS = [
     'apps.users.apps.UsersConfig',
     'apps.files.apps.FilesConfig',
+    'apps.emails.apps.EmailsConfig',
 ]
 
 INSTALLED_APPS += MY_APPS
@@ -64,10 +66,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
+
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,9 +130,3 @@ API_URL = os.environ.get('API_URL')
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-}

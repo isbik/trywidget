@@ -5,6 +5,7 @@ import { GoogleIcon } from '../shared/ui/icons/Google';
 import { CONFIG } from '../shared/config';
 import { cn } from '../shared/lib/cn';
 import { api } from '../api/api';
+import { useRouter } from 'next/router';
 
 type Props = {
     type?: 'login' | 'register';
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export const AuthForm = ({ title, type = 'login' }: Props) => {
+    const router = useRouter();
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const [loading, setLoading] = useState(false);
@@ -32,16 +34,20 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
     const onSubmit = handleSubmit(async (data) => {
         setError('');
 
-        setLoading(true);
-
         if (type === 'login') await handleLogin(data);
         if (type === 'register') await handleRegister(data);
-
-        setLoading(false);
     });
 
     const handleLogin = async (data) => {
-        api.post('oauth/register');
+        try {
+            await api.post('oauth/login', { json: data });
+            router.push('/app');
+        } catch (error) {
+            const json = await (error as any).response.json();
+            setError(json?.detail || '');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleRegister = async (data) => {
@@ -50,12 +56,16 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
             return;
         }
 
+        setLoading(true);
+
         try {
             await api.post('oauth/register', { json: data }).json();
             setIsSubmitted(true);
         } catch (error) {
             const json = await (error as any).response.json();
             setError(json?.detail || '');
+        } finally {
+            setLoading(false);
         }
     };
 

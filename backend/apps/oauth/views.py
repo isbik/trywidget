@@ -3,9 +3,11 @@ import requests
 from urllib.parse import urlencode
 from rest_framework.decorators import api_view
 from django.contrib.auth import get_user_model
-
-from django.http import HttpRequest, HttpResponseBadRequest,  JsonResponse
+from rest_framework import generics
+from django.http import HttpRequest, JsonResponse
 from django.conf import settings
+
+from .serializer import UserSerializer
 
 
 SCOPES = 'email profile'
@@ -61,28 +63,7 @@ def google_callback(request: HttpRequest):
     return JsonResponse({'data': data, 'user': user_data})
 
 
-@api_view(['POST'])
-def login(request: HttpRequest):
-    email = request.POST['email']
-    password = request.POST['password']
-
-    return JsonResponse({'data': 'login'})
-
-
-@api_view(['POST'])
-def register(request: HttpRequest):
-
-    User = get_user_model()
-
-    email = request.data['email']
-    password = request.data['password']
-
-    found = User.objects.filter(email=email)
-    if found:
-        error = {
-            "detail": 'Пользователь с email {} уже существует'.format(email)}
-        return HttpResponseBadRequest(JsonResponse(error))
-
-    User.objects.create_user(email=email, password=password)
-
-    return JsonResponse({'data': 'ok'})
+class RegisterView(generics.CreateAPIView):
+    queryset = get_user_model().objects.all()
+    permission_classes = []
+    serializer_class = UserSerializer
