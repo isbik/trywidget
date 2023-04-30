@@ -8,6 +8,7 @@ class FilesConfig(AppConfig):
     label = 'files'
 
     def ready(self):
+        from . import signals
         models = self.get_models()
         admin_class = type('AdminClass', (admin.ModelAdmin, ), {})
 
