@@ -34,6 +34,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    groups = None
+
     USERNAME_FIELD = 'email'
 
     objects = UserManager()

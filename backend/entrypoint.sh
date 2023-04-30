@@ -1,11 +1,10 @@
 #!/bin/sh
 
-# Миграции базы данных Django.
+# Apply database migrations
 python manage.py migrate
 
-
+# Start server with hot-reload
 python manage.py runserver 0.0.0.0:8000 --insecure
-
 
 # Запуск приложения Django. 
 # Use this in for prod and nginx to serve static files

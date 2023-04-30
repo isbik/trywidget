@@ -1,9 +1,6 @@
+
 from celery.schedules import crontab
 from datetime import timedelta
-
-
-CELERY_BROKER_URL = "redis://127.0.0.1:6381"
-CELERY_RESULT_BACKEND = "redis://127.0.0.1:6381"
 
 CELERY_BEAT_SCHEDULE = {
     'delete_inactive_files': {
@@ -13,3 +10,7 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 DELETE_INACTIVE_FILES_TIME = timedelta(hours=1)
+
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
+
