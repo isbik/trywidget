@@ -3,6 +3,9 @@
 # Apply database migrations
 python manage.py migrate
 
+# Create superuser
+#python manage.py initadmin
+
 # Start server with hot-reload
 python manage.py runserver 0.0.0.0:8000 --insecure
 
