@@ -1,28 +1,20 @@
 version: "3.8"
 
 services:
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - backend
-      - client
-
   backend:
+    restart: always
     build:
       context: ../backend
     env_file:
       - .env
     ports:
       - 8000:8000
-    command: >
-      sh -c "gunicorn config.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
       - postgres
       - redis
+    volumes:
+      - /static:/static
+      - ../backend/:/app
 
   redis:
     image: redis:6.2-alpine
@@ -33,22 +25,22 @@ services:
   postgres:
     image: "postgres:13.4-alpine"
     ports:
-      - 5435:5432
+      - 5432:5432
     env_file: .env
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
-  client:
-    build: ../client
-    volumes:
-      - ./client:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      - backend
+  # client:
+  #   build: ../client
+  #   volumes:
+  #     - ./client:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   depends_on:
+  #     - backend
 
 volumes:
   postgres_data:

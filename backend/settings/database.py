@@ -13,8 +13,8 @@ DATABASES = {
         'NAME': os.environ.get('POSTGRES_DB'),
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': 5435,
+        'HOST': 'postgres',
+        'PORT': 5432,
         'OPTIONS': {
             'client_encoding': 'UTF8',
         },
