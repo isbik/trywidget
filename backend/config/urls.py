@@ -7,5 +7,5 @@ urlpatterns = [
     path('users/', include('apps.users.urls')),
     path('files/', include('apps.files.urls')),
     path('oauth/', include('apps.oauth.urls')),
-    path('widgets/', include('apps.widgets.urls')),
+    path('', include('apps.widgets.urls')),
 ]
