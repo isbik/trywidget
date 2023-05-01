@@ -8,5 +8,5 @@ router_widgets.register('', WidgetViewSet, basename='widgets')
 router_widgets.register('public', PublicWidget, basename='public')
 
 urlpatterns = [
-    path('', include(router_widgets.urls)),
+    path('widgets/', include(router_widgets.urls)),
 ]
