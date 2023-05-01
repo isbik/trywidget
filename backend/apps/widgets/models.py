@@ -17,7 +17,7 @@ class Widget(models.Model):
     )
     updated_at = models.DateField(auto_now=True)
     created_at = models.DateField(auto_now_add=True)
-    settings = models.JSONField(verbose_name='settings', default={})
+    settings = models.JSONField(verbose_name='settings', default=dict)
 
 
 # class WidgetAnalytics(models.Model):
