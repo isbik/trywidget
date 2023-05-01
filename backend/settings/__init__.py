@@ -53,6 +53,7 @@ MY_APPS = [
     'apps.emails.apps.EmailsConfig',
     'apps.plans.apps.PlansConfig',
     'apps.oauth.apps.OauthConfig',
+    'apps.widgets.apps.WidgetsConfig',
 ]
 
 INSTALLED_APPS += MY_APPS
