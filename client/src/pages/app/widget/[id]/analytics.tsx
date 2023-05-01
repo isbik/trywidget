@@ -1,31 +1,58 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { WidgetLayout } from '@vw/src/shared/layouts/WidgetLayout';
 import { useForm } from 'react-hook-form';
+import {
+    $updateLoading,
+    $widget,
+    fetchWidgetFx,
+    updateWidget,
+} from '@vw/src/features/widget/model';
+import { useRouter } from 'next/router';
+import { useUnit } from 'effector-react';
+import { cn } from '@vw/src/shared/lib/cn';
 
 type Props = {};
 
 const WidgetAnalyticPage = (props: Props) => {
+    const router = useRouter();
+
+    const [widget, updateLoading] = useUnit([$widget, $updateLoading]);
+
+    useEffect(() => {
+        if (router.isReady) {
+            fetchWidgetFx(Number(router.query.id));
+        }
+    }, [router.isReady]);
+
     const {
         register,
         formState: { isDirty },
         watch,
+        handleSubmit,
     } = useForm({
-        defaultValues: {
-            enableVkPixel: false,
-            enableGoogleAnalytics: false,
-            enableYandexAnalytics: false,
-            yandexCounter: '',
+        values: {
+            enableVkPixel: widget?.settings?.enableVkPixel ?? false,
+            enableGoogleAnalytics: widget?.settings?.enableGoogleAnalytics ?? false,
+            enableYandexAnalytics: widget?.settings?.enableYandexAnalytics ?? false,
+            yandexCounter: widget?.settings?.yandexCounter ?? '',
         },
     });
 
     const enableYandexAnalytics = watch('enableYandexAnalytics');
 
+    const onSubmit = handleSubmit(async (data) => {
+        updateWidget({ settings: data });
+    });
+
     return (
         <WidgetLayout>
             <div className="flex flex-wrap gap-4 mb-8">
-                <form className="p-6 text-lg bg-white border border-base-300 rounded-xl">
+                <form
+                    onSubmit={onSubmit}
+                    className="p-6 text-lg bg-white border border-base-300 rounded-xl"
+                >
                     <div className="flex items-center pb-2 mb-2 border-b">
                         <Link className="mr-1" href="https://vk.com/faq16578" target="_blank">
                             <InformationCircleIcon className="w-5" />
@@ -80,8 +107,11 @@ const WidgetAnalyticPage = (props: Props) => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full h-auto py-3 btn btn-primary btn-sm"
-                        disabled={!isDirty}
+                        className={cn(
+                            'w-full h-auto py-3 btn btn-primary btn-sm',
+                            updateLoading && 'loading'
+                        )}
+                        disabled={!isDirty || updateLoading}
                     >
                         Сохранить
                     </button>

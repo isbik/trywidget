@@ -59,14 +59,12 @@ MY_APPS = [
 INSTALLED_APPS += MY_APPS
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -143,3 +141,5 @@ ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
 
 CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost:3000')
 
+
+APPEND_SLASH = False

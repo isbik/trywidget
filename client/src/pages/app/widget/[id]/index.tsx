@@ -1,12 +1,23 @@
-import React, { useRef, useState } from 'react';
-import { CloudArrowUpIcon, TrashIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import React, { useEffect, useRef } from 'react';
+import { CloudArrowUpIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { WidgetLayout } from '@vw/src/shared/layouts/WidgetLayout';
 import { chunkUploadFile } from '@vw/src/shared/lib/chunkUploadFile';
+import { $widget, attachWidgetVideo, fetchWidgetFx } from '@vw/src/features/widget/model';
+import { useRouter } from 'next/router';
+import { useStore } from 'effector-react';
 
 type Props = {};
 
 const WidgetPage = (props: Props) => {
-    const [video, setVideo] = useState('');
+    const widget = useStore($widget);
+
+    const router = useRouter();
+
+    useEffect(() => {
+        if (router.isReady) {
+            fetchWidgetFx(Number(router.query.id));
+        }
+    }, [router.isReady]);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -35,8 +46,8 @@ const WidgetPage = (props: Props) => {
     };
 
     const handleUploadFile = (file: File) => {
-        chunkUploadFile(file).then(() => {
-            setVideo('video');
+        chunkUploadFile(file).then((response) => {
+            attachWidgetVideo(response);
         });
     };
 
@@ -54,7 +65,7 @@ const WidgetPage = (props: Props) => {
                     onChange={handleChangeFile}
                 />
 
-                {!video && (
+                {!widget.video && (
                     <div className="flex items-center gap-6">
                         <button
                             type="button"
@@ -67,7 +78,7 @@ const WidgetPage = (props: Props) => {
                         <p className="text-2xl">Добавьте или перенесите видео до 50мб</p>
                     </div>
                 )}
-                {video && (
+                {widget.video && (
                     <div className="relative flex gap-4">
                         <img
                             src="https://loremflickr.com/640/360"

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { cn } from '../lib/cn';
 import { AddWidgetWebsiteModal } from '@vw/src/widgets/modals/AddWidgetWebsite';
+import { addWebsiteWidgetIdChanged } from '@vw/src/widgets/modals/AddWidgetWebsite/model';
 
 type Props = {
     children: React.ReactNode;
@@ -13,11 +14,9 @@ export const WidgetLayout = ({ children }: Props) => {
     const router = useRouter();
     const id = router.query.id as string;
 
-    const [open, setOpen] = useState(false);
-
     return (
         <AppLayout>
-            <AddWidgetWebsiteModal open={open} id={id} setOpen={setOpen} />
+            <AddWidgetWebsiteModal />
 
             <h1 className="mb-8 text-4xl">Управление виджетом</h1>
 
@@ -46,7 +45,10 @@ export const WidgetLayout = ({ children }: Props) => {
                 >
                     Настройка
                 </Link>
-                <button onClick={() => setOpen(true)} className="tab tab-bordered">
+                <button
+                    onClick={() => addWebsiteWidgetIdChanged(Number(id))}
+                    className="tab tab-bordered"
+                >
                     Добавить на сайт
                 </button>
             </div>

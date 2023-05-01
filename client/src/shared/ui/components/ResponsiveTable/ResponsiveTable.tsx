@@ -74,7 +74,7 @@ export const ResponsiveTable = <T extends MinTableItem>({
 
             {/* Render table */}
             <div className="overflow-auto border rounded-md border-base-300 max-lg:hidden">
-                <table className="w-full bg-white border-collapse whitespace-nowrap">
+                <table className="w-full bg-white border-collapse">
                     <thead>
                         <tr className="text-left border-b border-base-300">
                             {objectKeys(headers).map((key) => (

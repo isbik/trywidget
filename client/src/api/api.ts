@@ -1,5 +1,15 @@
-import { getAccessToken } from '../shared/lib/cookie';
 import ky from 'ky';
+
+// get cookie value by key
+export const getCookie = (key: string) => {
+    if (typeof window === 'undefined') return null;
+
+    const match = document.cookie.match(new RegExp(`(^| )${key}=([^;]+)`));
+    if (match) {
+        return match[2];
+    }
+    return null;
+};
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
@@ -8,13 +18,8 @@ const created = ky.create({
 });
 
 export const api = created.extend({
-    hooks: {
-        beforeRequest: [
-            (request) => {
-                if (getAccessToken()) {
-                    request.headers.set('Authorization', `Bearer ${getAccessToken()}`);
-                }
-            },
-        ],
+    credentials: 'include',
+    headers: {
+        'X-CSRFToken': getCookie('csrftoken') || '',
     },
 });

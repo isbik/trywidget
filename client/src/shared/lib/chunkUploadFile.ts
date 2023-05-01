@@ -1,5 +1,6 @@
 import ky from 'ky';
 import { hex } from './hex';
+import { api } from '@vw/src/api/api';
 
 const CHUNK_SIZE = 1024 * 1024; // 1MB
 
@@ -33,8 +34,8 @@ export const chunkUploadFile = async (
             formData.append('file_name', file.name);
             formData.append('file_id', uniqueId);
 
-            await ky
-                .post('http://localhost:8000/files/upload', {
+            await api
+                .post('files/upload', {
                     body: formData,
                     headers: {
                         'Content-Range': contentRange,
