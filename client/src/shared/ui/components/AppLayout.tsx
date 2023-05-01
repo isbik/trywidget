@@ -10,6 +10,7 @@ import {
     UserIcon,
 } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/router';
+import { api } from '@vw/src/api/api';
 
 type Props = {
     children: React.ReactNode;
@@ -38,6 +39,11 @@ export const AppLayout = ({ children }: Props) => {
     const [openDrawer, setOpenDrawer] = useState(true);
 
     const router = useRouter();
+
+    const handleLogout = () => {
+        api.get('auth/logout');
+        router.push('/');
+    };
 
     return (
         <main
@@ -78,9 +84,12 @@ export const AppLayout = ({ children }: Props) => {
                     <p className="text-xs font-bold">Базовый тариф</p>
                     <div className="flex items-center">
                         test@gmail.com
-                        <Link href="/" className="ml-auto btn btn-sm btn-circle btn-outline">
+                        <button
+                            onClick={handleLogout}
+                            className="ml-auto btn btn-sm btn-circle btn-outline"
+                        >
                             <ArrowRightOnRectangleIcon className="w-3" />
-                        </Link>
+                        </button>
                     </div>
 
                     {/* TODO show button when plan is going expired or trial has 3 days left */}

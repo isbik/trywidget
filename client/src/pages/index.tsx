@@ -27,7 +27,7 @@ const Home = () => {
                             видеовиджетов.
                         </p>
                         <Link
-                            href="/login"
+                            href="/register"
                             className="px-6 py-3 mb-2 text-white transition-all border rounded w-fit bg-primary border-primary hover:scale-110"
                         >
                             Начать пользоваться

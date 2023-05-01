@@ -2,16 +2,12 @@ import requests
 
 from urllib.parse import urlencode
 from rest_framework.decorators import api_view
-from rest_framework import status
-from django.contrib.auth import get_user_model, authenticate, login
-from rest_framework import generics
-from django.http import HttpRequest, JsonResponse
+from django.contrib.auth import get_user_model, login
+from django.http import HttpRequest
 from django.conf import settings
 from django.shortcuts import redirect
 
 from apps.oauth.models import OAuth
-
-from .serializer import UserSerializer
 
 
 SCOPES = 'email profile'
@@ -83,25 +79,3 @@ def google_callback(request: HttpRequest):
 
     login(request, user)
     return redirect("{}/app".format(settings.CLIENT_URL))
-
-
-@api_view(['POST'])
-def login_view(request: HttpRequest):
-    email = request.data.get('email', None)
-    password = request.data.get('password', None)
-
-    user = authenticate(request, username=email, password=password)
-    if user is None:
-        return JsonResponse({'detail': 'Неверный данные'}, status=status.HTTP_401_UNAUTHORIZED)
-
-    if user.is_active:
-        login(request, user)
-        return JsonResponse({'message': 'Login successful'}, status=status.HTTP_200_OK)
-    else:
-        return JsonResponse({'detail': 'Пользователь заблокирован'}, status=status.HTTP_401_UNAUTHORIZED)
-
-
-class RegisterView(generics.CreateAPIView):
-    queryset = get_user_model().objects.all()
-    permission_classes = []
-    serializer_class = UserSerializer

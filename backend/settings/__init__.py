@@ -12,16 +12,36 @@ from .drf import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-print(BASE_DIR)
+
 PROJECT_ROOT = os.path.dirname(__file__)
 
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 dotenv_file = os.path.join(BASE_DIR, '.env.example')
+
 if os.path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
 
-ALLOWED_HOSTS = ['*']
+
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [TEMPLATES_DIR],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -29,7 +49,7 @@ ALLOWED_HOSTS = ['*']
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', True)
 
 
 # Application definition
@@ -54,6 +74,7 @@ MY_APPS = [
     'apps.plans.apps.PlansConfig',
     'apps.oauth.apps.OauthConfig',
     'apps.widgets.apps.WidgetsConfig',
+    'apps.auth.apps.AuthConfig',
 ]
 
 INSTALLED_APPS += MY_APPS
@@ -69,24 +90,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
-
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -121,8 +124,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 

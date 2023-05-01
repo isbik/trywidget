@@ -8,11 +8,18 @@ export const Header = () => {
                     <img src="/static/logo.svg" alt="Логотип" className="w-[50px]" />
                 </Link>
 
-                <Link href="/pricing" className="btn btn-ghost">
+                <Link href="/pricing" className="btn max-md:btn-sm btn-ghost">
                     Тарифы
                 </Link>
 
-                <Link href={'/login'} className="rounded btn btn-primary bg-primary">
+                <Link href="/login" className="btn max-md:btn-sm btn-ghost">
+                    Войти
+                </Link>
+
+                <Link
+                    href={'/register'}
+                    className="rounded btn max-md:btn-sm btn-primary bg-primary"
+                >
                     Бесплатный период
                 </Link>
             </div>

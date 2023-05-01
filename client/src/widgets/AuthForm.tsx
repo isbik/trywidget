@@ -12,6 +12,14 @@ type Props = {
     title?: string;
 };
 
+export const getErrors = (jsonError: any) => {
+    return Object.keys(jsonError || {})
+        .map((key) => {
+            return jsonError[key];
+        })
+        .join(' ');
+};
+
 export const AuthForm = ({ title, type = 'login' }: Props) => {
     const router = useRouter();
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -39,12 +47,14 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
     });
 
     const handleLogin = async (data) => {
+        setLoading(true);
+
         try {
-            await api.post('oauth/login', { json: data });
+            await api.post('auth/login', { json: data });
             router.push('/app');
         } catch (error) {
             const json = await (error as any).response.json();
-            setError(json?.detail || '');
+            setError(getErrors(json));
         } finally {
             setLoading(false);
         }
@@ -59,11 +69,11 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
         setLoading(true);
 
         try {
-            await api.post('oauth/register', { json: data }).json();
+            await api.post('auth/register', { json: data }).json();
             setIsSubmitted(true);
         } catch (error) {
             const json = await (error as any).response.json();
-            setError(json?.detail || '');
+            setError(getErrors(json));
         } finally {
             setLoading(false);
         }

@@ -46,7 +46,7 @@ const AccountPage = (props: Props) => {
                         <li>1 сайт</li>
                         <li>Базовая аналитика за 30 дней</li>
                     </ul>
-                    <Link href="/plans" className="btn">
+                    <Link href="/pricing" className="btn">
                         Сменить
                     </Link>
                 </div>

@@ -6,7 +6,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 
-WORKDIR /APP
+WORKDIR /app
 
 # Copy requirements file
 COPY requirements.txt .
