@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.utils.timezone import now
+from datetime import timedelta
 
 
 class UserManager(BaseUserManager):
@@ -32,9 +34,11 @@ class User(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     next_payment_date = models.DateTimeField(null=True)
-    trial_end = models.DateTimeField(null=True)
-    visit_count = models.IntegerField(null=True)
-    last_login_at = models.DateTimeField(null=True)
+    trial_end = models.DateTimeField(default=now() + timedelta(days=7))
+    visit_count = models.IntegerField(default=0)
+    last_login_at = models.DateTimeField(auto_now_add=True)
+    email_verify_token = models.CharField(max_length=255,
+                                          null=True)
 
     USERNAME_FIELD = 'email'
 

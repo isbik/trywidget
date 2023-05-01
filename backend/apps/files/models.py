@@ -5,6 +5,7 @@ import os
 
 
 class File(models.Model):
+    name = models.CharField(max_length=256)
     active = models.BooleanField(db_index=True,
                                  default=False)
     url = models.TextField()
@@ -12,6 +13,9 @@ class File(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(get_user_model(),
                              on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'file'
 
     def set_active(self):
         self.active = True
