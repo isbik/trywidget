@@ -9,6 +9,7 @@ from .celery import *
 from .email import *
 from .drf import *
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 print(BASE_DIR)
@@ -20,6 +21,7 @@ dotenv_file = os.path.join(BASE_DIR, '.env.example')
 if os.path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
 
+ALLOWED_HOSTS = ['*']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -49,6 +51,8 @@ MY_APPS = [
     'apps.users.apps.UsersConfig',
     'apps.files.apps.FilesConfig',
     'apps.emails.apps.EmailsConfig',
+    'apps.plans.apps.PlansConfig',
+    'apps.oauth.apps.OauthConfig',
 ]
 
 INSTALLED_APPS += MY_APPS
@@ -132,4 +136,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
+ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+
+
 CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost:3000')
+

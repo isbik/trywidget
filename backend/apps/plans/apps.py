@@ -2,9 +2,9 @@ from django.apps import AppConfig
 from django.contrib import admin
 
 
-class OauthConfig(AppConfig):
+class PlansConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.oauth'
+    name = 'apps.plans'
 
     def ready(self):
         models = self.get_models()
@@ -13,3 +13,4 @@ class OauthConfig(AppConfig):
         for model in models:
             if not admin.site.is_registered(model):
                 admin.site.register(model, admin_class)
+

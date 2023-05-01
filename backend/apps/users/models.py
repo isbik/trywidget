@@ -22,19 +22,19 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser):
     email = models.EmailField(verbose_name='email',
                               unique=True,
                               db_index=True,
                               max_length=254)
 
     is_active = models.BooleanField(default=True)
-
     is_admin = models.BooleanField(default=False)
-
     created_at = models.DateTimeField(auto_now_add=True)
-
-    groups = None
+    next_payment_date = models.DateTimeField(null=True)
+    trial_end = models.DateTimeField(null=True)
+    visit_count = models.IntegerField(null=True)
+    last_login_at = models.DateTimeField(null=True)
 
     USERNAME_FIELD = 'email'
 
@@ -47,3 +47,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_superuser(self):
         return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_active and self.is_superuser
+
+    def has_perm(self, perm):
+        return self.is_active and self.is_superuser

@@ -9,6 +9,8 @@ from django.http import HttpRequest, JsonResponse
 from django.conf import settings
 from django.shortcuts import redirect
 
+from apps.oauth.models import OAuth
+
 from .serializer import UserSerializer
 
 
@@ -67,10 +69,17 @@ def google_callback(request: HttpRequest):
         )
         user.picture = picture
         user.save()
-        login(request, user)
 
-        # ADD CREATE OAUTH DATA
-        google_oauth_token = data.get('access_token')
+        oauth = OAuth(
+            user=user,
+            provider_id=data.get('id'),
+            provider_name='google',
+            access_token=data.get('access_token'),
+            username=data.get('name'),
+            auth_profile=data,
+        )
+
+        oauth.save()
 
     login(request, user)
     return redirect("{}/app".format(settings.CLIENT_URL))
