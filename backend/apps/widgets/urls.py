@@ -1,11 +1,12 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import WidgetViewSet
+from .views import PublicWidget, WidgetViewSet
 
 router_widgets = DefaultRouter()
 router_widgets.register('', WidgetViewSet, basename='widgets')
+router_widgets.register('public', PublicWidget, basename='public')
 
 urlpatterns = [
-    path('', include(router_widgets.urls)),
+    path('widgets/', include(router_widgets.urls)),
 ]
