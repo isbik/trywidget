@@ -24,7 +24,7 @@ class WidgetRetrieveSerializer(WidgetBaseSerializer):
 
 class WidgetPublicSerializer(WidgetRetrieveSerializer):
     class Meta(WidgetRetrieveSerializer.Meta):
-        exclude = ('id', 'updated_at', 'created_at')
+        fields = ('name', 'preview_image_url', 'video', 'settings')
 
 
 class WidgetsListSerializer(WidgetBaseSerializer):
