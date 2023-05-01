@@ -9,3 +9,7 @@ down:
 
 stop:
 	docker-compose -f ./devops/docker-compose.local.yml stop
+
+# Start client for develop mode
+dev-client:
+	cd client && npm i && npm run dev
