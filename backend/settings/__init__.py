@@ -45,6 +45,9 @@ INSTALLED_APPS = [
 MY_APPS = [
     'apps.users.apps.UsersConfig',
     'apps.files.apps.FilesConfig',
+    'apps.emails.apps.EmailsConfig',
+    'apps.plans.apps.PlansConfig',
+    'apps.oauth.apps.OauthConfig',
     'apps.widgets.apps.WidgetsConfig',
 ]
 
