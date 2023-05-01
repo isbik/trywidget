@@ -11,12 +11,16 @@ import {
 } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/router';
 import { api } from '@vw/src/api/api';
+import { useStore } from 'effector-react';
+import { $user } from '@vw/src/features/user/model';
 
 type Props = {
     children: React.ReactNode;
 };
 
 export const AppLayout = ({ children }: Props) => {
+    const user = useStore($user);
+
     const items = [
         {
             title: 'Аккаунт',
@@ -82,11 +86,13 @@ export const AppLayout = ({ children }: Props) => {
 
                 <div className="flex flex-col p-4 border-t border-base-300">
                     <p className="text-xs font-bold">Базовый тариф</p>
-                    <div className="flex items-center">
-                        test@gmail.com
+                    <div className="flex items-center gap-1">
+                        <span className="mr-auto overflow-hidden whitespace-nowrap text-ellipsis">
+                            {user?.email}
+                        </span>
                         <button
                             onClick={handleLogout}
-                            className="ml-auto btn btn-sm btn-circle btn-outline"
+                            className="btn btn-sm btn-circle btn-outline"
                         >
                             <ArrowRightOnRectangleIcon className="w-3" />
                         </button>
