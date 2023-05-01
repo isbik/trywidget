@@ -35,3 +35,15 @@ class WidgetsListSerializer(WidgetBaseSerializer):
 class WidgetCreateSerializer(WidgetBaseSerializer):
     class Meta(WidgetBaseSerializer.Meta):
         fields = ('name', 'video')
+
+
+class WidgetUpdateSerializer(WidgetBaseSerializer):
+    class Meta(WidgetBaseSerializer.Meta):
+        fields = ('name', 'video', 'settings')
+
+    def update(self, instance, validated_data):
+        instance.settings = {
+            **instance.settings,
+            **validated_data.pop('settings', dict()),
+        }
+        return super().update(instance, validated_data)
