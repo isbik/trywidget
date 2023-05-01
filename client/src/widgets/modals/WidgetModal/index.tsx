@@ -52,7 +52,7 @@ export const WidgetModal = () => {
                             />
                         </div>
 
-                        <div className="form-control">
+                        {/* <div className="form-control">
                             <span className="label-text">Описание виджета</span>
                             <textarea
                                 rows={3}
@@ -61,7 +61,7 @@ export const WidgetModal = () => {
                                 value={widgetDescription}
                                 onChange={(e) => widgetDescriptionChanged(e.target.value)}
                             />
-                        </div>
+                        </div> */}
 
                         <button
                             className={cn('w-full btn', loading && 'loading')}
