@@ -1,10 +1,6 @@
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-from rest_framework.decorators import action
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from django.core.cache import cache, caches
-from django.utils.cache import get_cache_key
+from rest_framework.mixins import RetrieveModelMixin
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from .models import Widget
 from .serializers import (WidgetCreateSerializer, WidgetPublicSerializer,
@@ -33,16 +29,10 @@ class WidgetViewSet(ModelViewSet):
         serializer.save(user=self.request.user)
 
     def perform_update(self, serializer):
-        print(caches['default'].get('/widgets/2/public/'))
         serializer.save(user=self.request.user)
 
-    @action(
-        methods=('get',),
-        detail=True,
-        serializer_class=WidgetPublicSerializer,
-        permission_classes=(AllowAny,),
-        queryset=Widget.objects.all(),
-        url_path='public',
-    )
-    def public(self, request, pk):
-        return self.retrieve(request)
+
+class PublicWidget(RetrieveModelMixin, GenericViewSet):
+    permission_classes = (AllowAny,)
+    queryset = Widget.objects.all()
+    serializer_class = WidgetPublicSerializer
