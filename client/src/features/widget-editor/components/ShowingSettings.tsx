@@ -42,7 +42,7 @@ export const ShowingSettings = (props: Props) => {
                 )}
             </CustomizeExpand>
 
-            <CustomizeExpand title="Повторный показ">
+            {/* <CustomizeExpand title="Повторный показ">
                 <CustomizeInputNumber name="showingAgainTime" title="Время" />
 
                 <CustomizeInputSelect
@@ -54,7 +54,7 @@ export const ShowingSettings = (props: Props) => {
                         { id: 'hour', name: 'Час' },
                     ]}
                 />
-            </CustomizeExpand>
+            </CustomizeExpand> */}
 
             <CustomizeExpand title="Страницы">
                 <CustomizeInputSwitch name="showingAllPages" title="На всех страницах" />
