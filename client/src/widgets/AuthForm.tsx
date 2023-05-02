@@ -111,7 +111,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
 
                     <div className="my-4 centered">
                         <Link
-                            href={CONFIG.API_URL + '/oauth/google/callback'}
+                            href={CONFIG.API_URL + '/oauth/google'}
                             className="gap-2 p-2 px-4 btn btn-outline flex-nowrap whitespace-nowrap"
                         >
                             <GoogleIcon className="w-full h-full" />

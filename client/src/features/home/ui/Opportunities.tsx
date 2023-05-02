@@ -6,9 +6,9 @@ type Props = {};
 export const Opportunities = (props: Props) => {
     const ctaItems = ['Настройка стилей', 'Переход по ссылки', 'Открытие формы'];
 
-    const [borderRadius, setBorderRadius] = useState(1);
+    const [borderRadius, setBorderRadius] = useState(20);
     const [scale, setScale] = useState(5);
-    const [color, setColor] = useState(1);
+    const [color, setColor] = useState(240);
 
     return (
         <section className="bg-[#EEF1F7]">
@@ -25,7 +25,7 @@ export const Opportunities = (props: Props) => {
                             alt=""
                         />
                         <button className="absolute py-3 text-white outline-dashed outline-4 outline-offset-4 grow bottom-4 left-4 right-4 bg-primary rounded-xl">
-                            Регистрация
+                            Записаться на курс
                         </button>
                     </div>
 
@@ -71,19 +71,19 @@ export const Opportunities = (props: Props) => {
                             className="h-[400px] w-[250px] object-cover rounded-xl"
                             alt=""
                         />
-                        <div className="absolute flex justify-center py-3 text-white outline-dashed outline-4 outline-offset-4 grow bottom-4 left-4 right-4 rounded-xl">
+                        <div className="absolute flex justify-center gap-3 py-3 text-white outline-dashed outline-4 outline-offset-4 grow bottom-4 left-4 right-4 rounded-xl">
                             <img
-                                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogospng.org%2Fdownload%2Fwhatsapp%2Flogo-whatsapp-4096.png&f=1&nofb=1&ipt=aaf35be9a3dcaebcbd8af45a4f1496078025970d9c1d2812a8ff7558d34e418f&ipo=images"
+                                src="/static/logos/vk.svg"
                                 className="h-[40px] w-[40px] object-cover rounded-xl"
                                 alt=""
                             />
                             <img
-                                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hostgnome.com%2Fwp-content%2Fuploads%2F2021%2F09%2FTelegram-logo.png&f=1&nofb=1&ipt=d9972aeb1374eb41ec6f2e6861cabe1787061578f1b77f3df6b2f110a78c284f&ipo=images"
+                                src="/static/logos/telegram.svg"
                                 className="h-[40px] w-[40px] object-cover rounded-xl"
                                 alt=""
                             />
                             <img
-                                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogodownload.org%2Fwp-content%2Fuploads%2F2020%2F01%2Fvk-logo-0.png&f=1&nofb=1&ipt=6111fb9b8128a37a351e302b975c0c73bddf2efaa94c0271b8e8279893095270&ipo=images"
+                                src="/static/logos/whatsapp.svg"
                                 className="h-[40px] w-[40px] object-cover rounded-xl"
                                 alt=""
                             />
@@ -121,6 +121,7 @@ export const Opportunities = (props: Props) => {
                                 max={25}
                                 type="range"
                                 className="range range-primary range-sm"
+                                value={borderRadius}
                             />
                         </label>
                         <label className="flex flex-col gap-1 mb-4 max-w-[200px]">
@@ -132,7 +133,8 @@ export const Opportunities = (props: Props) => {
                                 min={1}
                                 max={5}
                                 type="range"
-                                className="range range-primary range-sm "
+                                className="range range-primary range-sm"
+                                value={scale}
                             />
                         </label>
                         <label className="flex flex-col gap-1 mb-8 max-w-[200px]">
@@ -145,6 +147,7 @@ export const Opportunities = (props: Props) => {
                                 max={360}
                                 type="range"
                                 className="range range-primary range-sm"
+                                value={color}
                             />
                         </label>
 

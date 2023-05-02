@@ -25,7 +25,7 @@ def google(request: HttpRequest):
         "scope": SCOPES,
         "client_id": settings.GOOGLE_CLIENT_ID
     }
-
+    print("{}?{}".format(url, urlencode(params)))
     return redirect("{}?{}".format(url, urlencode(params)))
 
 
@@ -48,6 +48,7 @@ def google_callback(request: HttpRequest):
     data = response.json()
 
     user_data = {}
+
     if 'access_token' in data:
         params = {'access_token': data['access_token']}
         user_response = requests.get(
@@ -58,6 +59,7 @@ def google_callback(request: HttpRequest):
     email = user_data.get('email')
 
     user = get_user_model().objects.filter(email=email).first()
+
     if not user:
         picture = user_data.get('picture')
         user = get_user_model().objects.create_user(
