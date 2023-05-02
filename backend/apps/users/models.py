@@ -24,6 +24,10 @@ class UserManager(BaseUserManager):
         return user
 
 
+def get_default_trial_end():
+    return now() + timedelta(days=7)
+
+
 class User(AbstractBaseUser):
     email = models.EmailField(verbose_name='email',
                               unique=True,
@@ -34,7 +38,7 @@ class User(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     next_payment_date = models.DateTimeField(null=True)
-    trial_end = models.DateTimeField(default=now() + timedelta(days=7))
+    trial_end = models.DateTimeField(default=get_default_trial_end)
     visit_count = models.IntegerField(default=0)
     last_login_at = models.DateTimeField(auto_now_add=True)
     email_verify_token = models.CharField(max_length=255,
