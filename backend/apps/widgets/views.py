@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
@@ -7,10 +8,12 @@ from .serializers import (WidgetCreateSerializer, WidgetPublicSerializer,
                           WidgetRetrieveSerializer, WidgetsListSerializer,
                           WidgetUpdateSerializer)
 
+from rest_framework.response import Response
+
 
 class WidgetViewSet(ModelViewSet):
     queryset = Widget.objects.all()
-    serializer_class = WidgetCreateSerializer
+    serializer_class = WidgetRetrieveSerializer
     http_method_names = ('get', 'post', 'patch', 'delete')
     action_serializers = {
         'create': WidgetCreateSerializer,
@@ -25,6 +28,12 @@ class WidgetViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         return self.action_serializers.get(self.action, self.serializer_class)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer_data = self.get_serializer(instance).data
+        self.perform_destroy(instance)
+        return Response(serializer_data, status=status.HTTP_200_OK)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
