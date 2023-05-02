@@ -1,13 +1,13 @@
 from smtplib import SMTPException
-from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.core.mail import send_mail
 from django.conf import settings
+from config.celery import app
 
 logger = get_task_logger(__name__)
 
 
-@shared_task(autoretry_for=(SMTPException,))
+@app.task()
 def send_email(subject,
                message,
                recipient_list,

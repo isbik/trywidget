@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken',
     'rest_framework',
+    'drf_yasg',
 ]
 
 MY_APPS = [

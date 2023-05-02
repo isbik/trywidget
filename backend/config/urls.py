@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from .yasg import urlpatterns as yasg_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -9,3 +10,5 @@ urlpatterns = [
     path('oauth/', include('apps.oauth.urls')),
     path('', include('apps.widgets.urls')),
 ]
+
+urlpatterns += yasg_urlpatterns
