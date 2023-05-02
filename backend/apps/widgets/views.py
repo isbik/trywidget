@@ -11,11 +11,12 @@ from .serializers import (WidgetCreateSerializer, WidgetPublicSerializer,
 class WidgetViewSet(ModelViewSet):
     queryset = Widget.objects.all()
     serializer_class = WidgetCreateSerializer
+    http_method_names = ('get', 'post', 'patch', 'delete')
     action_serializers = {
         'create': WidgetCreateSerializer,
         'list': WidgetsListSerializer,
         'retrieve': WidgetRetrieveSerializer,
-        'update': WidgetUpdateSerializer,
+        'partial_update': WidgetUpdateSerializer,
     }
     permission_classes = (IsAuthenticated,)
 
