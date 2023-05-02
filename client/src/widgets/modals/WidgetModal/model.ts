@@ -40,7 +40,7 @@ sample({
 });
 
 export const updateWidgetFx = createEffect(async (data) => {
-    return api.put('widgets/' + data.id + '/', { json: data }).json();
+    return api.patch('widgets/' + data.id + '/', { json: data }).json();
 });
 
 sample({

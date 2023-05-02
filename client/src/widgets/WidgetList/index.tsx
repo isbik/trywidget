@@ -6,6 +6,7 @@ import React from 'react';
 import { $widgets, WidgetListGate } from './model';
 import { deleteWidgetIdChanged } from '../modals/DeleteWidgetModal/model';
 import { selectEditWidget } from '../modals/WidgetModal/model';
+import { addWebsiteWidgetIdChanged } from '../modals/AddWidgetWebsite/model';
 
 type Props = {};
 
@@ -49,7 +50,7 @@ export const WidgetsList = (props: Props) => {
                 actions: (widget) => (
                     <div className="flex items-center gap-2">
                         <button
-                            onClick={() => deleteWidgetIdChanged(widget.id)}
+                            onClick={() => addWebsiteWidgetIdChanged(widget.id)}
                             type="button"
                             className="btn"
                         >

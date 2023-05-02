@@ -1,7 +1,9 @@
 from rest_framework import serializers
 
+from ..files.models import File
 from ..files.serializers import FileInWidgetSerializer
 from .models import Widget
+from .fields import PrimaryKeyUserRelatedField
 
 
 class WidgetBaseSerializer(serializers.ModelSerializer):
@@ -34,12 +36,16 @@ class WidgetsListSerializer(WidgetBaseSerializer):
 
 class WidgetCreateSerializer(WidgetBaseSerializer):
     class Meta(WidgetBaseSerializer.Meta):
-        fields = ('name', 'video')
+        fields = ('id', 'name', 'video')
 
 
 class WidgetUpdateSerializer(WidgetBaseSerializer):
+    video_id = PrimaryKeyUserRelatedField(
+        source='video', queryset=File.objects
+    )
+
     class Meta(WidgetBaseSerializer.Meta):
-        fields = ('name', 'video', 'settings')
+        fields = ('id', 'name', 'video_id', 'settings')
 
     def update(self, instance, validated_data):
         instance.settings = {
