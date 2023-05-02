@@ -14,7 +14,14 @@ import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { SETTINGS_DEFAULT } from '../../../../shared/types';
 import { useRouter } from 'next/router';
-import { fetchWidgetFx, updateWidget } from '@vw/src/features/widget/model';
+import {
+    $widget,
+    fetchWidgetFx,
+    updateWidget,
+    $updateLoading,
+    $widgetLoading,
+} from '@vw/src/features/widget/model';
+import { useUnit } from 'effector-react';
 
 const WidgetEditor = dynamic(
     () => import('@vw/src/widgets/WidgetPreview').then((mod) => mod.WidgetPreview),
@@ -44,6 +51,12 @@ const WidgetPage = (props: Props) => {
     const router = useRouter();
     const id = router.query.id;
 
+    const [widget, widgetLoading, updateLoading] = useUnit([
+        $widget,
+        $widgetLoading,
+        $updateLoading,
+    ]);
+
     useEffect(() => {
         if (router.isReady) {
             fetchWidgetFx(Number(id));
@@ -58,7 +71,7 @@ const WidgetPage = (props: Props) => {
 
     const [device, setDevice] = useState<'mobile' | 'desktop'>('mobile');
 
-    const { ...methods } = useForm({ defaultValues: SETTINGS_DEFAULT });
+    const { ...methods } = useForm({ values: { ...SETTINGS_DEFAULT, ...(widget.settings || {}) } });
 
     const values = methods.watch();
 
@@ -69,6 +82,19 @@ const WidgetPage = (props: Props) => {
     const onSubmit = methods.handleSubmit((data: any) => {
         updateWidget({ settings: data });
     });
+
+    if (widgetLoading) {
+        return (
+            <div className="flex-col w-screen h-screen gap-2 centered">
+                Загрузка виджета
+                <div
+                    className="radial-progress text-primary animate-spin"
+                    // @ts-ignore
+                    style={{ '--value': '70', '--size': '3rem' }}
+                ></div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -153,7 +179,11 @@ const WidgetPage = (props: Props) => {
                         </div>
 
                         <div className="sticky bottom-0 w-full p-2 mt-auto border-t bg-base-100 border-base-300">
-                            <button className="btn-block btn" type="submit">
+                            <button
+                                className={cn('btn-block btn', updateLoading && 'loading')}
+                                type="submit"
+                                disabled={updateLoading}
+                            >
                                 Сохранить
                             </button>
                         </div>

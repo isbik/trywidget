@@ -19,16 +19,16 @@ export const StyleSettings = (props: Props) => {
 
     const height = watch('height');
 
-    useEffect(() => {
-        if (shape === 'square' || shape === 'circle') setValue('width', height);
-    }, [height]);
+    const handleChangeShape = (shapeValue: string) => {
+        if (['circle', 'square'].includes(shapeValue)) setValue('width', height);
+    };
 
     return (
         <>
             <CustomizeInputSwitch name="showControls" title="Элементы управления" />
 
             <CustomizeExpand title="Размеры">
-                <CustomizeInputShape name="shape" title="Форма" />
+                <CustomizeInputShape onChange={handleChangeShape} name="shape" title="Форма" />
 
                 <CustomizeInputNumber name="height" title="Высота" />
 

@@ -210,10 +210,23 @@ export const CustomizeInputCreateList = ({ title, name }: { name: string; title:
     );
 };
 
-export const CustomizeInputShape = ({ title, name }: { name: string; title: string }) => {
+export const CustomizeInputShape = ({
+    title,
+    name,
+    onChange,
+}: {
+    name: string;
+    title: string;
+    onChange?: (shapeValue: string) => void;
+}) => {
     const { watch, setValue } = useFormContext();
 
     const value = watch(name);
+
+    const handleChange = (shapeValue: string) => {
+        setValue(name, shapeValue);
+        onChange?.(shapeValue);
+    };
 
     return (
         <CustomizeBlock>
@@ -225,7 +238,7 @@ export const CustomizeInputShape = ({ title, name }: { name: string; title: stri
                         'btn-sm btn btn-ghost text-black border-base-300',
                         value === 'rectangle' && 'bg-primary text-white'
                     )}
-                    onClick={() => setValue(name, 'rectangle')}
+                    onClick={() => handleChange('rectangle')}
                 >
                     <RectangleIcon className="w-4" />
                 </button>
@@ -236,7 +249,7 @@ export const CustomizeInputShape = ({ title, name }: { name: string; title: stri
                         'btn-sm btn btn-ghost text-black border-base-300',
                         value === 'square' && 'bg-primary text-white'
                     )}
-                    onClick={() => setValue(name, 'square')}
+                    onClick={() => handleChange('square')}
                 >
                     <SquareIcon className="w-4" />
                 </button>
@@ -247,7 +260,7 @@ export const CustomizeInputShape = ({ title, name }: { name: string; title: stri
                         'btn-sm btn btn-ghost text-black border-base-300',
                         value === 'circle' && 'bg-primary text-white'
                     )}
-                    onClick={() => setValue(name, 'circle')}
+                    onClick={() => handleChange('circle')}
                 >
                     <CircleIcon className="w-4" />
                 </button>

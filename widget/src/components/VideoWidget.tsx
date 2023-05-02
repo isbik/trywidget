@@ -1,13 +1,9 @@
 import {
-  batch,
   createEffect,
   createMemo,
   createSignal,
-  getOwner,
   onCleanup,
   onMount,
-  runWithOwner,
-  Show,
 } from "solid-js";
 import { setGlobalShow, settingsState } from "../store";
 import { CTAButton } from "./CTAButton";
@@ -17,8 +13,7 @@ import { SpeakerWaveIcon } from "../icons/SpeakerWave";
 import { Title } from "./Title";
 import { SocialButtons } from "./SocialButtons";
 import { openWidgetMetric } from "../lib/metrics";
-let short =
-  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
+import { MinusIcon } from "../icons/Minus";
 let long =
   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 
@@ -96,8 +91,23 @@ export const VideoWidget = (props: Props) => {
     setExpanded(true);
     setMuted(false);
 
+    const settings = settingsState();
+
     if (!expanded()) {
       videoRef.currentTime = 0;
+    }
+
+    if (expanded() && settings.enableExpandFullScreen) {
+      if (settings.placement === "left") {
+        wrapperRef.style.left = "0px";
+      }
+      if (settings.placement === "right") {
+        wrapperRef.style.right = "0px";
+      }
+
+      wrapperRef.style.bottom = "0px";
+    } else {
+      calculatePosition();
     }
 
     openWidgetMetric();
@@ -105,6 +115,11 @@ export const VideoWidget = (props: Props) => {
 
   const wrapperWidth = createMemo(() => {
     const settings = settingsState();
+
+    if (settings.enableExpandFullScreen && expanded()) {
+      return document.documentElement.clientWidth;
+    }
+
     const maxWidth =
       document.documentElement.clientWidth -
       settings.edgeMargins * 2 -
@@ -122,6 +137,11 @@ export const VideoWidget = (props: Props) => {
 
   const wrapperHeight = createMemo(() => {
     const settings = settingsState();
+
+    if (settings.enableExpandFullScreen && expanded()) {
+      return document.documentElement.clientHeight;
+    }
+
     const maxHeight =
       window.innerHeight - settings.edgeMargins * 2 - BORDER_WIDTH * 2;
 
@@ -189,6 +209,10 @@ export const VideoWidget = (props: Props) => {
   const wrapperBorderRadius = createMemo(() => {
     const settings = settingsState();
 
+    if (settings.enableExpandFullScreen) {
+      return "0px";
+    }
+
     return settings.shape === "circle" && !expanded()
       ? "50%"
       : settings.borderRadius + "px";
@@ -219,19 +243,41 @@ export const VideoWidget = (props: Props) => {
     return settings.showBorder ? undefined : "none";
   });
 
+  const borderWrapper = createMemo(() => {
+    const settings = settingsState();
+
+    if (expanded() && settings.enableExpandFullScreen) {
+      return "none";
+    }
+
+    return `${BORDER_WIDTH}px solid ${settings.borderColor}`;
+  });
+
+  const borderHover = createMemo(() => {
+    const settings = settingsState();
+
+    if (expanded() && settings.enableExpandFullScreen) {
+      return "none";
+    }
+
+    return `${BORDER_WIDTH}px solid ${settings.borderHoverColor}`;
+  });
+
   return (
     <>
       <style>
         {`
             .vw-wrapper{
-              border: ${BORDER_WIDTH}px solid ${settingsState().borderColor} 
+              border: ${borderWrapper()};
             }
 
             .vw-wrapper:hover {
-              transform: ${expanded() ? "" : "translateY(-10px)"};
-              border: ${BORDER_WIDTH}px solid ${
-          settingsState().borderHoverColor
-        } 
+              transform: ${
+                expanded() || settingsState().enableExpandFullScreen
+                  ? ""
+                  : "translateY(-10px)"
+              };
+              border: ${borderHover()};
             }
 
             .close-icon {
@@ -242,6 +288,7 @@ export const VideoWidget = (props: Props) => {
             }
           `}
       </style>
+
       <div
         draggable
         data-vidget-id="test"
@@ -273,7 +320,7 @@ export const VideoWidget = (props: Props) => {
               right: closeIconRight(),
             }}
           >
-            <XMarkIcon class="w-4" />
+            {expanded() ? <MinusIcon class="w-4" /> : <XMarkIcon class="w-4" />}
           </button>
 
           {expanded() && settingsState().showControls && (
@@ -296,7 +343,7 @@ export const VideoWidget = (props: Props) => {
             <video
               ref={videoRef!}
               class="absolute left-1/2 top-1/2 h-full w-full object-cover"
-              src={short}
+              src={long}
               loop
               playsinline
               muted={muted()}
@@ -334,11 +381,12 @@ export const VideoWidget = (props: Props) => {
                 )}
 
                 <a
-                  href="https://videoparty.ru"
+                  href="https://trywidget.ru"
                   target="_blank"
-                  class="bg-black/80 p-[2px] text-center text-white text-[12px] -mx-2 -mb-2.5 w-[calc(100%+16px)]"
+                  class="gap-2 bg-black/80 p-[4px] text-center text-white text-[12px] mt-1 -mx-2 -mb-3 w-[calc(100%+16px)] flex justify-center items-center"
                 >
-                  Видеовиджет VP
+                  <img class="w-4 h-4" src="/static/logo.svg" alt="Логотип" />
+                  Trywidget
                 </a>
               </div>
             )}

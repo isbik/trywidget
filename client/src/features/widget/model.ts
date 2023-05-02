@@ -5,6 +5,8 @@ export const fetchWidgetFx = createEffect((widgetId: number) => {
     return api.get('widgets/' + widgetId + '/').json();
 });
 
+export const $widgetLoading = fetchWidgetFx.pending;
+
 export const $widget = createStore<any>({}).on(fetchWidgetFx.doneData, (_, widget) => widget);
 
 export const attachWidgetVideo = createEvent<{ id: string }>();
@@ -53,3 +55,20 @@ sample({
     },
     target: updateWidgetFx,
 });
+
+$widget.on(updateWidgetFx.doneData, (widget, payload) => ({ ...widget, ...payload }));
+
+export const deleteVideo = createEvent<number>();
+
+export const deleteVideoFx = createEffect(async (widgetId: number) => {
+    return api.delete('files/' + widgetId + '/').json();
+});
+
+sample({
+    clock: deleteVideo,
+    target: deleteVideoFx,
+});
+
+export const $deleteLoading = deleteVideoFx.pending;
+
+$widget.on(deleteVideoFx.doneData, (widget) => ({ ...widget, video: null }));

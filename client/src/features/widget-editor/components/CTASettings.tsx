@@ -17,6 +17,7 @@ export const CTASettings = (props: Props) => {
     const ctaShow = watch('ctaShow');
     const сtaShowWhatsApp = watch('сtaShowWhatsApp');
     const ctaShowTelegram = watch('ctaShowTelegram');
+    const ctaShowVk = watch('ctaShowVk');
 
     const ctaActionClick = watch('ctaActionClick');
 
@@ -94,6 +95,18 @@ export const CTASettings = (props: Props) => {
             {ctaShowTelegram && (
                 <>
                     <CustomizeInputText name="ctaTelegramChannel" title="Канал" />
+                </>
+            )}
+
+            <CustomizeInputSwitch
+                className="font-bold border-t border-base-300"
+                name="ctaShowVk"
+                title="VK"
+            />
+
+            {ctaShowVk && (
+                <>
+                    <CustomizeInputText name="ctaVkLink" title="Ссылка" />
                 </>
             )}
         </>

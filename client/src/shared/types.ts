@@ -51,7 +51,7 @@ export const SETTINGS_DEFAULT: WidgetSettings = {
     shape: 'square',
     height: 150,
     width: 150,
-    scaleView: 1.5,
+    scaleView: 2,
     placement: 'right',
     edgeMargins: 10,
     isDragWidget: true,

@@ -21,13 +21,11 @@ sample({
 });
 
 $widgets.on(createWidgetFx.doneData, (widgets, widget) => {
-    return [...widgets, widget];
+    return [{ ...widget, preview_image_url: '' }, ...widgets];
 });
 
-$widgets.on(updateWidgetFx.doneData, (widgets, widget) => {
-    console.log(widget);
-
-    return widgets.map((w) => (w.id === widget.id ? widget : w));
+$widgets.on(updateWidgetFx.doneData, (widgets, payload) => {
+    return widgets.map((w) => (w.id === payload.id ? { ...w, ...payload } : w));
 });
 
 $widgets.on(deleteWidgetFx.doneData, (widgets, id) => {

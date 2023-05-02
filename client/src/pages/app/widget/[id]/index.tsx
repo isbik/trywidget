@@ -2,14 +2,21 @@ import React, { useEffect, useRef } from 'react';
 import { CloudArrowUpIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { WidgetLayout } from '@vw/src/shared/layouts/WidgetLayout';
 import { chunkUploadFile } from '@vw/src/shared/lib/chunkUploadFile';
-import { $widget, attachWidgetVideo, fetchWidgetFx } from '@vw/src/features/widget/model';
+import {
+    $deleteLoading,
+    $widget,
+    attachWidgetVideo,
+    deleteVideo,
+    fetchWidgetFx,
+} from '@vw/src/features/widget/model';
 import { useRouter } from 'next/router';
-import { useStore } from 'effector-react';
+import { useStore, useUnit } from 'effector-react';
+import { cn } from '@vw/src/shared/lib/cn';
 
 type Props = {};
 
 const WidgetPage = (props: Props) => {
-    const widget = useStore($widget);
+    const [widget, deleteLoading] = useUnit([$widget, $deleteLoading]);
 
     const router = useRouter();
 
@@ -86,11 +93,15 @@ const WidgetPage = (props: Props) => {
                             className="object-cover rounded w-36 h-36"
                         />
                         <div className="flex flex-col">
-                            <p className="mb-auto">Название видео</p>
+                            <p className="mb-auto">{widget.video?.name}</p>
                             <button
                                 type="button"
-                                onClick={() => setVideo('')}
-                                className="gap-2 text-white btn btn-sm btn-error"
+                                onClick={() => deleteVideo(widget.video.id)}
+                                className={cn(
+                                    'gap-2 text-white btn btn-sm btn-error',
+                                    deleteLoading && 'loading'
+                                )}
+                                disabled={deleteLoading}
                             >
                                 <TrashIcon className="w-4" />
                                 Удалить

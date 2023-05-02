@@ -34,6 +34,8 @@ export interface WidgetSettings {
   ctaWhatsAppText: string;
   ctaShowTelegram: boolean;
   ctaTelegramChannel: string;
+  ctaShowVk: boolean;
+  ctaVkLink: string;
 
   showingPreview: boolean;
   showingCondition: string;
@@ -49,6 +51,8 @@ export interface WidgetSettings {
   enableGoogleAnalytics: boolean;
   enableYandexAnalytics: boolean;
   yandexCounter: string;
+
+  enableExpandFullScreen: boolean;
 }
 
 export const SETTINGS_DEFAULT: WidgetSettings = {
@@ -56,7 +60,7 @@ export const SETTINGS_DEFAULT: WidgetSettings = {
   shape: "square",
   height: 150,
   width: 150,
-  scaleView: 1.5,
+  scaleView: 2,
   placement: "right",
   edgeMargins: 10,
   isDragWidget: true,
@@ -91,6 +95,9 @@ export const SETTINGS_DEFAULT: WidgetSettings = {
   ctaShowTelegram: true,
   ctaTelegramChannel: "root",
 
+  ctaShowVk: true,
+  ctaVkLink: "root",
+
   showingPreview: false,
   showingCondition: "immediately",
   showingAfterTime: 1,
@@ -107,4 +114,6 @@ export const SETTINGS_DEFAULT: WidgetSettings = {
   enableGoogleAnalytics: false,
   enableYandexAnalytics: false,
   yandexCounter: "123",
+
+  enableExpandFullScreen: false,
 };

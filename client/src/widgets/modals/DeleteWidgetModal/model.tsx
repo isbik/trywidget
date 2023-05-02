@@ -8,8 +8,10 @@ export const $deleteWidgetId = createStore<number | null>(null).on(
     (_, id) => id
 );
 
-export const deleteWidgetFx = createEffect((widgetId: number) => {
-    return api.delete('widgets/' + widgetId + '/');
+export const deleteWidgetFx = createEffect(async (widgetId: number) => {
+    await api.delete('widgets/' + widgetId + '/');
+
+    return widgetId;
 });
 
 export const $loading = deleteWidgetFx.pending;

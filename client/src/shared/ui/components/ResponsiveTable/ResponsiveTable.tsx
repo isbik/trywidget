@@ -30,7 +30,7 @@ export const ResponsiveTable = <T extends MinTableItem>({
 
         return (
             <RowComponent key={item.id as Key} className={rowClasses}>
-                {objectKeys(item).map((itemProperty: keyof typeof item) => {
+                {objectKeys(headers).map((itemProperty: keyof typeof item) => {
                     const customRenderer = customRenderers?.[itemProperty];
 
                     const content = isPrimitive(item[itemProperty])

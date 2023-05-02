@@ -8,7 +8,7 @@ export const $widgetSettings = createStore({
     shape: 'rectangle',
     height: 100,
     width: 100,
-    scaleView: 1.2,
+    scaleView: 2,
     placement: 'left',
     edgeMargins: 10,
     isDragWidget: true,
