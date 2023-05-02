@@ -12,6 +12,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - celery
     volumes:
       - /static:/static
       - ../backend/:/app
@@ -20,7 +21,7 @@ services:
     image: redis:6.2-alpine
     restart: always
     ports:
-      - "6381:6379"
+      - "6379:6379"
 
   postgres:
     image: "postgres:13.4-alpine"
@@ -33,6 +34,18 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+  celery:
+    build:
+      context: ../backend
+      dockerfile: ../backend/Dockerfile.celery
+    command: celery -A config worker -B -l INFO
+    volumes:
+      - /static:/static
+      - ../backend/:/app
+    depends_on:
+      - redis
+
+    
 
   # client:
   #   build: ../client
