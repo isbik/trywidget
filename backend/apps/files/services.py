@@ -1,9 +1,10 @@
 from .models import File
 
 
-def save_file(file_name: str, size: int, user):
+def save_file(file_name: str, size: int, user, image_name):
     file = File.objects.create(url=f'temp/{file_name}',
                                size=str(size / 1024**2),
-                               user=user)
+                               user=user,
+                               preview_image_url=f'temp/{image_name}')
     file.save()
     return file
