@@ -1,19 +1,18 @@
-from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse, HttpRequest
-import cv2
+from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse
 import os
 from django.conf import settings
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 from .models import File
 from .serializers import FileListSerializer
 from .services import save_file
-from apps.users.models import User
-from datetime import datetime
 from rest_framework.mixins import ListModelMixin, DestroyModelMixin
 from rest_framework.viewsets import GenericViewSet
 
 
 @api_view(['POST'])
+@permission_classes((IsAuthenticated,))
 def upload(request):
     content_range = request.headers.get('Content-Range')
     if not content_range:
@@ -48,30 +47,14 @@ def upload(request):
     file_handle.close()
 
     if content_range_end == content_range_size - 1:
-        # TODO  user id
         user = request.user
-
-        file_name = (
-            f'{datetime.now().timestamp()}_{request.user}.{file_name[-3:]}'
-        )
-        new_file_path = os.path.join(settings.TEMP_ROOT, f'{file_name}')
-        os.rename(file_path, new_file_path)
-
-        cap = cv2.VideoCapture(new_file_path)
-        image_name = f'{file_name[:-3]}jpg'
-        image_path = os.path.join(settings.TEMP_ROOT, image_name)
-        ret, frame = cap.read()
-        cv2.imwrite(image_path, frame)
-        cap.release()
-
-        file = save_file(file_name, content_range_size, user, image_name)
+        file = save_file(file_name, content_range_size, user)
         file.set_active()
-
         return JsonResponse(
             {
                 'id': file.pk,
                 'url': settings.API_URL + file.url,
-                'user': user.pk,
+                'user_id': user.pk,
                 'size': file.size,
                 'preview_image_url': settings.API_URL + file.preview_image_url,
                 'created_at': file.created_at

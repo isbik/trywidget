@@ -1,3 +1,5 @@
+import cv2
+from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.conf import settings
@@ -18,36 +20,43 @@ class File(models.Model):
     class Meta:
         db_table = 'file'
 
-    def delete(self, using=None, keep_parents=False):
-        file_path = os.path.join(settings.BASE_DIR, self.url)
-        preview_path = os.path.join(settings.BASE_DIR, self.preview_image_url)
-        print(file_path, preview_path)
-        os.remove(file_path)
-        os.remove(preview_path)
-        return super().delete(using, keep_parents)
+    @property
+    def get_url(self):
+        return settings.API_URL + self.url
+
+    @property
+    def get_preview_image_url(self):
+        return settings.API_URL + self.preview_image_url
 
     def set_active(self):
         self.active = True
+        folder = f'{datetime.now().date()}/'
+        dir_file = os.path.join(settings.STATIC_ROOT, folder)
+
         file_name = str(self.url).removeprefix('temp/')
-        preview_name = str(self.preview_image_url).removeprefix('temp/')
+        old_file_path = os.path.join(settings.TEMP_ROOT, file_name)
 
-        old_url = os.path.join(settings.TEMP_ROOT, file_name)
-        old_preview_url = os.path.join(settings.TEMP_ROOT, preview_name)
+        file_name = f'{self.id}.{file_name}'
+        file_path = os.path.join(dir_file, file_name)
 
-        new_url = os.path.join(settings.STATIC_ROOT, file_name)
-        new_preview_url = os.path.join(settings.STATIC_ROOT, preview_name)
+        if not os.path.exists(dir_file):
+            os.makedirs(dir_file)
 
-        if not os.path.exists(settings.STATIC_ROOT):
-            os.makedirs(settings.STATIC_ROOT)
+        if os.path.isfile(old_file_path):
+            os.rename(old_file_path, file_path)
+            self.url = f'static/{folder}{file_name}'
 
-        if os.path.isfile(old_url):
-            os.rename(old_url, new_url)
-            self.url = 'static/' + file_name
+        temp_image_name = file_name.split(".")
+        temp_image_name.pop()
+        image_name = f'{".".join(temp_image_name)}.jpg'
+        image_path = os.path.join(dir_file, image_name)
 
-        if os.path.isfile(old_preview_url):
-            os.rename(old_preview_url, new_preview_url)
-            self.preview_image_url = 'static/' + preview_name
+        capture = cv2.VideoCapture(file_path)
+        ret, frame = capture.read()
+        is_success, im_buf_arr = cv2.imencode('.jpg', frame)
+        im_buf_arr.tofile(image_path)
+        capture.release()
+
+        self.preview_image_url = f'static/{folder}{image_name}'
 
         self.save(update_fields=['active', 'url', 'preview_image_url'])
-
-
