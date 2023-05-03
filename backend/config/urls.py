@@ -9,6 +9,7 @@ urlpatterns = [
     path('files/', include('apps.files.urls')),
     path('oauth/', include('apps.oauth.urls')),
     path('', include('apps.widgets.urls')),
+    path('plans/', include('apps.plans.urls')),
 ]
 
 urlpatterns += yasg_urlpatterns

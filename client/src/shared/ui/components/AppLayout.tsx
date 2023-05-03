@@ -37,6 +37,7 @@ export const AppLayout = ({ children }: Props) => {
             url: '',
             Icon: LinkIcon,
             className: '',
+            soon: true,
         },
     ];
 
@@ -68,17 +69,23 @@ export const AppLayout = ({ children }: Props) => {
                 </div>
 
                 <ul className="flex flex-col grow text-[14px] overflow-y-auto">
-                    {items.map(({ title, url, className, Icon }) => (
-                        <li key={url} className={'centered ' + className}>
+                    {items.map(({ title, url, className, Icon, soon }) => (
+                        <li key={url} className={'centered relative ' + className}>
                             <Link
                                 className={cn(
                                     'w-full p-4 flex gap-2',
-                                    router.asPath === url && 'bg-[#EEF1F7] text-primary'
+                                    router.asPath === url && 'bg-[#EEF1F7] text-primary',
+                                    soon && 'opacity-50 pointer-events-none'
                                 )}
                                 href={url}
                             >
                                 <Icon className={cn('w-4')} />
                                 {title}
+                                {soon && (
+                                    <span className="absolute p-0 px-1 text-xs top-1 right-2 badge badge-primary">
+                                        Скоро
+                                    </span>
+                                )}
                             </Link>
                         </li>
                     ))}

@@ -28,15 +28,6 @@ export const WidgetLayout = ({ children }: Props) => {
                         router.asPath === `/app/widget/${id}` && 'tab-active'
                     )}
                 >
-                    Видео
-                </Link>
-                <Link
-                    href={`/app/widget/${id}/analytics`}
-                    className={cn(
-                        'tab tab-bordered',
-                        router.asPath === `/app/widget/${id}/analytics` && 'tab-active'
-                    )}
-                >
                     Аналитика
                 </Link>
                 <Link

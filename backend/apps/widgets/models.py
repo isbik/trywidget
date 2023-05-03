@@ -18,7 +18,6 @@ class Widget(models.Model):
     created_at = models.DateField(auto_now_add=True)
     settings = models.JSONField(verbose_name='settings', default=dict)
 
-
 # class WidgetAnalytics(models.Model):
 #     open_widget = models.ForeignKey(
 #         'Widget',
