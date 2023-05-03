@@ -41,7 +41,7 @@ class WidgetCreateSerializer(WidgetBaseSerializer):
 
 class WidgetUpdateSerializer(WidgetBaseSerializer):
     video_id = PrimaryKeyUserRelatedField(
-        source='video', queryset=File.objects
+        source='video', queryset=File.objects, allow_null=True
     )
 
     class Meta(WidgetBaseSerializer.Meta):
