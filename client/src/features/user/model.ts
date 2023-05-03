@@ -4,7 +4,7 @@ import { createEffect, createEvent, createStore, sample } from 'effector';
 
 export const fetchUser = createEvent();
 
-const fetchUserFx = createEffect<unknown, User>(() => {
+export const fetchUserFx = createEffect<unknown, User>(() => {
     return api.get('users/me').json();
 });
 
