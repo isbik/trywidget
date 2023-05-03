@@ -12,7 +12,6 @@ class WidgetBaseSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'preview_image_url',
             'video',
             'updated_at',
             'created_at',
@@ -26,12 +25,12 @@ class WidgetRetrieveSerializer(WidgetBaseSerializer):
 
 class WidgetPublicSerializer(WidgetRetrieveSerializer):
     class Meta(WidgetRetrieveSerializer.Meta):
-        fields = ('name', 'preview_image_url', 'video', 'settings')
+        fields = ('id', 'name', 'video', 'settings')
 
 
-class WidgetsListSerializer(WidgetBaseSerializer):
+class WidgetsListSerializer(WidgetRetrieveSerializer):
     class Meta(WidgetBaseSerializer.Meta):
-        fields = ('id', 'name', 'preview_image_url')
+        fields = ('id', 'name', 'video')
 
 
 class WidgetCreateSerializer(WidgetBaseSerializer):

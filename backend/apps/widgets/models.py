@@ -11,7 +11,6 @@ class Widget(models.Model):
         related_name='widgets',
     )
     name = models.CharField(verbose_name='name', max_length=100)
-    preview_image_url = models.URLField(blank=True)
     video = models.ForeignKey(
         File, on_delete=models.SET_NULL, blank=True, null=True
     )
