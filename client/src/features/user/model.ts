@@ -1,4 +1,4 @@
-import { api } from '@vw/src/api/api';
+import { api, getCookie } from '@vw/src/api/api';
 import { User } from '@vw/src/api/generated';
 import { createEffect, createEvent, createStore, sample } from 'effector';
 
