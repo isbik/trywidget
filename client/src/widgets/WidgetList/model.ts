@@ -3,20 +3,27 @@ import { createEffect, createStore, sample } from 'effector';
 import { createGate } from 'effector-react';
 import { createWidgetFx, updateWidgetFx } from '../modals/WidgetModal/model';
 import { deleteWidgetFx } from '../modals/DeleteWidgetModal/model';
+import { WidgetsList } from '@vw/src/api/generated';
 
 export const WidgetListGate = createGate();
 
-const fetchWidgetsFx = createEffect(() => {
+const fetchWidgetsFx = createEffect<unknown, WidgetsList[]>(() => {
     return api.get('widgets/').json();
 });
 
-export const $widgets = createStore<Array<any>>([]).on(
+export const $widgetsLoading = fetchWidgetsFx.pending;
+
+export const $widgets = createStore<Array<WidgetsList>>([]).on(
     fetchWidgetsFx.doneData,
     (_, widgets) => widgets
 );
 
 sample({
     clock: WidgetListGate.open,
+    source: $widgetsLoading,
+    filter(loading) {
+        return !loading;
+    },
     target: fetchWidgetsFx,
 });
 

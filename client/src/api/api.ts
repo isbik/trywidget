@@ -19,7 +19,13 @@ const created = ky.create({
 
 export const api = created.extend({
     credentials: 'include',
-    headers: {
-        'X-CSRFToken': getCookie('csrftoken') || '',
+
+    hooks: {
+        beforeRequest: [
+            (request) => {
+                request.headers.set('X-CSRFToken', getCookie('csrftoken') || '');
+                return request;
+            },
+        ],
     },
 });

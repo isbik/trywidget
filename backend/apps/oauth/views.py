@@ -21,11 +21,10 @@ def google(request: HttpRequest):
     params = {
         "response_type": "code",
         "redirect_uri":  redirect_uri,
-        "redirect_uri":  "http://localhost:8000/oauth/google/callback",
         "scope": SCOPES,
         "client_id": settings.GOOGLE_CLIENT_ID
     }
-    print("{}?{}".format(url, urlencode(params)))
+
     return redirect("{}?{}".format(url, urlencode(params)))
 
 
@@ -80,4 +79,5 @@ def google_callback(request: HttpRequest):
         oauth.save()
 
     login(request, user)
+
     return redirect("{}/app".format(settings.CLIENT_URL))
