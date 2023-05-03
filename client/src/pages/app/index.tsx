@@ -4,6 +4,7 @@ import { ResponsiveTable } from '@vw/src/shared/ui/components/ResponsiveTable/Re
 import { WidgetsList } from '@vw/src/widgets/WidgetList';
 import { AddWidgetWebsiteModal } from '@vw/src/widgets/modals/AddWidgetWebsite';
 import { DeleteWidgetModal } from '@vw/src/widgets/modals/DeleteWidgetModal';
+import { VideosModal } from '@vw/src/widgets/modals/VidoesModal';
 import { WidgetModal } from '@vw/src/widgets/modals/WidgetModal';
 import { widgetModalChanged } from '@vw/src/widgets/modals/WidgetModal/model';
 import Link from 'next/link';
@@ -19,6 +20,8 @@ const AppPage = (props: Props) => {
             <WidgetModal />
 
             <DeleteWidgetModal />
+
+            <VideosModal />
 
             <AppLayout>
                 <h1 className="mb-16 text-4xl">Видеовиджеты</h1>

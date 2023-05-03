@@ -2,7 +2,7 @@ import ky from 'ky';
 import { hex } from './hex';
 import { api } from '@vw/src/api/api';
 
-const CHUNK_SIZE = 1024 * 1024; // 1MB
+const CHUNK_SIZE = 1024 * 1024 * 1; // 1MB
 
 export const chunkUploadFile = async (
     file: File,

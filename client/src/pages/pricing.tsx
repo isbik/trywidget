@@ -3,22 +3,21 @@ import { cn } from '../shared/lib/cn';
 import { Footer } from '../shared/ui/components/Footer';
 import { Header } from '../shared/ui/components/Header';
 import { GetStartedNow } from '../shared/ui/components/GetStartedNow';
+import { useEffect, useState } from 'react';
+import { api } from '../api/api';
 
 const PlansPage = () => {
-    const plans = [
-        {
-            price: 390,
-            name: 'Начинающий',
-        },
-        {
-            price: 890,
-            name: 'Базовый',
-        },
-        {
-            price: 1900,
-            name: 'Pro',
-        },
-    ];
+    const [plans, setPlans] = useState([]);
+
+    const [isYear, setIsYear] = useState(true);
+
+    useEffect(() => {
+        api.get('plans/')
+            .json()
+            .then((data) => {
+                setPlans(data);
+            });
+    });
     return (
         <>
             <Header />
@@ -31,9 +30,14 @@ const PlansPage = () => {
 
                     <div className="flex justify-center gap-2 mb-16">
                         <p>За месяц</p>
-                        <input type="checkbox" className="toggle toggle-primary" />
+                        <input
+                            type="checkbox"
+                            className="toggle toggle-primary"
+                            checked={isYear}
+                            onChange={() => setIsYear((prev) => !prev)}
+                        />
                         <p>
-                            За год <span className="text-primary">(Скида до 20%)</span>
+                            За год <span className="text-primary">(Скидка до 20%)</span>
                         </p>
                     </div>
 
@@ -44,18 +48,23 @@ const PlansPage = () => {
                                     className={cn(
                                         'p-4 py-8 card card-bordered bg-[#EEF1F7] min-w-[300px] items-center',
                                         index === 1 && 'mb-8 border-primary border-2 shadow-xl',
-                                        index !== 1 && 'mt-6 mb-12'
+                                        index !== 1 && 'mt-6 mb-14'
                                     )}
                                 >
                                     {index === 1 && (
-                                        <p className="mb-4 font-bold text-primary ">
+                                        <p className="mb-4 text-xl font-bold text-primary ">
                                             Самый популярный
                                         </p>
                                     )}
                                     <p className="mb-4 text-3xl font-bold">{name}</p>
                                     <p className="mb-6">
-                                        <span className="text-2xl font-bold">{price}</span>{' '}
+                                        <span className="text-2xl font-bold">
+                                            {isYear ? (price * 0.8).toFixed(0) : price}
+                                        </span>{' '}
                                         <span className="text-base-content">₽/месяц</span>
+                                        <p className={cn('text-primary', !isYear && 'opacity-0')}>
+                                            Сохраните {(price * 0.2 * 12).toFixed(0)}₽ в год
+                                        </p>
                                     </p>
 
                                     <button
