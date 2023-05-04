@@ -4,11 +4,13 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from .models import Widget
-from .serializers import (WidgetCreateSerializer, WidgetPublicSerializer,
-                          WidgetRetrieveSerializer, WidgetsListSerializer,
-                          WidgetUpdateSerializer)
+from .serializers import (WidgetCreateSerializer, WidgetRetrieveSerializer,
+                          WidgetsListSerializer, WidgetUpdateSerializer,
+                          PublicDataSerializer)
 
 from rest_framework.response import Response
+
+from django.contrib.auth import get_user_model
 
 
 class WidgetViewSet(ModelViewSet):
@@ -45,4 +47,15 @@ class WidgetViewSet(ModelViewSet):
 class PublicWidget(RetrieveModelMixin, GenericViewSet):
     permission_classes = (AllowAny,)
     queryset = Widget.objects.all()
-    serializer_class = WidgetPublicSerializer
+    serializer_class = PublicDataSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        try:
+            plan = instance.user.userplan.plan
+        except get_user_model().userplan.RelatedObjectDoesNotExist:
+            plan = None
+
+        serializer = self.get_serializer({'widget': instance, 'plan': plan})
+        return Response(serializer.data)
