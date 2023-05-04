@@ -23,7 +23,6 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, data):
         verify_token = uuid4()
-        print(data)
         user = get_user_model().objects.create(
             email=data['email'],
             is_active=False,
@@ -38,7 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
         plain_message = strip_tags(html_message)
         send_email.delay(
             subject='Register',
-            recipient_list=['barashovmisha@gmail.com'],
+            recipient_list=[user.email],
             message=plain_message,
             html_message=html_message
         )

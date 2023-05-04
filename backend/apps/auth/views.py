@@ -7,8 +7,9 @@ from rest_framework.response import Response
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.sessions.models import Session
-from apps.users.services.email import get_user_by_verify_token
 import settings
+
+from apps.users.services.email import get_user_by_verify_token
 from .serializer import UserSerializer
 
 
@@ -53,7 +54,7 @@ class RegisterView(generics.CreateAPIView):
 def verify_email_view(request, token):
     user = get_user_by_verify_token(token)
     if user is None:
-        return JsonResponse(data={'detail': 'invalid token'}, status=401)
+        return redirect("{}/error?type=invalid_token".format(settings.CLIENT_URL))
     user.is_active = True
     user.email_verify_token = ''
     user.save()
