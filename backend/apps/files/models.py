@@ -22,18 +22,22 @@ class File(models.Model):
 
     @property
     def get_url(self):
-        return settings.API_URL + self.url
+        if self.url:
+            return settings.API_URL + self.url
+        return None
 
     @property
     def get_preview_image_url(self):
-        return settings.API_URL + self.preview_image_url
+        if self.preview_image_url:
+            return settings.API_URL + self.preview_image_url
+        return None
 
     def set_active(self):
         self.active = True
         folder = f'{datetime.now().date()}/'
-        dir_file = os.path.join(settings.STATIC_ROOT, folder)
+        dir_file = settings.MEDIA_ROOT.joinpath(folder)
 
-        file_name = str(self.url).removeprefix('temp/')
+        file_name = str(self.url).removeprefix(settings.TEMP_URL)
         old_file_path = os.path.join(settings.TEMP_ROOT, file_name)
 
         file_name = f'{self.id}.{file_name}'
@@ -42,21 +46,25 @@ class File(models.Model):
         if not os.path.exists(dir_file):
             os.makedirs(dir_file)
 
+        MEDIA_URL = settings.MEDIA_URL.lstrip('/')
         if os.path.isfile(old_file_path):
             os.rename(old_file_path, file_path)
-            self.url = f'static/{folder}{file_name}'
+            self.url = f'{MEDIA_URL}{folder}{file_name}'
 
         temp_image_name = file_name.split(".")
         temp_image_name.pop()
         image_name = f'{".".join(temp_image_name)}.jpg'
         image_path = os.path.join(dir_file, image_name)
 
-        capture = cv2.VideoCapture(file_path)
-        ret, frame = capture.read()
-        is_success, im_buf_arr = cv2.imencode('.jpg', frame)
-        im_buf_arr.tofile(image_path)
-        capture.release()
-
-        self.preview_image_url = f'static/{folder}{image_name}'
+        try:
+            capture = cv2.VideoCapture(file_path)
+            ret, frame = capture.read()
+            is_success, im_buf_arr = cv2.imencode('.jpg', frame)
+            im_buf_arr.tofile(image_path)
+            capture.release()
+        except Exception as err:
+            print(err)
+        else:
+            self.preview_image_url = f'{MEDIA_URL}{folder}{image_name}'
 
         self.save(update_fields=['active', 'url', 'preview_image_url'])

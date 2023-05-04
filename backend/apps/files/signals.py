@@ -17,9 +17,10 @@ def delete_file(sender, instance, **kwargs):
     #
     # if os.path.isfile(file_url):
     #     os.remove(file_url)
-
     if instance.url and os.path.isfile(instance.url):
         os.remove(instance.url)
-    if (instance.preview_image_url
-            and os.path.isfile(instance.preview_image_url)):
+    if (
+            instance.preview_image_url and
+            os.path.isfile(instance.preview_image_url)
+    ):
         os.remove(instance.preview_image_url)

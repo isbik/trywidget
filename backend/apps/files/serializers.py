@@ -9,7 +9,7 @@ class FileInWidgetSerializer(serializers.ModelSerializer):
         fields = ('get_url', 'size', 'get_preview_image_url')
 
 
-class FileListSerializer(serializers.ModelSerializer):
+class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
         fields = (
