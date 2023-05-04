@@ -44,7 +44,7 @@ class RegisterView(generics.CreateAPIView):
     queryset = get_user_model().objects.all()
     permission_classes = []
     serializer_class = UserSerializer
-    
+
     def post(self, *args, **kwargs):
         super().post(*args, **kwargs)
         return redirect("{}/app".format(settings.CLIENT_URL))
@@ -58,5 +58,7 @@ def verify_email_view(request, token):
     user.is_active = True
     user.email_verify_token = ''
     user.save()
+    
     login(request, user)
-    return Response(status=200)
+
+    return redirect("{}/app".format(settings.CLIENT_URL))
