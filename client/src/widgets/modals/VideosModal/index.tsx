@@ -2,19 +2,25 @@ import React, { useEffect, useRef } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { CheckIcon, CloudArrowUpIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import {
+    $selectedWidget,
     $videos,
     $videosModalOpen,
+    deleteVideo,
     fetchVideos,
     uploadVideo,
     videosModalOpenChanged,
 } from './model';
 import { useUnit } from 'effector-react';
-import { attachWidgetVideo } from '@vw/src/features/widget/model';
 import { chunkUploadFile } from '@vw/src/shared/lib/chunkUploadFile';
 import { cn } from '@vw/src/shared/lib/cn';
+import { attachWidgetVideo } from '../../WidgetList/model';
 
 export const VideosModal = () => {
-    const [videos, videosModalOpen] = useUnit([$videos, $videosModalOpen]);
+    const [videos, videosModalOpen, selectedWidget] = useUnit([
+        $videos,
+        $videosModalOpen,
+        $selectedWidget,
+    ]);
 
     useEffect(() => {
         fetchVideos();
@@ -76,13 +82,18 @@ export const VideosModal = () => {
                                 key={video.id}
                                 className={cn(
                                     'relative cursor-pointer hover:shadow-xl -m-1 p-1 rounded',
-                                    video.id === '1' && 'border-2 border-success'
+                                    selectedWidget?.video?.id === video.id &&
+                                        'border-2 border-success'
                                 )}
                             >
                                 <img
-                                    src={video.get_preview_image_url}
+                                    src={video.preview_image_url}
                                     alt="widget"
                                     className="object-cover w-full rounded h-[120px] mb-2"
+                                    onClick={() =>
+                                        attachWidgetVideo({ video, selectedWidget: selectedWidget })
+                                    }
+                                    role="presentation"
                                 />
 
                                 <p className="flex items-center whitespace-nowrap">
@@ -93,7 +104,11 @@ export const VideosModal = () => {
                                         {Number(video.size).toFixed(1)} мб
                                     </span>
                                 </p>
-                                <button className="absolute btn btn-xs top-2 right-2 btn-circle">
+                                <button
+                                    type="button"
+                                    onClick={() => deleteVideo(video.id)}
+                                    className="absolute btn btn-xs top-2 right-2 btn-circle"
+                                >
                                     <XMarkIcon className="w-4" />
                                 </button>
                             </div>

@@ -7,14 +7,24 @@ import { $widgets, WidgetListGate } from './model';
 import { deleteWidgetIdChanged } from '../modals/DeleteWidgetModal/model';
 import { selectEditWidget } from '../modals/WidgetModal/model';
 import { addWebsiteWidgetIdChanged } from '../modals/AddWidgetWebsite/model';
-import { videosModalOpenChanged } from '../modals/VidoesModal/model';
+import { selectedWidgetIdChanged, videosModalOpenChanged } from '../modals/VideosModal/model';
+import { WidgetPublic } from '@vw/src/api/generated';
 
 type Props = {};
 
 export const WidgetsList = (props: Props) => {
     useGate(WidgetListGate);
 
-    const widgets = useStore($widgets).map((widget) => ({ ...widget, actions: '' }));
+    const widgets = useStore($widgets).map((widget) => ({
+        ...widget,
+        actions: '',
+        id: widget.id as number,
+    }));
+
+    const handleOpenAddVideoModal = (widget: WidgetPublic) => {
+        videosModalOpenChanged(true);
+        selectedWidgetIdChanged(widget.id as number);
+    };
 
     return (
         <ResponsiveTable
@@ -32,18 +42,26 @@ export const WidgetsList = (props: Props) => {
                         {name}
                     </Link>
                 ),
-                preview_image_url: ({ id, preview_image_url }) =>
-                    preview_image_url ? (
-                        <Link href={'/app/widget/' + id} className="w-full h-full">
+                preview_image_url: (widget) =>
+                    widget.video ? (
+                        <div className="relative w-fit">
                             <img
-                                src="https://picsum.photos/600/600"
+                                src={widget.video.preview_image_url}
                                 alt="widget"
-                                className="min-w-[96px] w-32 h-32 rounded"
+                                className="min-w-[96px] w-32 h-32 rounded object-cover"
                             />
-                        </Link>
+
+                            <button
+                                type="button"
+                                className="absolute btn btn-xs top-2 right-2 centered btn-circle"
+                                onClick={() => handleOpenAddVideoModal(widget)}
+                            >
+                                <PencilIcon className="w-2" />
+                            </button>
+                        </div>
                     ) : (
                         <button
-                            onClick={() => videosModalOpenChanged(true)}
+                            onClick={() => handleOpenAddVideoModal(widget)}
                             className="flex flex-col w-24 h-24 gap-2 text-sm text-center transition-all border-2 border-dashed hover:border-white text-primary border-primary rounded-2xl centered hover:bg-primary hover:text-white"
                         >
                             <PlusIcon className="w-4" />

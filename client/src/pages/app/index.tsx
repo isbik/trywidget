@@ -4,7 +4,7 @@ import { ResponsiveTable } from '@vw/src/shared/ui/components/ResponsiveTable/Re
 import { WidgetsList } from '@vw/src/widgets/WidgetList';
 import { AddWidgetWebsiteModal } from '@vw/src/widgets/modals/AddWidgetWebsite';
 import { DeleteWidgetModal } from '@vw/src/widgets/modals/DeleteWidgetModal';
-import { VideosModal } from '@vw/src/widgets/modals/VidoesModal';
+import { VideosModal } from '@vw/src/widgets/modals/VideosModal';
 import { WidgetModal } from '@vw/src/widgets/modals/WidgetModal';
 import { widgetModalChanged } from '@vw/src/widgets/modals/WidgetModal/model';
 import Link from 'next/link';

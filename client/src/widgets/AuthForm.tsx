@@ -71,7 +71,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
         setLoading(true);
 
         try {
-            await api.post('auth/register', { json: data }).json();
+            await api.post('auth/register', { json: data });
             setIsSubmitted(true);
         } catch (error) {
             const json = await (error as any).response.json();
