@@ -1,6 +1,7 @@
 import { api } from '@vw/src/api/api';
 import { combine, createEffect, createEvent, createStore, sample } from 'effector';
 import { $widgets } from '../../WidgetList/model';
+import { uploadFileFx } from '@vw/src/shared/lib/chunkUploadFile';
 
 export const videosModalOpenChanged = createEvent<boolean>();
 export const $videosModalOpen = createStore<boolean>(false).on(
@@ -39,11 +40,11 @@ sample({
 
 export const $videos = createStore<any[]>([]).on(fetchVideosFx.doneData, (_, data) => data);
 
-export const uploadVideo = createEvent<File>();
-
-$videos.on(uploadVideo, (videos, file) => {
+$videos.on(uploadFileFx.doneData, (videos, file) => {
     return [...videos, file];
 });
+
+export const $error = createStore<string | null>(null);
 
 export const deleteVideo = createEvent<number>();
 

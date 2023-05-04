@@ -1,19 +1,24 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { CheckIcon, CloudArrowUpIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { CloudArrowUpIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import {
     $selectedWidget,
     $videos,
     $videosModalOpen,
     deleteVideo,
     fetchVideos,
-    uploadVideo,
     videosModalOpenChanged,
 } from './model';
 import { useUnit } from 'effector-react';
-import { chunkUploadFile } from '@vw/src/shared/lib/chunkUploadFile';
+import {
+    $isUploading,
+    $uploadError,
+    $uploadProgress,
+    uploadFileFx,
+} from '@vw/src/shared/lib/chunkUploadFile';
 import { cn } from '@vw/src/shared/lib/cn';
 import { attachWidgetVideo } from '../../WidgetList/model';
+import { FileUpload } from '@vw/src/shared/ui/components/FileUpload';
 
 export const VideosModal = () => {
     const [videos, videosModalOpen, selectedWidget] = useUnit([
@@ -26,48 +31,26 @@ export const VideosModal = () => {
         fetchVideos();
     }, []);
 
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
-    const handleDrop = (event: React.DragEvent) => {
-        event.stopPropagation();
-        event.preventDefault();
-        const files = event.dataTransfer.files;
-
-        handleUploadFile(files[0]);
-    };
-
-    const handleDragOver = (event: React.DragEvent) => {
-        event.stopPropagation();
-        event.preventDefault();
-        event.dataTransfer.dropEffect = 'copy';
-    };
-
-    const handleClick = () => {
-        fileInputRef.current?.click();
-    };
-
-    const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const files = event.target.files;
-
-        handleUploadFile(files?.[0]!);
-    };
-
-    const [progress, setProgress] = React.useState(0);
-
-    const [success, setSuccess] = React.useState(false);
+    const [uploadProgress, isUploading, uploadError] = useUnit([
+        $uploadProgress,
+        $isUploading,
+        $uploadError,
+    ]);
 
     const handleUploadFile = (file: File) => {
-        chunkUploadFile(file, setProgress).then((response) => {
-            uploadVideo(response);
-            setSuccess(true);
-
-            setTimeout(() => {
-                setSuccess(false);
-            }, 1500);
-        });
+        uploadFileFx(file);
     };
 
-    const uploading = progress > 0 && progress < 1;
+    const errorMessage = () => {
+        switch (uploadError) {
+            case 'file_too_large':
+                return 'Размер файла слишком большой';
+            case 'invalid_data':
+                return 'Неверный формат файла';
+            default:
+                return 'При загрузке файла произошла ошибка, попробуйте позже';
+        }
+    };
 
     return (
         <Dialog.Root open={videosModalOpen}>
@@ -115,44 +98,30 @@ export const VideosModal = () => {
                         ))}
                     </div>
 
-                    <button
+                    {uploadError && (
+                        <p className="block px-4 py-2 mb-8 rounded bg-error">{errorMessage()}</p>
+                    )}
+
+                    <FileUpload
                         className={cn(
                             'flex flex-col gap-2 border-2  text-primary border-primary rounded-2xl centered   w-full m-auto transition-all',
-                            (uploading || success) && 'max-w-[120px] min-h-[120px] rounded-full',
-                            !uploading &&
-                                !success &&
-                                'min-h-[120px] max-w-[400px] w-full border-dashed hover:border-white hover:bg-primary hover:text-white',
-                            success && 'border-success text-success'
+                            isUploading && 'max-w-[120px] min-h-[120px] rounded-full',
+                            !isUploading &&
+                                'min-h-[120px] max-w-[400px] w-full border-dashed hover:border-white hover:bg-primary hover:text-white'
                         )}
-                        onDrop={handleDrop}
-                        onDragOver={handleDragOver}
-                        onClick={handleClick}
+                        disabled={isUploading}
+                        onFile={handleUploadFile}
                     >
-                        {success && <CheckIcon className="w-8" />}
-
-                        {!success && (
+                        {isUploading ? (
+                            <p>{Number.parseInt(String(uploadProgress * 100), 10)}%</p>
+                        ) : (
                             <>
-                                {uploading ? (
-                                    <p>{Number.parseInt(String(progress * 100), 10)}%</p>
-                                ) : (
-                                    <>
-                                        <input
-                                            type="file"
-                                            className="sr-only"
-                                            ref={fileInputRef}
-                                            onChange={handleChangeFile}
-                                            accept="video/*"
-                                        />
+                                <CloudArrowUpIcon className="w-6" />
 
-                                        <CloudArrowUpIcon className="w-6" />
-                                        <p className="text-base">
-                                            Добавьте или перенесите видео до 50мб
-                                        </p>
-                                    </>
-                                )}
+                                <p className="text-base">Добавьте или перенесите видео до 50мб</p>
                             </>
                         )}
-                    </button>
+                    </FileUpload>
 
                     <Dialog.Close asChild onClick={() => videosModalOpenChanged(false)}>
                         <button className="" aria-label="Close">

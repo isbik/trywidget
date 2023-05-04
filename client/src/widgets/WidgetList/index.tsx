@@ -1,4 +1,4 @@
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { EyeIcon, PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { ResponsiveTable } from '@vw/src/shared/ui/components/ResponsiveTable/ResponsiveTable';
 import { useGate, useStore } from 'effector-react';
 import Link from 'next/link';
@@ -9,6 +9,7 @@ import { selectEditWidget } from '../modals/WidgetModal/model';
 import { addWebsiteWidgetIdChanged } from '../modals/AddWidgetWebsite/model';
 import { selectedWidgetIdChanged, videosModalOpenChanged } from '../modals/VideosModal/model';
 import { WidgetPublic } from '@vw/src/api/generated';
+import { cn } from '@vw/src/shared/lib/cn';
 
 type Props = {};
 
@@ -36,9 +37,19 @@ export const WidgetsList = (props: Props) => {
                 actions: '',
             }}
             customRenderers={{
-                id: () => null,
-                name: ({ id, name }) => (
-                    <Link href={'/app/widget/' + id} className="w-full h-full">
+                id: ({ id, video }) => (
+                    <Link
+                        href={'/app/widget/' + id}
+                        className={cn('w-fit', !video && 'pointer-events-none opacity-20')}
+                    >
+                        <EyeIcon className="w-8" />
+                    </Link>
+                ),
+                name: ({ id, name, video }) => (
+                    <Link
+                        href={'/app/widget/' + id}
+                        className={cn('w-fit', !video && 'pointer-events-none')}
+                    >
                         {name}
                     </Link>
                 ),
@@ -62,7 +73,7 @@ export const WidgetsList = (props: Props) => {
                     ) : (
                         <button
                             onClick={() => handleOpenAddVideoModal(widget)}
-                            className="flex flex-col w-24 h-24 gap-2 text-sm text-center transition-all border-2 border-dashed hover:border-white text-primary border-primary rounded-2xl centered hover:bg-primary hover:text-white"
+                            className="flex flex-col w-32 h-32 gap-2 text-sm text-center transition-all border-2 border-dashed hover:border-white text-primary border-primary rounded-2xl centered hover:bg-primary hover:text-white"
                         >
                             <PlusIcon className="w-4" />
                             <span>Добавить видео</span>

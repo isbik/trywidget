@@ -1,19 +1,15 @@
-import ky from 'ky';
-import { hex } from './hex';
 import { api } from '@vw/src/api/api';
+import { createEffect, createEvent, createStore } from 'effector';
 
 const CHUNK_SIZE = 1024 * 1024 * 1; // 1MB
 
-export const chunkUploadFile = async (
-    file: File,
-    onProgress?: (percent: number) => void
-): Promise<any> => {
+export const uploadProgressChanged = createEvent<number>();
+
+export const uploadFileFx = createEffect((file: File) => {
     const totalSize = file.size;
 
     let uploadedSize = 0;
     let chunks: Blob[] = [];
-
-    const uniqueId = hex();
 
     while (uploadedSize < totalSize) {
         const remainingSize = totalSize - uploadedSize;
@@ -24,6 +20,8 @@ export const chunkUploadFile = async (
         uploadedSize += chunkSize;
     }
 
+    let file_id: null | string = null;
+
     return new Promise((resolve, reject) => {
         async function sendChunk(index: number, start: number) {
             const formData = new FormData();
@@ -32,7 +30,9 @@ export const chunkUploadFile = async (
 
             formData.append('file', chunks[index]);
             formData.append('file_name', file.name);
-            formData.append('file_id', uniqueId);
+            if (file_id) {
+                formData.append('file_id', file_id);
+            }
 
             await api
                 .post('files/upload', {
@@ -41,19 +41,31 @@ export const chunkUploadFile = async (
                         'Content-Range': contentRange,
                     },
                 })
-                .json()
+                .json<any>()
                 .then((response) => {
-                    if (response) {
-                        resolve(response);
-                        onProgress?.(1);
-                    } else {
-                        onProgress?.(index / chunks.length);
+                    if (response.file_id) {
+                        file_id = response.file_id;
+
+                        uploadProgressChanged(index / chunks.length);
                         sendChunk(index + 1, (index + 1) * CHUNK_SIZE);
+                        return;
                     }
+
+                    resolve(response);
+                    uploadProgressChanged(1);
                 })
-                .catch(reject);
+                .catch((error) => {
+                    error.response.json().then(reject);
+                });
         }
 
         sendChunk(0, 0);
     });
-};
+});
+
+export const $uploadProgress = createStore(0).on(uploadProgressChanged, (_, progress) => progress);
+export const $isUploading = $uploadProgress.map((progress) => progress < 1 && progress > 0);
+
+export const $uploadError = createStore<string | null>(null)
+    .on(uploadFileFx.failData, (_, error) => error?.type || 'error')
+    .reset(uploadFileFx);
