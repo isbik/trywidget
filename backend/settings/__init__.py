@@ -147,5 +147,6 @@ ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
 
 CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost:3000')
 
+MAX_FILE_SIZE = 1024 * 1024 * 50
 
 APPEND_SLASH = False

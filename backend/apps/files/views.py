@@ -33,6 +33,11 @@ def upload(request):
 
     file_path = os.path.join(settings.TEMP_ROOT, f'{file_name}')
 
+    if content_range_size > settings.MAX_FILE_SIZE:
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+        return HttpResponseBadRequest('File is too big')
+
     if content_range_start == 0:
         file_dir = os.path.dirname(file_path)
         if not os.path.exists(file_dir):
@@ -44,10 +49,14 @@ def upload(request):
     file_handle.seek(content_range_start)
 
     file_handle.write(file_data)
-
+    file_size = file_handle.tell()
     file_handle.close()
 
-    if content_range_end == content_range_size - 1:
+    if content_range_size < file_size > settings.MAX_FILE_SIZE:
+        os.remove(file_path)
+        return HttpResponseBadRequest('File is too big')
+
+    if file_size == content_range_size:
         user = request.user
         file = save_file(file_name, content_range_size, user)
         file.set_active()

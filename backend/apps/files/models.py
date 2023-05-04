@@ -56,12 +56,15 @@ class File(models.Model):
         image_name = f'{".".join(temp_image_name)}.jpg'
         image_path = os.path.join(dir_file, image_name)
 
-        capture = cv2.VideoCapture(file_path)
-        ret, frame = capture.read()
-        is_success, im_buf_arr = cv2.imencode('.jpg', frame)
-        im_buf_arr.tofile(image_path)
-        capture.release()
-
-        self.preview_image_url = f'{MEDIA_URL}{folder}{image_name}'
+        try:
+            capture = cv2.VideoCapture(file_path)
+            ret, frame = capture.read()
+            is_success, im_buf_arr = cv2.imencode('.jpg', frame)
+            im_buf_arr.tofile(image_path)
+            capture.release()
+        except Exception as err:
+            print(err)
+        else:
+            self.preview_image_url = f'{MEDIA_URL}{folder}{image_name}'
 
         self.save(update_fields=['active', 'url', 'preview_image_url'])
