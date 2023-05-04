@@ -36,7 +36,7 @@ def upload(request):
     if content_range_size > settings.MAX_FILE_SIZE:
         if os.path.isfile(file_path):
             os.remove(file_path)
-        return HttpResponseBadRequest('File is too big')
+        return JsonResponse({'type': 'file_too_large'}, status=400)
 
     if content_range_start == 0:
         file_dir = os.path.dirname(file_path)
@@ -54,7 +54,7 @@ def upload(request):
 
     if content_range_size < file_size > settings.MAX_FILE_SIZE:
         os.remove(file_path)
-        return HttpResponseBadRequest('File is too big')
+        return JsonResponse({'type': 'file_too_large'}, status=400)
 
     if file_size == content_range_size:
         user = request.user
