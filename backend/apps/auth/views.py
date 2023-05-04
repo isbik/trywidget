@@ -1,13 +1,15 @@
-
+from django.shortcuts import redirect
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from rest_framework import generics
+from rest_framework.response import Response
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.sessions.models import Session
+import settings
 
-
+from apps.users.services.email import get_user_by_verify_token
 from .serializer import UserSerializer
 
 
@@ -42,3 +44,19 @@ class RegisterView(generics.CreateAPIView):
     queryset = get_user_model().objects.all()
     permission_classes = []
     serializer_class = UserSerializer
+    
+    def post(self, *args, **kwargs):
+        super().post(*args, **kwargs)
+        return redirect("{}/app".format(settings.CLIENT_URL))
+
+
+@api_view(['GET'])
+def verify_email_view(request, token):
+    user = get_user_by_verify_token(token)
+    if user is None:
+        return redirect("{}/error?type=invalid_token".format(settings.CLIENT_URL))
+    user.is_active = True
+    user.email_verify_token = ''
+    user.save()
+    login(request, user)
+    return Response(status=200)
