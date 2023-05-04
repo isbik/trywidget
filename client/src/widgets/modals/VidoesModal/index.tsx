@@ -1,7 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { CheckIcon, CloudArrowUpIcon, XMarkIcon } from '@heroicons/react/24/solid';
-import { $videos, $videosModalOpen, fetchVideos, videosModalOpenChanged } from './model';
+import {
+    $videos,
+    $videosModalOpen,
+    fetchVideos,
+    uploadVideo,
+    videosModalOpenChanged,
+} from './model';
 import { useUnit } from 'effector-react';
 import { attachWidgetVideo } from '@vw/src/features/widget/model';
 import { chunkUploadFile } from '@vw/src/shared/lib/chunkUploadFile';
@@ -46,7 +52,7 @@ export const VideosModal = () => {
 
     const handleUploadFile = (file: File) => {
         chunkUploadFile(file, setProgress).then((response) => {
-            attachWidgetVideo(response);
+            uploadVideo(response);
             setSuccess(true);
 
             setTimeout(() => {
@@ -74,7 +80,7 @@ export const VideosModal = () => {
                                 )}
                             >
                                 <img
-                                    src={video.preview_image_url}
+                                    src={video.get_preview_image_url}
                                     alt="widget"
                                     className="object-cover w-full rounded h-[120px] mb-2"
                                 />
@@ -84,10 +90,10 @@ export const VideosModal = () => {
                                         {video.name}
                                     </span>
                                     <span className="text-[#A9A9A9]">
-                                        {video.size.toFixed(1)} мб
+                                        {Number(video.size).toFixed(1)} мб
                                     </span>
                                 </p>
-                                <button className="absolute btn btn-xs top-1 right-1 btn-circle">
+                                <button className="absolute btn btn-xs top-2 right-2 btn-circle">
                                     <XMarkIcon className="w-4" />
                                 </button>
                             </div>
