@@ -23,4 +23,4 @@ class FileInWidgetSerializer(FileSerializer):
 
     class Meta:
         model = File
-        fields = ('id', 'url', 'size', 'preview_image_url')
+        fields = ('id', 'name', 'url', 'size', 'preview_image_url')

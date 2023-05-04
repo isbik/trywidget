@@ -33,7 +33,6 @@ class File(models.Model):
         return None
 
     def set_active(self):
-        self.active = True
         folder = f'{datetime.now().date()}/'
         dir_file = settings.MEDIA_ROOT.joinpath(folder)
 
@@ -58,13 +57,15 @@ class File(models.Model):
 
         try:
             capture = cv2.VideoCapture(file_path)
-            ret, frame = capture.read()
-            is_success, im_buf_arr = cv2.imencode('.jpg', frame)
-            im_buf_arr.tofile(image_path)
+            _, frame = capture.read()
             capture.release()
+
+            _, image_buffer = cv2.imencode('.jpg', frame)
+            image_buffer.tofile(image_path)
         except Exception as err:
             print(err)
         else:
             self.preview_image_url = f'{MEDIA_URL}{folder}{image_name}'
 
+        self.active = True
         self.save(update_fields=['active', 'url', 'preview_image_url'])
