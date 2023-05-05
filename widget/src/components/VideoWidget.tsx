@@ -293,7 +293,9 @@ export const VideoWidget = (props: Props) => {
         draggable
         data-vidget-id="test"
         ref={wrapperRef!}
-        class="vw-wrapper fixed transition-[border,transform,border-radius]  cursor-pointer"
+        class={`vw-wrapper fixed transition-[border,transform,border-radius] ${
+          expanded() ? " " : " cursor-pointer"
+        }`}
         style={{
           border: wrapperBorder(),
           "transform-origin": `bottom ${settings.placement}`,
@@ -314,7 +316,7 @@ export const VideoWidget = (props: Props) => {
         >
           <button
             onclick={handleCloseClick}
-            class="close-icon absolute z-10 bg-slate-300/50 rounded-full w-6 h-6 flex items-center justify-center transition-[top,right]"
+            class="close-icon absolute z-10 bg-slate-300/50 rounded-full w-6 h-6 flex items-center justify-center transition-[top,right] cursor-pointer"
             style={{
               top: closeIconTop(),
               right: closeIconRight(),

@@ -6,7 +6,7 @@ import React from 'react';
 import { $widgets, WidgetListGate } from './model';
 import { deleteWidgetIdChanged } from '../modals/DeleteWidgetModal/model';
 import { selectEditWidget } from '../modals/WidgetModal/model';
-import { addWebsiteWidgetIdChanged } from '../modals/AddWidgetWebsite/model';
+import { addWebsiteWidgetSlugChanged } from '../modals/AddWidgetWebsite/model';
 import { selectedWidgetIdChanged, videosModalOpenChanged } from '../modals/VideosModal/model';
 import { WidgetPublic } from '@vw/src/api/generated';
 import { cn } from '@vw/src/shared/lib/cn';
@@ -82,7 +82,7 @@ export const WidgetsList = (props: Props) => {
                 actions: (widget) => (
                     <div className="flex items-center gap-2">
                         <button
-                            onClick={() => addWebsiteWidgetIdChanged(widget.id)}
+                            onClick={() => addWebsiteWidgetSlugChanged(widget.slug)}
                             type="button"
                             className="btn"
                         >

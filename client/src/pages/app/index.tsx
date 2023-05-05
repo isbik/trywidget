@@ -1,14 +1,19 @@
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { PlusIcon } from '@heroicons/react/24/solid';
 import { AppLayout } from '@vw/src/shared/ui/components/AppLayout';
-import { ResponsiveTable } from '@vw/src/shared/ui/components/ResponsiveTable/ResponsiveTable';
 import { WidgetsList } from '@vw/src/widgets/WidgetList';
-import { AddWidgetWebsiteModal } from '@vw/src/widgets/modals/AddWidgetWebsite';
 import { DeleteWidgetModal } from '@vw/src/widgets/modals/DeleteWidgetModal';
 import { VideosModal } from '@vw/src/widgets/modals/VideosModal';
 import { WidgetModal } from '@vw/src/widgets/modals/WidgetModal';
 import { widgetModalChanged } from '@vw/src/widgets/modals/WidgetModal/model';
-import Link from 'next/link';
-import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
+import React from 'react';
+
+const AddWidgetWebsiteModal = dynamic(
+    import('@vw/src/widgets/modals/AddWidgetWebsite').then((mod) => mod.AddWidgetWebsiteModal),
+    {
+        ssr: false,
+    }
+);
 
 type Props = {};
 

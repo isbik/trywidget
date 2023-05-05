@@ -1,6 +1,9 @@
 import Script from 'next/script';
+import { useRouter } from 'next/router';
 
 export const WidgetPreview = () => {
+    const router = useRouter();
+
     return (
         <main className="p-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -16,7 +19,14 @@ export const WidgetPreview = () => {
                 ))}
             </div>
 
-            <Script src={require('/public/widget.js')} id="widget" data-widget-id="123131"></Script>
+            {router.isReady && (
+                <Script
+                    src={require('/public/widget.js')}
+                    id="tw_bubble"
+                    data-widget={router.query.widgetSlug}
+                    data-url="http://localhost:8000/public/widgets/"
+                ></Script>
+            )}
         </main>
     );
 };

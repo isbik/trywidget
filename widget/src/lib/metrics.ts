@@ -21,13 +21,13 @@ const callMetric = (key: string) => {
 };
 
 export const openWidgetMetric = () => {
-  callMetric("embed_widget_open");
+  callMetric("tw_open");
 };
 
 export const clickCtaMetric = () => {
-  callMetric("embed_widget_cta_click");
+  callMetric("tw_cta_click");
 };
 
 export const fullWatchedMetric = () => {
-  callMetric("embed_widget_full_watched");
+  callMetric("tw_full_watched");
 };

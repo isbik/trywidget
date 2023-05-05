@@ -11,4 +11,5 @@ def delete_inactive_files():
         'active': False,
         't__gt': settings.DELETE_INACTIVE_FILES_TIME
     }
-    File.objects.annotate(t=(timezone.now() - F('created_at'))).filter(**filter_).delete()
+    File.objects.annotate(
+        t=(timezone.now() - F('created_at'))).filter(**filter_).delete()

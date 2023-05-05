@@ -12,6 +12,7 @@ class WidgetBaseSerializer(serializers.ModelSerializer):
         model = Widget
         fields = (
             'id',
+            'slug',
             'name',
             'video',
             'updated_at',
@@ -31,7 +32,7 @@ class WidgetPublicSerializer(WidgetRetrieveSerializer):
 
 class WidgetsListSerializer(WidgetRetrieveSerializer):
     class Meta(WidgetBaseSerializer.Meta):
-        fields = ('id', 'name', 'video')
+        fields = ('id', 'name', 'video', 'slug')
 
 
 class WidgetCreateSerializer(WidgetBaseSerializer):

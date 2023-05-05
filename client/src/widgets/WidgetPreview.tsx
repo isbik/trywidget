@@ -1,4 +1,6 @@
+import { useStore } from 'effector-react';
 import { useEffect, useRef } from 'react';
+import { $widget } from '../features/widget/model';
 
 type Props = {
     device: 'desktop' | 'mobile';
@@ -7,6 +9,8 @@ type Props = {
 
 export const WidgetPreview = ({ device, setFrame }: Props) => {
     const iframeRef = useRef<HTMLIFrameElement>(null);
+
+    const widget = useStore($widget);
 
     useEffect(() => {
         if (!iframeRef.current) return;
@@ -24,7 +28,7 @@ export const WidgetPreview = ({ device, setFrame }: Props) => {
                 className="rounded"
                 title="Виджет"
                 ref={iframeRef}
-                src={window.location.origin + '/embed/widget'}
+                src={window.location.origin + `/embed/widget?widgetSlug=` + widget.slug}
                 style={{
                     maxHeight: device === 'desktop' ? '100%' : '720px',
                 }}

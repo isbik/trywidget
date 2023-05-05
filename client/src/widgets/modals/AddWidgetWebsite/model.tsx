@@ -1,7 +1,7 @@
 import { createEvent, createStore } from 'effector';
 
-export const addWebsiteWidgetIdChanged = createEvent<number | null>();
-export const $addWebsiteWidgetId = createStore<number | null>(null).on(
-    addWebsiteWidgetIdChanged,
+export const addWebsiteWidgetSlugChanged = createEvent<number | null>();
+export const $addWebsiteWidgetSlug = createStore<number | null>(null).on(
+    addWebsiteWidgetSlugChanged,
     (_, id) => id
 );

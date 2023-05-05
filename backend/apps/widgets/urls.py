@@ -5,6 +5,7 @@ from .views import PublicWidget, WidgetViewSet
 
 router_widgets = DefaultRouter()
 router_widgets.register('', WidgetViewSet, basename='widgets')
+
 public_widgets = DefaultRouter()
 public_widgets.register('widgets', PublicWidget, basename='public')
 

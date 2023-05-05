@@ -1,3 +1,4 @@
+from django.http import HttpRequest
 from rest_framework import status
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -49,8 +50,12 @@ class PublicWidget(RetrieveModelMixin, GenericViewSet):
     queryset = Widget.objects.all()
     serializer_class = PublicDataSerializer
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
+    def retrieve(self, request: HttpRequest, pk=None):
+
+        try:
+            instance = Widget.objects.get(slug=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         try:
             plan = instance.user.userplan.plan

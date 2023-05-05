@@ -5,3 +5,15 @@ export const [settingsState, setSettingsState] =
   createSignal<WidgetSettings>(SETTINGS_DEFAULT);
 
 export const [globalShow, setGlobalShow] = createSignal(false);
+
+export const [widget, setWidget] = createSignal<any>(null);
+
+export const setWidgetData = (data: any) => {
+  const { widget, plan } = data;
+
+  const { settings, ...rest } = widget;
+
+  setSettingsState(settings);
+
+  setWidget({ rest, plan });
+};

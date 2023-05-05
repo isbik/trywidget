@@ -1,33 +1,50 @@
 import { Component, Show, onMount } from "solid-js";
-import { SETTINGS_DEFAULT } from "./types";
 import {
   globalShow,
   setGlobalShow,
   setSettingsState,
+  setWidgetData,
   settingsState,
+  widget,
 } from "./store";
 import { VideoWidget } from "./components/VideoWidget";
+import { wait } from "./lib/wait";
 
-const fetchData = (id: string) => {
-  return SETTINGS_DEFAULT;
+const fetchData = async () => {
+  const script = document.querySelector("#tw_bubble");
+
+  const slug = script?.getAttribute("data-widget");
+  const url =
+    script?.getAttribute("data-url") ||
+    "https://trywiget.ru/api/public/widgets";
+
+  try {
+    const res = await fetch(url + slug + "/");
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const App: Component = () => {
-  const widgetId = document.currentScript?.getAttribute("data-widget-id");
+  onMount(async () => {
+    await wait();
 
-  if (widgetId) {
-    setSettingsState(fetchData(widgetId));
-  }
+    const widget = await fetchData();
+
+    setWidgetData(widget);
+  });
 
   onMount(() => {
-    // For dev only
     window["widget"] = {
       setSettings: (data) => {
-        console.log(data);
-
         setSettingsState({ ...(settingsState() || {}), ...data });
       },
     };
+
+    // For dev only
     document.querySelectorAll("[data-vidget-id]").forEach((e, index, all) => {
       if (index !== all.length - 2) {
         e.parentElement?.closest("div")?.remove();
@@ -58,7 +75,7 @@ const App: Component = () => {
   });
 
   return (
-    <Show when={globalShow()}>
+    <Show when={globalShow() && widget() && settingsState()}>
       <VideoWidget />
     </Show>
   );
