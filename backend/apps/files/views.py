@@ -17,8 +17,6 @@ from shared.plans.check_plan import check_plan_permission
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def upload(request):
-    check_plan_permission(request.user, 'videos')
-
     header = request.headers.get('Content-Range')
 
     error = get_header_content_range_error(header)
@@ -34,6 +32,7 @@ def upload(request):
     file_path = os.path.join(settings.TEMP_ROOT, f'{file_id}')
 
     if range_start == 0:
+        check_plan_permission(request.user, 'videos')
         file_dir = os.path.dirname(file_path)
         if not os.path.exists(file_dir):
             os.makedirs(file_dir)
