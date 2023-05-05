@@ -76,7 +76,11 @@ def recovery_password(request):
     token = uuid4()
     user.password_token = token
     user.save()
-    send_token(email, token)
+    send_token(email,
+               'Recovery',
+               'recovery.html',
+               token=token,
+               client_url=settings.CLIENT_URL)
 
     return redirect(f'{settings.CLIENT_URL}/app')
 
