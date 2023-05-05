@@ -56,7 +56,7 @@ export const VideosModal = () => {
         <Dialog.Root open={videosModalOpen}>
             <Dialog.Portal>
                 <Dialog.Overlay className="fixed inset-0 bg-black/80" />
-                <Dialog.Content className="absolute w-full sm:w-[620px] p-4 px-6 -translate-x-1/2 -translate-y-1/2 bg-base-100 top-1/2 left-1/2 rounded-xl">
+                <Dialog.Content className="fixed max-h-screen overflow-auto w-full sm:w-[620px] p-4 px-6 -translate-x-1/2 -translate-y-1/2 bg-base-100 top-1/2 left-1/2 sm:rounded-xl">
                     <Dialog.Title className="mb-6 text-2xl">Ваши видео</Dialog.Title>
 
                     <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4 mb-8">

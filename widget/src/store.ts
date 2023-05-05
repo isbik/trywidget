@@ -11,9 +11,9 @@ export const [widget, setWidget] = createSignal<any>(null);
 export const setWidgetData = (data: any) => {
   const { widget, plan } = data;
 
-  const { settings, ...rest } = widget;
+  const { settings = {}, ...rest } = widget;
 
-  setSettingsState(settings);
+  setSettingsState({ ...SETTINGS_DEFAULT, ...settings });
 
   setWidget({ rest, plan });
 };

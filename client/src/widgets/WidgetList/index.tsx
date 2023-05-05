@@ -73,7 +73,7 @@ export const WidgetsList = (props: Props) => {
                     ) : (
                         <button
                             onClick={() => handleOpenAddVideoModal(widget)}
-                            className="flex flex-col w-32 h-32 gap-2 text-sm text-center transition-all border-2 border-dashed hover:border-white text-primary border-primary rounded-2xl centered hover:bg-primary hover:text-white"
+                            className="flex flex-col w-32 h-32 gap-2 text-sm text-center transition-all border-2 border-dashed rounded hover:border-white text-primary border-primary centered hover:bg-primary hover:text-white"
                         >
                             <PlusIcon className="w-4" />
                             <span>Добавить видео</span>
