@@ -45,3 +45,11 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
         return user
+
+
+class Email(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class Password(serializers.Serializer):
+    password = serializers.CharField(min_length=8, write_only=True)

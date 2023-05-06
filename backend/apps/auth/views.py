@@ -7,9 +7,12 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.sessions.models import Session
 import settings
+from drf_yasg.utils import swagger_auto_schema
+from uuid import uuid4
 
-from apps.users.services.email import get_user_by_verify_token
-from .serializer import UserSerializer
+from apps.users.services.email import get_user_by_verify_token, get_user_by_email, get_user_by_password_token
+from .serializer import UserSerializer, Email, Password
+from apps.emails.services.token import send_token
 
 
 @api_view(['POST'])
@@ -61,4 +64,42 @@ def verify_email_view(request, token):
 
     login(request, user)
 
+    return Response(status=200)
+
+
+@swagger_auto_schema(method='POST', request_body=Email())
+@api_view(['POST'])
+def recovery_password(request):
+    email = request.data.get('email')
+    user = get_user_by_email(email)
+    if user is None:
+        return redirect("{}/error?type=user_not_found".format(settings.CLIENT_URL))
+
+    token = uuid4()
+    user.password_token = token
+    user.save()
+    send_token(email,
+               'Recovery',
+               'recovery.html',
+               token=token,
+               client_url=settings.CLIENT_URL)
+
+    return redirect(f'{settings.CLIENT_URL}/app')
+
+
+@swagger_auto_schema(method='POST', request_body=Password())
+@api_view(['POST'])
+def verify_password_token(request, token):
+    serializer = Password(data=request.data)
+    serializer.is_valid(raise_exception=True)
+
+    user = get_user_by_password_token(token)
+    if user is None:
+        return redirect(f'{settings.CLIENT_URL}/error?message=invalid_token')
+
+    user.set_password(request.data.get('password'))
+    user.password_token = ''
+    user.save()
+
     return redirect("{}/login".format(settings.CLIENT_URL))
+

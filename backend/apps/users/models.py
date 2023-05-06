@@ -43,6 +43,8 @@ class User(AbstractBaseUser):
     last_login_at = models.DateTimeField(auto_now_add=True)
     email_verify_token = models.CharField(max_length=255,
                                           null=True)
+    password_token = models.CharField(max_length=255,
+                                      null=True)
 
     USERNAME_FIELD = 'email'
 
