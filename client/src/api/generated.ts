@@ -128,7 +128,7 @@ export interface WidgetUpdate {
      */
     name: string;
     /** Video id */
-    video_id: number;
+    video_id?: number | null;
     /** Settings */
     settings?: object;
 }

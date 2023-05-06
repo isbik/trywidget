@@ -1,24 +1,43 @@
-import { CheckBadgeIcon, CheckIcon } from '@heroicons/react/24/solid';
+import { CheckBadgeIcon, CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { cn } from '../shared/lib/cn';
 import { Footer } from '../shared/ui/components/Footer';
 import { Header } from '../shared/ui/components/Header';
 import { GetStartedNow } from '../shared/ui/components/GetStartedNow';
+import { useEffect, useState } from 'react';
+import { api } from '../api/api';
+import { InfinityIcon } from '../shared/ui/icons/Infinity';
+import { plural } from '../shared/lib/plural';
+import { useStore } from 'effector-react';
+import { createEffect, createEvent, createStore, sample } from 'effector';
+
+const $plans = createStore([]);
+
+const fetchPlans = createEvent();
+
+const fetchPlansFx = createEffect(() => {
+    return api.get('plans/').json();
+});
+
+$plans.on(fetchPlansFx.doneData, (_, plans) => plans);
+
+sample({
+    clock: fetchPlans,
+    source: { loading: fetchPlansFx.pending },
+    filter({ loading }) {
+        return !loading;
+    },
+    target: fetchPlansFx,
+});
 
 const PlansPage = () => {
-    const plans = [
-        {
-            price: 390,
-            name: 'Начинающий',
-        },
-        {
-            price: 890,
-            name: 'Базовый',
-        },
-        {
-            price: 1900,
-            name: 'Pro',
-        },
-    ];
+    const plans = useStore($plans);
+
+    const [isYear, setIsYear] = useState(true);
+
+    useEffect(() => {
+        fetchPlans();
+    }, []);
+
     return (
         <>
             <Header />
@@ -31,31 +50,41 @@ const PlansPage = () => {
 
                     <div className="flex justify-center gap-2 mb-16">
                         <p>За месяц</p>
-                        <input type="checkbox" className="toggle toggle-primary" />
+                        <input
+                            type="checkbox"
+                            className="toggle toggle-primary"
+                            checked={isYear}
+                            onChange={() => setIsYear((prev) => !prev)}
+                        />
                         <p>
-                            За год <span className="text-primary">(Скида до 20%)</span>
+                            За год <span className="text-primary">(Скидка до 20%)</span>
                         </p>
                     </div>
 
                     <div className="flex justify-center gap-4">
-                        {plans.map(({ price, name }, index) => (
-                            <div key={price} className="max-w-xs min-w-[300px]">
+                        {plans.map((plan, index) => (
+                            <div key={plan.id} className="max-w-xs min-w-[300px]">
                                 <div
                                     className={cn(
                                         'p-4 py-8 card card-bordered bg-[#EEF1F7] min-w-[300px] items-center',
                                         index === 1 && 'mb-8 border-primary border-2 shadow-xl',
-                                        index !== 1 && 'mt-6 mb-12'
+                                        index !== 1 && 'mt-6 mb-14'
                                     )}
                                 >
                                     {index === 1 && (
-                                        <p className="mb-4 font-bold text-primary ">
+                                        <p className="mb-4 text-xl font-bold text-primary ">
                                             Самый популярный
                                         </p>
                                     )}
-                                    <p className="mb-4 text-3xl font-bold">{name}</p>
+                                    <p className="mb-4 text-3xl font-bold">{plan.display_name}</p>
                                     <p className="mb-6">
-                                        <span className="text-2xl font-bold">{price}</span>{' '}
+                                        <span className="text-2xl font-bold">
+                                            {isYear ? (plan.price * 0.8).toFixed(0) : plan.price}
+                                        </span>{' '}
                                         <span className="text-base-content">₽/месяц</span>
+                                        <p className={cn('text-primary', !isYear && 'opacity-0')}>
+                                            Сохраните {(plan.price * 0.2 * 12).toFixed(0)}₽ в год
+                                        </p>
                                     </p>
 
                                     <button
@@ -70,8 +99,16 @@ const PlansPage = () => {
 
                                 <ul className="p-6">
                                     <li className="flex items-center gap-2">
+                                        <InfinityIcon className="w-4 text-primary" /> просмотров
+                                    </li>
+                                    <li className="flex items-center gap-2">
                                         <CheckBadgeIcon className="w-4 text-primary" />
-                                        {index + 1} виджет
+                                        {plan.max_widgets}{' '}
+                                        {plural(plan.max_widgets, [
+                                            'виджет',
+                                            'виджета',
+                                            'виджетов',
+                                        ])}
                                     </li>
 
                                     <li className="flex items-center gap-2">
@@ -86,17 +123,31 @@ const PlansPage = () => {
                                         <CheckBadgeIcon className="w-4 text-primary" />
                                         Google Analytics
                                     </li>
-                                    <li className="flex items-center gap-2">
-                                        <CheckBadgeIcon className="w-4 text-primary" />
-                                        Премиум-поддержка
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <CheckBadgeIcon className="w-4 text-primary" />
+
+                                    <li
+                                        className={cn(
+                                            'flex items-center gap-2',
+                                            !plan.is_hide_logo && 'line-through'
+                                        )}
+                                    >
+                                        {!plan.is_hide_logo ? (
+                                            <XMarkIcon className="w-4 text-[#A9A9A9]" />
+                                        ) : (
+                                            <CheckBadgeIcon className="w-4 text-primary" />
+                                        )}
                                         Скрытие логотипа
                                     </li>
-
-                                    <li className="flex items-center gap-2">
-                                        <CheckBadgeIcon className="w-4 text-primary" />
+                                    <li
+                                        className={cn(
+                                            'flex items-center gap-2',
+                                            !plan.is_support && 'line-through'
+                                        )}
+                                    >
+                                        {!plan.is_support ? (
+                                            <XMarkIcon className="w-4 text-[#A9A9A9]" />
+                                        ) : (
+                                            <CheckBadgeIcon className="w-4 text-primary" />
+                                        )}
                                         Премиум-поддержка
                                     </li>
                                 </ul>

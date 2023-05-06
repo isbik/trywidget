@@ -82,12 +82,15 @@ INSTALLED_APPS += MY_APPS
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+
+    'shared.cors.public_cors_middleware.PublicCorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -129,14 +132,17 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'users.User'
 
+TEMP_URL = 'temp/'
 TEMP_ROOT = os.path.join(BASE_DIR, 'temp')
 
 API_URL = os.environ.get('API_URL')
 
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
@@ -144,5 +150,6 @@ ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
 
 CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost:3000')
 
+MAX_FILE_SIZE = 1024 * 1024 * 50
 
 APPEND_SLASH = False

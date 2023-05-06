@@ -1,3 +1,4 @@
+from uuid import uuid4
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -5,13 +6,14 @@ from ..files.models import File
 
 
 class Widget(models.Model):
+    slug = models.UUIDField(default=uuid4, editable=False, unique=True)
+
     user = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         related_name='widgets',
     )
     name = models.CharField(verbose_name='name', max_length=100)
-    preview_image_url = models.URLField(blank=True)
     video = models.ForeignKey(
         File, on_delete=models.SET_NULL, blank=True, null=True
     )
@@ -19,7 +21,8 @@ class Widget(models.Model):
     created_at = models.DateField(auto_now_add=True)
     settings = models.JSONField(verbose_name='settings', default=dict)
 
-
+    class Meta:
+        db_table = 'widget'
 # class WidgetAnalytics(models.Model):
 #     open_widget = models.ForeignKey(
 #         'Widget',

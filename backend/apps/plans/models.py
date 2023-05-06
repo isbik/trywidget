@@ -6,10 +6,12 @@ class Plans(models.Model):
 
     display_name = models.CharField(max_length=56)
     price = models.IntegerField()
-    save = models.IntegerField()
+
+    # options
     max_widgets = models.IntegerField()
     is_hide_logo = models.BooleanField()
     is_support = models.BooleanField()
+
     active = models.BooleanField(db_index=True)
 
     def __str__(self):

@@ -2,9 +2,11 @@ FROM python:3.9-slim-buster
 
 # Install system dependencies
 RUN apt-get update \
-    && apt-get install -y netcat gcc postgresql-client libpq-dev \
+    && apt-get install -y netcat gcc postgresql-client ffmpeg libsm6 libxext6 \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y python3-opencv
+RUN pip install opencv-python
 
 WORKDIR /app
 

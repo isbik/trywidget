@@ -4,6 +4,7 @@ from ..files.models import File
 from ..files.serializers import FileInWidgetSerializer
 from .models import Widget
 from .fields import PrimaryKeyUserRelatedField
+from ..plans.serializers import PlanInPublicSerializer
 
 
 class WidgetBaseSerializer(serializers.ModelSerializer):
@@ -11,8 +12,8 @@ class WidgetBaseSerializer(serializers.ModelSerializer):
         model = Widget
         fields = (
             'id',
+            'slug',
             'name',
-            'preview_image_url',
             'video',
             'updated_at',
             'created_at',
@@ -26,12 +27,12 @@ class WidgetRetrieveSerializer(WidgetBaseSerializer):
 
 class WidgetPublicSerializer(WidgetRetrieveSerializer):
     class Meta(WidgetRetrieveSerializer.Meta):
-        fields = ('name', 'preview_image_url', 'video', 'settings')
+        fields = ('name', 'video', 'settings')
 
 
-class WidgetsListSerializer(WidgetBaseSerializer):
+class WidgetsListSerializer(WidgetRetrieveSerializer):
     class Meta(WidgetBaseSerializer.Meta):
-        fields = ('id', 'name', 'preview_image_url')
+        fields = ('id', 'name', 'video', 'slug')
 
 
 class WidgetCreateSerializer(WidgetBaseSerializer):
@@ -53,3 +54,11 @@ class WidgetUpdateSerializer(WidgetBaseSerializer):
             **validated_data.pop('settings', dict()),
         }
         return super().update(instance, validated_data)
+
+
+class PublicDataSerializer(serializers.Serializer):
+    widget = WidgetPublicSerializer()
+    plan = PlanInPublicSerializer(allow_null=True)
+
+    class Meta:
+        fields = ('widget', 'plan')

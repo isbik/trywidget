@@ -6,6 +6,7 @@ import { CONFIG } from '../shared/config';
 import { cn } from '../shared/lib/cn';
 import { api } from '../api/api';
 import { useRouter } from 'next/router';
+import { fetchUser } from '../features/user/model';
 
 type Props = {
     type?: 'login' | 'register';
@@ -51,6 +52,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
 
         try {
             await api.post('auth/login', { json: data });
+            fetchUser();
             router.push('/app');
         } catch (error) {
             const json = await (error as any).response.json();
@@ -69,7 +71,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
         setLoading(true);
 
         try {
-            await api.post('auth/register', { json: data }).json();
+            await api.post('auth/register', { json: data });
             setIsSubmitted(true);
         } catch (error) {
             const json = await (error as any).response.json();
@@ -79,10 +81,19 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
         }
     };
 
-    const handleSendAgain = () => {};
-
     return (
-        <form className="max-w-md border bg-base-100 card w-96 card-body" onSubmit={onSubmit}>
+        <form
+            className="relative max-w-md border bg-base-100 sm:card w-96 card-body"
+            onSubmit={onSubmit}
+        >
+            <Link href="/">
+                <img
+                    src="/static/logo.svg"
+                    alt="Логотип"
+                    className="absolute w-20 h-20 -translate-x-1/2 -translate-y-1/2 border rounded-full shadow -top-4 left-1/2"
+                />
+            </Link>
+
             {isSubmitted && (
                 <>
                     <>
@@ -94,13 +105,13 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
                             <Link href="/" className="btn btn-outline flex-[0_1_50%]" type="submit">
                                 На главную
                             </Link>
-                            <button
-                                onClick={handleSendAgain}
+                            <Link
+                                href="/login"
                                 className="btn btn-primary flex-[0_1_50%]"
                                 type="button"
                             >
-                                Отправить заново
-                            </button>
+                                Войти
+                            </Link>
                         </div>
                     </>
                 </>

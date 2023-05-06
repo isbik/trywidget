@@ -6,6 +6,7 @@ from apps.emails.tasks import send_email
 from uuid import uuid4
 from django.utils.html import strip_tags
 from django.template.loader import render_to_string
+from django.conf import settings
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -31,8 +32,9 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(data['password'])
         user.save()
 
-        html_message = render_to_string(
-            'emails/register.html', {'token': verify_token})
+        url = settings.API_URL + "auth/email/verify/" + str(verify_token) + "/"
+
+        html_message = render_to_string('emails/register.html', {'url': url})
 
         plain_message = strip_tags(html_message)
         send_email.delay(

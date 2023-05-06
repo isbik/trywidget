@@ -1,5 +1,8 @@
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+
+import settings
 from .yasg import urlpatterns as yasg_urlpatterns
 
 urlpatterns = [
@@ -9,6 +12,12 @@ urlpatterns = [
     path('files/', include('apps.files.urls')),
     path('oauth/', include('apps.oauth.urls')),
     path('', include('apps.widgets.urls')),
+    path('plans/', include('apps.plans.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )
 
 urlpatterns += yasg_urlpatterns

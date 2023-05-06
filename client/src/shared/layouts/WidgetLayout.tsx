@@ -3,8 +3,17 @@ import { AppLayout } from '../ui/components/AppLayout';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { cn } from '../lib/cn';
-import { AddWidgetWebsiteModal } from '@vw/src/widgets/modals/AddWidgetWebsite';
-import { addWebsiteWidgetIdChanged } from '@vw/src/widgets/modals/AddWidgetWebsite/model';
+import { addWebsiteWidgetSlugChanged } from '@vw/src/widgets/modals/AddWidgetWebsite/model';
+import { useStore } from 'effector-react';
+import { $widget } from '@vw/src/features/widget/model';
+import dynamic from 'next/dynamic';
+
+const AddWidgetWebsiteModal = dynamic(
+    import('@vw/src/widgets/modals/AddWidgetWebsite').then((mod) => mod.AddWidgetWebsiteModal),
+    {
+        ssr: false,
+    }
+);
 
 type Props = {
     children: React.ReactNode;
@@ -13,6 +22,8 @@ type Props = {
 export const WidgetLayout = ({ children }: Props) => {
     const router = useRouter();
     const id = router.query.id as string;
+
+    const widget = useStore($widget);
 
     return (
         <AppLayout>
@@ -28,15 +39,6 @@ export const WidgetLayout = ({ children }: Props) => {
                         router.asPath === `/app/widget/${id}` && 'tab-active'
                     )}
                 >
-                    Видео
-                </Link>
-                <Link
-                    href={`/app/widget/${id}/analytics`}
-                    className={cn(
-                        'tab tab-bordered',
-                        router.asPath === `/app/widget/${id}/analytics` && 'tab-active'
-                    )}
-                >
                     Аналитика
                 </Link>
                 <Link
@@ -46,7 +48,7 @@ export const WidgetLayout = ({ children }: Props) => {
                     Настройка
                 </Link>
                 <button
-                    onClick={() => addWebsiteWidgetIdChanged(Number(id))}
+                    onClick={() => addWebsiteWidgetSlugChanged(widget?.slug)}
                     className="tab tab-bordered"
                 >
                     Добавить на сайт
