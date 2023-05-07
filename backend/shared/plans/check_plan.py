@@ -1,20 +1,26 @@
 from datetime import datetime
 
 from django.contrib.auth import get_user_model
-from rest_framework.exceptions import PermissionDenied
+from shared import errors
 
 
 def check_plan_permission(user, subject_type=None):
     data = {
         'widgets': {
-            'name': 'widgets',
             'multiple': 1,
             'field': 'widgets',
+            'errors': {
+                'trial': errors.too_many_widgets_trial_error,
+                'plan': errors.too_many_widgets_plan_error,
+            },
         },
         'videos': {
-            'name': 'videos',
             'multiple': 2,
             'field': 'file_set',
+            'errors': {
+                'trial': errors.too_many_videos_trial_error,
+                'plan': errors.too_many_videos_plan_error,
+            },
         },
     }
     subject = data.get(subject_type, None)
@@ -26,35 +32,17 @@ def check_plan_permission(user, subject_type=None):
 
     if user.next_payment_date is None:
         if user.trial_end.timestamp() < current_datetime:
-            raise PermissionDenied(
-                detail='Trial has expired',
-                code=403,
-            )
+            return errors.bay_plan_required_error
         if current_count >= (1 * subject['multiple']):
-            raise PermissionDenied(
-                detail=f'Cannot add more {subject["name"]} in trial period.',
-                code=403,
-            )
+            return subject['errors']['trial']
     else:
         try:
             plan = user.userplan.plan
             if not plan.active:
-                raise PermissionDenied(
-                    detail='Plan is not active',
-                    code=403,
-                )
-            if current_count >= (plan.max_widgets * subject['multiple']):
-                raise PermissionDenied(
-                    detail=f'Cannot add more {subject["name"]} in this plan.',
-                    code=403,
-                )
+                return errors.not_active_plan_error
             if user.next_payment_date.timestamp() < current_datetime:
-                raise PermissionDenied(
-                    detail='Need to pay.',
-                    code=403,
-                )
+                return errors.payment_required_error
+            if current_count >= (plan.max_widgets * subject['multiple']):
+                return subject['errors']['plan']
         except get_user_model().userplan.RelatedObjectDoesNotExist:
-            raise PermissionDenied(
-                detail='Need to bay plan',
-                code=403,
-            )
+            return errors.bay_plan_required_error
