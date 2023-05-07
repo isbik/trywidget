@@ -43,7 +43,7 @@ export const VideosModal = () => {
 
     const errorMessage = () => {
         switch (uploadError) {
-            case 'file_too_large':
+            case 'too_large_file':
                 return 'Размер файла слишком большой';
             case 'invalid_data':
                 return 'Неверный формат файла';

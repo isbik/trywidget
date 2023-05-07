@@ -13,6 +13,7 @@ from uuid import uuid4
 from apps.users.services.email import get_user_by_verify_token, get_user_by_email, get_user_by_password_token
 from .serializer import UserSerializer, Email, Password
 from apps.emails.services.token import send_token
+from shared.errors import wrong_data_error
 
 
 @api_view(['POST'])
@@ -23,7 +24,7 @@ def login_view(request: HttpRequest):
     user = authenticate(request, username=email, password=password)
 
     if user is None:
-        return JsonResponse({'error': 'wrong_data'}, status=status.HTTP_401_UNAUTHORIZED)
+        return JsonResponse(wrong_data_error, status=status.HTTP_401_UNAUTHORIZED)
 
     login(request, user)
 
@@ -94,7 +95,7 @@ def verify_password_token(request, token):
 
     user = get_user_by_password_token(token)
     if user is None:
-        return redirect(f'{settings.CLIENT_URL}/error?message=invalid_token')
+        return redirect(f'{settings.CLIENT_URL}/error?type=invalid_token')
 
     user.set_password(request.data.get('password'))
     user.password_token = ''
