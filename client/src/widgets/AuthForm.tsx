@@ -81,6 +81,14 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
         }
     };
 
+    const getError = (error: string) => {
+        if (error === 'wrong_data') {
+            return 'Пользователь не был найден';
+        }
+
+        return 'Попробуйте ещё раз';
+    };
+
     return (
         <form
             className="relative max-w-md border bg-base-100 sm:card w-96 card-body"
@@ -176,7 +184,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
                         </Link>
                     </div>
 
-                    <p className="text-center text-error">{error}</p>
+                    {error && <p className="text-center text-error">{getError(error)}</p>}
 
                     <button
                         disabled={loading || !isValid}

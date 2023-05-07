@@ -10,13 +10,10 @@ import { SpeakerWaveIcon } from "../../../icons/SpeakerWave";
 import { SpeakerXMarkIcon } from "../../../icons/SpeakerXMark";
 import { XMarkIcon } from "../../../icons/XMark";
 import { openWidgetMetric } from "../../../lib/metrics";
-import { settingsState, setGlobalShow } from "../../../store";
+import { settingsState, setGlobalShow, widgetState } from "../../../store";
 import { CTAButton } from "./CTAButton";
 import { SocialButtons } from "./SocialButtons";
 import { Title } from "./Title";
-
-let long =
-  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 
 type Props = {};
 
@@ -24,9 +21,10 @@ const BORDER_WIDTH = 4;
 
 export const VideoWidget = (props: Props) => {
   const settings = settingsState();
+  const widget = widgetState();
 
   let wrapperRef: HTMLDivElement;
-  let videoRef: HTMLVideoElement;
+  let videoRef: HTMLVideoElement | null;
   const [expanded, setExpanded] = createSignal(false);
   const [hideWidget, setHideWidget] = createSignal(true);
 
@@ -94,7 +92,7 @@ export const VideoWidget = (props: Props) => {
 
     const settings = settingsState();
 
-    if (!expanded()) {
+    if (!expanded() && videoRef) {
       videoRef.currentTime = 0;
     }
 
@@ -166,9 +164,9 @@ export const VideoWidget = (props: Props) => {
     setPlaying((p) => !p);
 
     if (playing()) {
-      videoRef.play();
+      videoRef?.play();
     } else {
-      videoRef.pause();
+      videoRef?.pause();
     }
   };
 
@@ -191,19 +189,19 @@ export const VideoWidget = (props: Props) => {
     setExpanded(false);
 
     setMuted(true);
-    videoRef.currentTime = 0;
+    if (videoRef) videoRef.currentTime = 0;
   };
 
   const [currentTime, setCurrentTime] = createSignal(0);
   const [totalTime, setTotalTime] = createSignal(0);
 
   onMount(() => {
-    videoRef.addEventListener("loadeddata", () => {
-      setTotalTime(videoRef.duration);
+    videoRef?.addEventListener("loadeddata", () => {
+      if (videoRef) setTotalTime(videoRef.duration);
     });
 
-    videoRef.addEventListener("timeupdate", (event) => {
-      setCurrentTime(videoRef.currentTime);
+    videoRef?.addEventListener("timeupdate", () => {
+      if (videoRef) setCurrentTime(videoRef.currentTime);
     });
   });
 
@@ -343,22 +341,30 @@ export const VideoWidget = (props: Props) => {
           {expanded() && <Title />}
 
           <div class="flex">
-            <video
-              ref={videoRef!}
-              class="absolute left-1/2 top-1/2 h-full w-full object-cover"
-              src={long}
-              loop
-              playsinline
-              muted={muted()}
-              preload="auto"
-              style={{
-                transform: "translate(-50%,-50%)",
-              }}
-              onclick={onClickVideo}
-              autoplay
-              // @ts-ignore
-              disablePictureInPicture
-            ></video>
+            {settingsState().showingPreview && !expanded() ? (
+              <img
+                class="absolute h-full w-full object-cover"
+                src={widget?.video?.preview_image_url}
+                alt="Превью"
+              />
+            ) : (
+              <video
+                ref={videoRef!}
+                class="absolute left-1/2 top-1/2 h-full w-full object-cover"
+                src={widget?.video?.url}
+                loop
+                playsinline
+                muted={muted()}
+                preload="auto"
+                style={{
+                  transform: "translate(-50%,-50%)",
+                }}
+                onclick={onClickVideo}
+                autoplay
+                // @ts-ignore
+                disablePictureInPicture
+              />
+            )}
 
             {expanded() && (
               <div
@@ -383,14 +389,16 @@ export const VideoWidget = (props: Props) => {
                   </div>
                 )}
 
-                <a
-                  href="https://trywidget.ru"
-                  target="_blank"
-                  class="gap-2 bg-black/80 p-[4px] text-center text-white text-[12px] mt-1 -mx-2 -mb-3 w-[calc(100%+16px)] flex justify-center items-center"
-                >
-                  <img class="w-4 h-4" src="/static/logo.svg" alt="Логотип" />
-                  Trywidget
-                </a>
+                {widget?.plan?.is_hide_logo !== true && (
+                  <a
+                    href="https://trywidget.ru"
+                    target="_blank"
+                    class="gap-2 bg-black/80 p-[4px] text-center text-white text-[12px] mt-1 -mx-2 -mb-3 w-[calc(100%+16px)] flex justify-center items-center"
+                  >
+                    <img class="w-4 h-4" src="/static/logo.svg" alt="Логотип" />
+                    Trywidget
+                  </a>
+                )}
               </div>
             )}
           </div>

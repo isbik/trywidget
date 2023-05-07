@@ -1,6 +1,5 @@
-from os import name
 from django.conf import settings
-from .models import File
+import subprocess
 
 
 def get_content_range_parts(header: str):
@@ -32,14 +31,8 @@ def get_header_content_range_error(header: str):
         return {"type": 'file_too_large'}
 
 
-def save_file(name: str, file_name: str, size: int, user):
-    file = File.objects.create(
-        name=name,
-        url=f'temp/{file_name}',
-        size=str(size / 1024**2),
-        user=user,
+def generate_preview(video_path: str, image_path: str):
+    subprocess.call(
+        ['ffmpeg', '-i', video_path, '-ss',
+         '00:00:01.000', '-vframes', '1', image_path]
     )
-
-    file.save()
-
-    return file

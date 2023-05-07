@@ -1,7 +1,7 @@
 import { api } from '@vw/src/api/api';
 import { createEffect, createEvent, createStore } from 'effector';
 
-const CHUNK_SIZE = 1024 * 1024 * 1; // 1MB
+const CHUNK_SIZE = 1024 * 1024 * 1; // 1 MB
 
 export const uploadProgressChanged = createEvent<number>();
 
@@ -54,8 +54,10 @@ export const uploadFileFx = createEffect((file: File) => {
                     resolve(response);
                     uploadProgressChanged(1);
                 })
-                .catch((error) => {
-                    error.response.json().then(reject);
+                .catch(async (error) => {
+                    const json = await error.response.json();
+                    if (json) reject(json);
+                    reject({ type: 'error' });
                 });
         }
 
@@ -69,3 +71,5 @@ export const $isUploading = $uploadProgress.map((progress) => progress < 1 && pr
 export const $uploadError = createStore<string | null>(null)
     .on(uploadFileFx.failData, (_, error) => error?.type || 'error')
     .reset(uploadFileFx);
+
+$uploadProgress.reset(uploadFileFx.finally);

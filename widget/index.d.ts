@@ -9,5 +9,7 @@ declare global {
     VK?: any;
     dataLayer?: any;
     ym?: any;
+
+    twCtaClick: () => void;
   }
 }

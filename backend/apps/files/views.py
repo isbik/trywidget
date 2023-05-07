@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import File
 from .serializers import FileSerializer
-from .services import get_header_content_range_error, get_content_range_parts, save_file
+from .services import get_header_content_range_error, get_content_range_parts
 from rest_framework.response import Response
 from rest_framework.mixins import ListModelMixin, DestroyModelMixin
 from rest_framework.viewsets import GenericViewSet
@@ -47,7 +47,13 @@ def upload(request):
         name = request.POST.get('file_name', "")
         user = request.user
 
-        file = save_file(name, file_id, total_size, user)
+        file = File.objects.create(name=name,
+                                   url=f'temp/{file_id}',
+                                   size=str(total_size / 1024**2),
+                                   user=user,
+                                   )
+        file.save()
+
         file.set_active()
 
         serializer = FileSerializer(file)

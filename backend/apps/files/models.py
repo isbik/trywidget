@@ -1,9 +1,10 @@
-import cv2
 from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.conf import settings
 import os
+
+from apps.files.services import generate_preview
 
 
 class File(models.Model):
@@ -56,12 +57,7 @@ class File(models.Model):
         image_path = os.path.join(dir_file, image_name)
 
         try:
-            capture = cv2.VideoCapture(file_path)
-            _, frame = capture.read()
-            capture.release()
-
-            _, image_buffer = cv2.imencode('.jpg', frame)
-            image_buffer.tofile(image_path)
+            generate_preview(file_path, image_path)
         except Exception as err:
             print(err)
         else:

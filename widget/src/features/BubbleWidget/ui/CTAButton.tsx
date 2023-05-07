@@ -21,7 +21,7 @@ export const CTAButton = () => {
     }
 
     if (action === "code") {
-      // TODO
+      window?.twCtaClick?.();
     }
   };
 

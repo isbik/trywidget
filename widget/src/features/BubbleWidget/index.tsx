@@ -5,7 +5,7 @@ import {
   setSettingsState,
   settingsState,
   setGlobalShow,
-  widget,
+  widgetState,
   globalShow,
 } from "../../store";
 import { VideoWidget } from "./ui/VideoWidget";
@@ -75,7 +75,7 @@ const BubbleWidget: Component = () => {
   });
 
   return (
-    <Show when={globalShow() && widget() && settingsState()}>
+    <Show when={globalShow() && widgetState() && settingsState()}>
       <VideoWidget />
     </Show>
   );

@@ -6,7 +6,7 @@ export const [settingsState, setSettingsState] =
 
 export const [globalShow, setGlobalShow] = createSignal(false);
 
-export const [widget, setWidget] = createSignal<any>(null);
+export const [widgetState, setWidgetState] = createSignal<any>(null);
 
 export const setWidgetData = (data: any) => {
   const { widget, plan } = data;
@@ -15,5 +15,5 @@ export const setWidgetData = (data: any) => {
 
   setSettingsState({ ...SETTINGS_DEFAULT, ...settings });
 
-  setWidget({ rest, plan });
+  setWidgetState({ ...rest, plan });
 };

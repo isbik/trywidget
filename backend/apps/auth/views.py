@@ -21,14 +21,13 @@ def login_view(request: HttpRequest):
     password = request.data.get('password', None)
 
     user = authenticate(request, username=email, password=password)
-    if user is None:
-        return JsonResponse({'detail': 'Неверные данные'}, status=status.HTTP_401_UNAUTHORIZED)
 
-    if user.is_active:
-        login(request, user)
-        return JsonResponse({'message': 'Login successful'}, status=status.HTTP_200_OK)
-    else:
-        return JsonResponse({'detail': 'Пользователь заблокирован'}, status=status.HTTP_401_UNAUTHORIZED)
+    if user is None:
+        return JsonResponse({'error': 'wrong_data'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    login(request, user)
+
+    return JsonResponse({'data': 'ok'}, status=status.HTTP_200_OK)
 
 
 @api_view(["GET"])
@@ -64,7 +63,7 @@ def verify_email_view(request, token):
 
     login(request, user)
 
-    return Response(status=200)
+    return HttpResponse(status=200)
 
 
 @swagger_auto_schema(method='POST', request_body=Email())
@@ -102,4 +101,3 @@ def verify_password_token(request, token):
     user.save()
 
     return redirect("{}/login".format(settings.CLIENT_URL))
-

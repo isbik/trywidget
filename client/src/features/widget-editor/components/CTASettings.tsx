@@ -9,9 +9,7 @@ import {
 } from '../atoms';
 import { useFormContext } from 'react-hook-form';
 
-type Props = {};
-
-export const CTASettings = (props: Props) => {
+export const CTASettings = () => {
     const { watch } = useFormContext();
 
     const ctaShow = watch('ctaShow');
@@ -62,6 +60,12 @@ export const CTASettings = (props: Props) => {
                     {ctaActionClick === 'scroll' && (
                         <CustomizeInputText name="ctaClickSelector" title="Селектор" />
                     )}
+
+                    <div className="flex items-center justify-between gap-2 p-2 px-4">
+                        {ctaActionClick === 'code' && (
+                            <code className="p-2 bg-[#EEF1F7] rounded select-all">{`window.twCtaClick = function(){ // ВАШ КОД }`}</code>
+                        )}
+                    </div>
 
                     <CustomizeDivider title="Стили" />
                     <CustomizeInputColor name="ctaButtonColor" title="Цвет кнопки" />
