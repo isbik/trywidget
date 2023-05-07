@@ -11,9 +11,9 @@ export const FeedbackForm = (props: Props) => {
 
     const { handleSubmit, register } = useForm({
         values: {
-            name: 'asdf',
-            email: 'test@gmail.cm',
-            text: 'asdfas fas',
+            name: '',
+            email: '',
+            text: '',
         },
     });
 

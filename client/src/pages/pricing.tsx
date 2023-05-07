@@ -9,6 +9,7 @@ import { InfinityIcon } from '../shared/ui/icons/Infinity';
 import { plural } from '../shared/lib/plural';
 import { useStore } from 'effector-react';
 import { createEffect, createEvent, createStore, sample } from 'effector';
+import { NextSeo } from 'next-seo';
 
 const $plans = createStore([]);
 
@@ -41,7 +42,10 @@ const PlansPage = () => {
     return (
         <>
             <Header />
-
+            <NextSeo
+                title="Тарифа для видеовиджета"
+                description="Выберите тариф, который подойдет для вас"
+            />
             <main>
                 <div className="container pt-16 mb-32 text-center">
                     <h1 className="mb-16 text-3xl font-black md:text-5xl">

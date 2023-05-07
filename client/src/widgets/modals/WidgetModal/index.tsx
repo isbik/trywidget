@@ -2,6 +2,7 @@ import React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import {
+    $error,
     $loading,
     $widgetDescription,
     $widgetId,
@@ -14,15 +15,17 @@ import {
 } from './model';
 import { useStore, useUnit } from 'effector-react';
 import { cn } from '@vw/src/shared/lib/cn';
+import Link from 'next/link';
 
 export const WidgetModal = () => {
     const open = useStore($widgetModal);
 
-    const [widgetId, widgetName, widgetDescription, loading] = useUnit([
+    const [widgetId, widgetName, widgetDescription, loading, error] = useUnit([
         $widgetId,
         $widgetName,
         $widgetDescription,
         $loading,
+        $error,
     ]);
 
     const handleSubmit = (event: React.FormEvent) => {
@@ -31,14 +34,31 @@ export const WidgetModal = () => {
         formSubmitted();
     };
 
+    const errorMessage = () => {
+        switch (error) {
+            case 'too_many_widgets_trial':
+                return 'Приобретете тариф, чтобы создать больше виджетов';
+            case 'too_many_widgets_plan':
+                return 'Обновите ваш план, чтобы создать больше виджетов';
+            default:
+                return 'Что-то пошло не так';
+        }
+    };
+
     return (
         <Dialog.Root open={open}>
             <Dialog.Portal>
                 <Dialog.Overlay className="fixed inset-0 bg-black/80" />
-                <Dialog.Content className="fixed min-w-[320px] max-w-md p-4 px-6 -translate-x-1/2 -translate-y-1/2 bg-base-100 top-1/2 left-1/2 rounded-xl">
+                <Dialog.Content className="fixed w-full sm:w-[420px] p-4 px-6 -translate-x-1/2 -translate-y-1/2 bg-base-100 top-1/2 left-1/2 rounded-xl">
                     <Dialog.Title className="mb-6 text-2xl">
                         {widgetId ? 'Изменение' : 'Добавление'} виджета
                     </Dialog.Title>
+
+                    {error && (
+                        <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-error">
+                            {errorMessage()}
+                        </Link>
+                    )}
 
                     <form onSubmit={handleSubmit}>
                         <div className="form-control">

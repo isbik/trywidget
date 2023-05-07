@@ -1,5 +1,5 @@
 import { api } from '@vw/src/api/api';
-import { createEffect, createEvent, createStore, sample, split } from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { or, reset } from 'patronum';
 
 export const widgetModalChanged = createEvent<boolean>();
@@ -22,9 +22,19 @@ export const $widgetId = createStore<number | null>(null).on(
 
 export const formSubmitted = createEvent();
 
-export const createWidgetFx = createEffect(async (data) => {
-    return api.post('widgets/', { json: data }).json();
+export const createWidgetFx = createEffect<any, any, string>(async (data) => {
+    try {
+        const response = await api.post('widgets/', { json: data }).json();
+        return response;
+    } catch (error) {
+        const json = await (error as any).response.json();
+        throw (json?.type || 'error') as string;
+    }
 });
+
+export const $error = createStore('');
+
+$error.on(createWidgetFx.failData, (_, error) => error);
 
 sample({
     clock: formSubmitted,
@@ -67,5 +77,10 @@ export const $loading = or(createWidgetFx.pending, updateWidgetFx.pending);
 
 reset({
     clock: [createWidgetFx.doneData, updateWidgetFx.doneData],
-    target: [$widgetName, $widgetId, $widgetModal, $widgetDescription],
+    target: [$widgetName, $widgetId, $widgetModal, $widgetDescription, $error],
+});
+
+reset({
+    clock: widgetModalChanged,
+    target: [$error],
 });

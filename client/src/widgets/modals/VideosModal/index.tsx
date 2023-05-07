@@ -44,11 +44,15 @@ export const VideosModal = () => {
     const errorMessage = () => {
         switch (uploadError) {
             case 'too_large_file':
-                return 'Размер файла слишком большой';
+                return 'Размер файла слишком большой.';
             case 'invalid_data':
-                return 'Неверный формат файла';
+                return 'Неверный формат файла.';
+            case 'too_many_videos_trial':
+                return 'Приобретете тариф, чтобы загрузить больше видео.';
+            case 'too_many_videos_plan':
+                return 'Обновите тариф, чтобы загрузить больше видео.';
             default:
-                return 'При загрузке файла произошла ошибка, попробуйте позже';
+                return 'При загрузке файла произошла ошибка, попробуйте позже.';
         }
     };
 

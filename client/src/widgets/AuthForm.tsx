@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { GoogleIcon } from '../shared/ui/icons/Google';
-import { CONFIG } from '../shared/config';
+import { CONFIG } from '../shared/config/config';
 import { cn } from '../shared/lib/cn';
 import { api } from '../api/api';
 import { useRouter } from 'next/router';
@@ -179,7 +179,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
                         </div>
                     )}
                     <div className="flex items-center justify-end mb-8">
-                        <Link className="text-secondary" href="/forgot">
+                        <Link className="text-secondary" href="/password/forgot">
                             Забыли пароль?
                         </Link>
                     </div>

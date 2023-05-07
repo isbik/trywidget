@@ -5,6 +5,8 @@ import '../app/index.css';
 import { useEffect } from 'react';
 import { fetchUser, fetchUserFx } from '../features/user/model';
 import { useRouter } from 'next/router';
+import { DefaultSeo } from 'next-seo';
+import { NEXT_SEO } from '../shared/config/next-seo';
 
 export default function App({ Component, pageProps }: AppProps) {
     const router = useRouter();
@@ -28,6 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <title>Видео виджет на сайт</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
+            <DefaultSeo {...NEXT_SEO} />
             <Component {...pageProps} />
         </>
     );

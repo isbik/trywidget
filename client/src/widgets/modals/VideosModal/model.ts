@@ -25,20 +25,23 @@ export const fetchVideosFx = createEffect(() => {
     return api.get('files/').json();
 });
 
+const $videosLoading = fetchVideosFx.pending;
+
+export const $videos = createStore<any[]>([]).on(fetchVideosFx.doneData, (_, data) => data);
+
 sample({
     clock: $videosModalOpen,
-    filter(isOpen) {
-        return !isOpen;
-    },
+    source: { loading: $videosLoading, videos: $videos },
+    filter: ({ loading, videos }) => !loading && videos.length === 0,
     target: fetchVideos,
 });
 
 sample({
     clock: fetchVideos,
+    source: { loading: $videosLoading, videos: $videos },
+    filter: ({ loading, videos }) => !loading && videos.length === 0,
     target: fetchVideosFx,
 });
-
-export const $videos = createStore<any[]>([]).on(fetchVideosFx.doneData, (_, data) => data);
 
 $videos.on(uploadFileFx.doneData, (videos, file) => {
     return [...videos, file];

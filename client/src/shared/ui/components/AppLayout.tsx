@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { api } from '@vw/src/api/api';
 import { useStore } from 'effector-react';
 import { $user } from '@vw/src/features/user/model';
+import dayjs from 'dayjs';
 
 type Props = {
     children: React.ReactNode;
@@ -48,6 +49,16 @@ export const AppLayout = ({ children }: Props) => {
     const handleLogout = () => {
         api.get('auth/logout');
         router.push('/');
+    };
+
+    const showUpdate = () => {
+        if (!user) return;
+
+        if (user.plan) {
+            return dayjs(user.next_payment_date).diff(new Date(), 'days') <= 3;
+        }
+
+        return dayjs(user.trial_end).diff(new Date(), 'days') <= 3;
     };
 
     return (
@@ -90,9 +101,10 @@ export const AppLayout = ({ children }: Props) => {
                         </li>
                     ))}
                 </ul>
-
                 <div className="flex flex-col p-4 border-t border-base-300">
-                    <p className="text-xs font-bold">Базовый тариф</p>
+                    <p className="text-xs font-bold">
+                        {user?.plan?.display_name || 'Пробный тариф'}
+                    </p>
                     <div className="flex items-center gap-1">
                         <span className="mr-auto overflow-hidden whitespace-nowrap text-ellipsis">
                             {user?.email}
@@ -105,11 +117,12 @@ export const AppLayout = ({ children }: Props) => {
                         </button>
                     </div>
 
-                    {/* TODO show button when plan is going expired or trial has 3 days left */}
-                    <button className="items-center gap-2 mt-4 text-sm btn btn-sm btn-warning">
-                        <ArrowUpCircleIcon className="w-4" />
-                        Обновить тариф
-                    </button>
+                    {showUpdate() && (
+                        <button className="items-center gap-2 mt-4 text-sm btn btn-sm btn-warning">
+                            <ArrowUpCircleIcon className="w-4" />
+                            Обновить тариф
+                        </button>
+                    )}
                 </div>
             </nav>
 

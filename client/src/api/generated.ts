@@ -9,7 +9,77 @@
  * ---------------------------------------------------------------
  */
 
+export interface Email {
+    /**
+     * Email
+     * @format email
+     * @minLength 1
+     */
+    email: string;
+}
+
+export interface Password {
+    /**
+     * Password
+     * @minLength 8
+     */
+    password: string;
+}
+
 export interface User {
+    /**
+     * Email
+     * @format email
+     * @minLength 1
+     */
+    email: string;
+    /**
+     * Password
+     * @minLength 8
+     */
+    password: string;
+}
+
+export interface File {
+    /** ID */
+    id?: number;
+    /**
+     * Name
+     * @minLength 1
+     * @maxLength 256
+     */
+    name: string;
+    /**
+     * Url
+     * @format uri
+     * @minLength 1
+     */
+    url: string;
+    /**
+     * Size
+     * @minLength 1
+     */
+    size: string;
+    /**
+     * Preview image url
+     * @format uri
+     * @minLength 1
+     */
+    preview_image_url: string;
+    /**
+     * Created at
+     * @format date-time
+     */
+    created_at?: string;
+}
+
+export interface Feedback {
+    /**
+     * Name
+     * @minLength 1
+     * @maxLength 56
+     */
+    name: string;
     /**
      * Email
      * @format email
@@ -18,11 +88,71 @@ export interface User {
      */
     email: string;
     /**
-     * Пароль
+     * Text
      * @minLength 1
-     * @maxLength 128
+     * @maxLength 256
      */
-    password: string;
+    text: string;
+}
+
+export interface FileInWidget {
+    /** ID */
+    id?: number;
+    /**
+     * Name
+     * @minLength 1
+     * @maxLength 256
+     */
+    name: string;
+    /**
+     * Url
+     * @format uri
+     * @minLength 1
+     */
+    url: string;
+    /**
+     * Size
+     * @minLength 1
+     */
+    size: string;
+    /**
+     * Preview image url
+     * @format uri
+     * @minLength 1
+     */
+    preview_image_url: string;
+}
+
+export interface WidgetPublic {
+    /**
+     * Name
+     * @minLength 1
+     * @maxLength 100
+     */
+    name: string;
+    video: FileInWidget;
+    /** Settings */
+    settings?: object;
+}
+
+export type PlanInPublic = {
+    /** ID */
+    id?: number;
+    /**
+     * Max widgets
+     * @min -2147483648
+     * @max 2147483647
+     */
+    max_widgets: number;
+    /** Is hide logo */
+    is_hide_logo: boolean;
+    /** Is support */
+    is_support: boolean;
+} | null;
+
+export interface PublicData {
+    widget: WidgetPublic;
+    plan: PlanInPublic;
 }
 
 export interface WidgetsList {
@@ -34,12 +164,12 @@ export interface WidgetsList {
      * @maxLength 100
      */
     name: string;
+    video: FileInWidget;
     /**
-     * Preview image url
-     * @format uri
-     * @maxLength 200
+     * Slug
+     * @format uuid
      */
-    preview_image_url?: string;
+    slug?: string;
 }
 
 export interface WidgetCreate {
@@ -55,54 +185,20 @@ export interface WidgetCreate {
     video?: number | null;
 }
 
-export interface FileInWidget {
-    /** ID */
-    id?: number;
-    /**
-     * Url
-     * @minLength 1
-     */
-    url: string;
-    /**
-     * Size
-     * @minLength 1
-     */
-    size: string;
-}
-
-export interface WidgetPublic {
-    /**
-     * Name
-     * @minLength 1
-     * @maxLength 100
-     */
-    name: string;
-    /**
-     * Preview image url
-     * @format uri
-     * @maxLength 200
-     */
-    preview_image_url?: string;
-    video: FileInWidget;
-    /** Settings */
-    settings?: object;
-}
-
 export interface WidgetRetrieve {
     /** ID */
     id?: number;
     /**
+     * Slug
+     * @format uuid
+     */
+    slug?: string;
+    /**
      * Name
      * @minLength 1
      * @maxLength 100
      */
     name: string;
-    /**
-     * Preview image url
-     * @format uri
-     * @maxLength 200
-     */
-    preview_image_url?: string;
     video: FileInWidget;
     /**
      * Updated at

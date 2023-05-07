@@ -96,7 +96,7 @@ const WidgetAnalyticPage = (props: Props) => {
                         <div className="mb-4 form-control">
                             <span className="mb-1 text-sm">Номер счетчика</span>
                             <input
-                                type="text"
+                                type="number"
                                 placeholder="Номер счетчика"
                                 className="h-auto py-1 input input-bordered input-sm"
                                 disabled={!enableYandexAnalytics}
@@ -135,10 +135,6 @@ const WidgetAnalyticPage = (props: Props) => {
                 <div className="w-full"></div>
 
                 <div className="p-6 bg-white border border-base-300 rounded-xl">
-                    <div className="mb-4 text-sm">Уникальных показов</div>
-                    <div className="stat-value text-primary">25.6K</div>
-                </div>
-                <div className="p-6 bg-white border border-base-300 rounded-xl">
                     <div className="mb-4 text-sm">Просмотрено полностью</div>
                     <div className="stat-value text-primary">25.6K</div>
                 </div>
@@ -147,11 +143,10 @@ const WidgetAnalyticPage = (props: Props) => {
                     <div className="mb-4 text-sm">Открытие виджета</div>
                     <div className="stat-value text-primary">2.6M</div>
                 </div>
-                <div className="p-6 bg-white border border-base-300 rounded-xl">
+                {/* <div className="p-6 bg-white border border-base-300 rounded-xl">
                     <div className="mb-4 text-sm">Уникальных показов</div>
                     <div className="stat-value text-primary">2.6M</div>
-                </div>
-
+                </div> */}
                 <div className="p-6 bg-white border border-base-300 rounded-xl">
                     <div className="mb-4 text-sm">Кликов по cta</div>
                     <div className="stat-value text-primary">2.6M</div>

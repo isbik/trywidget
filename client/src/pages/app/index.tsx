@@ -1,11 +1,16 @@
 import { PlusIcon } from '@heroicons/react/24/solid';
+import { $user } from '@vw/src/features/user/model';
+import { plural } from '@vw/src/shared/lib/plural';
 import { AppLayout } from '@vw/src/shared/ui/components/AppLayout';
 import { WidgetsList } from '@vw/src/widgets/WidgetList';
 import { DeleteWidgetModal } from '@vw/src/widgets/modals/DeleteWidgetModal';
 import { VideosModal } from '@vw/src/widgets/modals/VideosModal';
 import { WidgetModal } from '@vw/src/widgets/modals/WidgetModal';
 import { widgetModalChanged } from '@vw/src/widgets/modals/WidgetModal/model';
+import dayjs from 'dayjs';
+import { useStore } from 'effector-react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import React from 'react';
 
 const AddWidgetWebsiteModal = dynamic(
@@ -18,6 +23,24 @@ const AddWidgetWebsiteModal = dynamic(
 type Props = {};
 
 const AppPage = (props: Props) => {
+    const user = useStore($user);
+
+    const trialEndDays = () => {
+        if (!user || user?.plan) return;
+
+        return dayjs(user.trial_end).diff(new Date(), 'days');
+    };
+
+    const showEndTrial = () => {
+        return trialEndDays() <= 3;
+    };
+
+    const paymentRestDays = () => {
+        if (user || !user?.plan) return;
+
+        return dayjs(user.next_payment_date).diff(new Date(), 'days');
+    };
+
     return (
         <>
             <AddWidgetWebsiteModal />
@@ -39,22 +62,30 @@ const AppPage = (props: Props) => {
                     Создать виджет
                 </button>
 
-                {/* <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-error">
-                    Вы достигли предела своего тарифа. Пожалуйста, обновите тариф.
-                </Link>
+                {showEndTrial() && (
+                    <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-warning">
+                        {trialEndDays() === 0
+                            ? 'Ваш тестовый период закончился.'
+                            : `Тестовый период заканчивается через ${trialEndDays()} ${plural(
+                                  trialEndDays(),
+                                  ['день', 'дня', 'дней']
+                              )}.`}
+                        Пожалуйста, продлите тариф.
+                    </Link>
+                )}
 
-                <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-warning">
-                    Ваша подписка заканчивается через 3 дня. Пожалуйста, продлите тариф.
-                </Link>
+                {paymentRestDays() > 1 && paymentRestDays() <= 3 && (
+                    <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-warning">
+                        Ваша подписка заканчивается. Пожалуйста, продлите тариф.
+                    </Link>
+                )}
 
-                <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-warning">
-                    Тестовый период заканчивается через 3 дня. Пожалуйста, продлите тариф.
-                </Link>
-
-                <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-error">
-                    Срок действия вашего тарифа истёк и видеовиджеты на ваших сайтах стали
-                    недоступны. Пожалуйста, продлите тариф.
-                </Link> */}
+                {paymentRestDays() === 0 && (
+                    <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-error">
+                        Срок действия вашего тарифа истёк и видеовиджеты на ваших сайтах стали
+                        недоступны. Пожалуйста, продлите тариф.
+                    </Link>
+                )}
 
                 <WidgetsList />
             </AppLayout>
