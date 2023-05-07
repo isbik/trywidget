@@ -40,7 +40,9 @@ class WidgetViewSet(ModelViewSet):
         return Response(serializer_data, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
-        check_plan_permission(request.user, 'widgets')
+        error = check_plan_permission(request.user, 'widgets')
+        if error:
+            return Response(error, status=status.HTTP_403_FORBIDDEN)
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
