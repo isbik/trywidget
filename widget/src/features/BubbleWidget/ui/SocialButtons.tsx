@@ -11,8 +11,6 @@ export const SocialButtons = (props: Props) => {
     return `whatsapp://send?abid=${phone}&text=${text}"`;
   });
 
-  console.log(window.location);
-
   const url = window.location.host.includes("localhost")
     ? "http://localhost:3000"
     : "https://trywidget.ru";
@@ -20,7 +18,7 @@ export const SocialButtons = (props: Props) => {
   return (
     <div class="flex items-center justify-center gap-4 my-2">
       <Show when={settingsState().ctaShowVk}>
-        <a target="_blank" href={"https://t.me/" + settingsState().ctaVkLink}>
+        <a target="_blank" href={settingsState().ctaVkLink}>
           <img class="w-10" src={url + "/static/logos/vk.svg"} alt="Vk Logo" />
         </a>
       </Show>
