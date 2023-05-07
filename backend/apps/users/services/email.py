@@ -11,3 +11,17 @@ def get_user_by_verify_token(token: str):
         return get_user_model().objects.get(email_verify_token=token)
     except ObjectDoesNotExist:
         return
+
+
+def get_user_by_password_token(token: str):
+    try:
+        return get_user_model().objects.get(password_token=token)
+    except ObjectDoesNotExist:
+        return
+
+
+def get_user_by_email(email: str):
+    try:
+        return get_user_model().objects.get(email=email)
+    except ObjectDoesNotExist:
+        return
