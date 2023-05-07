@@ -20,15 +20,16 @@ class Widget(models.Model):
     updated_at = models.DateField(auto_now=True)
     created_at = models.DateField(auto_now_add=True)
     settings = models.JSONField(verbose_name='settings', default=dict)
+    open_widget = models.PositiveIntegerField(default=0)
+    full_watched = models.PositiveIntegerField(default=0)
+    click_cta = models.PositiveIntegerField(default=0)
+    unique_watched = models.PositiveIntegerField(default=0)
 
     class Meta:
         db_table = 'widget'
-# class WidgetAnalytics(models.Model):
-#     open_widget = models.ForeignKey(
-#         'Widget',
-#         on_delete=models.CASCADE,
-#         related_name='analytics',
-#     )
-#     full_watched = models.PositiveIntegerField()
-#     click_cta = models.PositiveIntegerField()
-#     unique_watched = models.PositiveIntegerField()
+
+    def increase_analytic_fields(self, data):
+        for key, value in data.items():
+            if value:
+                setattr(self, key, getattr(self, key) + 1)
+        self.save()

@@ -62,3 +62,21 @@ class PublicDataSerializer(serializers.Serializer):
 
     class Meta:
         fields = ('widget', 'plan')
+
+
+class AnalyticUpdateSerializer(serializers.Serializer):
+    open_widget = serializers.BooleanField(default=False)
+    full_watched = serializers.BooleanField(default=False)
+    click_cta = serializers.BooleanField(default=False)
+    unique_watched = serializers.BooleanField(default=False)
+
+
+class AnalyticRetrieveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Widget
+        fields = (
+            'open_widget',
+            'full_watched',
+            'click_cta',
+            'unique_watched',
+        )

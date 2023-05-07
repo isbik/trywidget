@@ -6,13 +6,16 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from .models import Widget
 from .serializers import (WidgetCreateSerializer, WidgetRetrieveSerializer,
                           WidgetsListSerializer, WidgetUpdateSerializer,
-                          PublicDataSerializer)
+                          PublicDataSerializer, AnalyticUpdateSerializer,
+                          AnalyticRetrieveSerializer)
 
 from rest_framework.response import Response
 
 from django.contrib.auth import get_user_model
 
 from shared.plans.check_plan import check_plan_permission
+
+from rest_framework.decorators import action
 
 
 class WidgetViewSet(ModelViewSet):
@@ -26,6 +29,16 @@ class WidgetViewSet(ModelViewSet):
         'partial_update': WidgetUpdateSerializer,
     }
     permission_classes = (IsAuthenticated,)
+
+    @action(
+        methods=['get'],
+        detail=True,
+        serializer_class=AnalyticRetrieveSerializer,
+    )
+    def analytics(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.serializer_class(instance)
+        return Response(serializer.data)
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
@@ -68,3 +81,15 @@ class PublicWidget(RetrieveModelMixin, GenericViewSet):
 
         serializer = self.get_serializer({'widget': instance, 'plan': plan})
         return Response(serializer.data)
+
+    @action(
+        detail=True,
+        methods=['patch'],
+        serializer_class=AnalyticUpdateSerializer,
+    )
+    def analytics(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.serializer_class(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        instance.increase_analytic_fields(serializer.validated_data)
+        return Response(status=status.HTTP_200_OK)
