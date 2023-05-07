@@ -1,5 +1,5 @@
 import { Show, createMemo } from "solid-js";
-import { settingsState } from "../store";
+import { settingsState } from "../../../store";
 
 type Props = {};
 
@@ -11,14 +11,17 @@ export const SocialButtons = (props: Props) => {
     return `whatsapp://send?abid=${phone}&text=${text}"`;
   });
 
+  console.log(window.location);
+
+  const url = window.location.host.includes("localhost")
+    ? "http://localhost:3000"
+    : "https://trywidget.ru";
+
   return (
     <div class="flex items-center justify-center gap-4 my-2">
       <Show when={settingsState().ctaShowVk}>
-        <a
-          target="_blank"
-          href={"https://t.me/" + settingsState().ctaVkLink}
-        >
-          <img class="w-10" src="/static/logos/vk.svg" alt="Vk Logo" />
+        <a target="_blank" href={"https://t.me/" + settingsState().ctaVkLink}>
+          <img class="w-10" src={url + "/static/logos/vk.svg"} alt="Vk Logo" />
         </a>
       </Show>
 
@@ -29,7 +32,7 @@ export const SocialButtons = (props: Props) => {
         >
           <img
             class="w-10"
-            src="/static/logos/telegram.svg"
+            src={url + "/static/logos/telegram.svg"}
             alt="Telegram logo"
           />
         </a>
@@ -38,7 +41,7 @@ export const SocialButtons = (props: Props) => {
         <a target="_blank" href={hrefWhatsApp()}>
           <img
             class="w-10"
-            src="/static/logos/whatsapp.svg"
+            src={url + "/static/logos/whatsapp.svg"}
             alt="Whatsapp logo"
           />
         </a>

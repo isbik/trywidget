@@ -8,6 +8,7 @@ import { Review } from '../features/home/ui/Review';
 import { UseCases } from '../features/home/ui/UseCases';
 import { Opportunities } from '../features/home/ui/Opportunities';
 import Link from 'next/link';
+import { FeedbackForm } from '../widgets/FeedbackForm';
 
 const Home = () => {
     return (
@@ -56,6 +57,9 @@ const Home = () => {
             <Review />
 
             <GetStartedNow />
+
+            <FeedbackForm />
+
             <Footer />
         </>
     );

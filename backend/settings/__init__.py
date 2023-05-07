@@ -76,6 +76,7 @@ MY_APPS = [
     'apps.oauth.apps.OauthConfig',
     'apps.widgets.apps.WidgetsConfig',
     'apps.auth.apps.AuthConfig',
+    'apps.feedback.apps.FeedbackConfig',
 ]
 
 INSTALLED_APPS += MY_APPS

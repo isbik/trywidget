@@ -1,7 +1,7 @@
 import { render } from "solid-js/web";
 
 import "./index.css";
-import App from "./App";
+import BubbleWidget from "./features/BubbleWidget/index";
 
 window.onload = () => {
   const body = document.querySelector("body")!;
@@ -14,7 +14,7 @@ window.onload = () => {
 
   const div = document.createElement("div");
 
-  render(() => <App />, div!);
+  render(() => <BubbleWidget />, div!);
 
   body.appendChild(div);
 };

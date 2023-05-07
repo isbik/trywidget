@@ -1,5 +1,5 @@
 import { Show } from "solid-js";
-import { settingsState } from "../store";
+import { settingsState } from "../../../store";
 
 export const CTAButton = () => {
   const handleClick = (event: MouseEvent) => {

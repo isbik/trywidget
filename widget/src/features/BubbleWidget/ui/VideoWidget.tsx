@@ -5,15 +5,16 @@ import {
   onCleanup,
   onMount,
 } from "solid-js";
-import { setGlobalShow, settingsState } from "../store";
+import { MinusIcon } from "../../../icons/Minus";
+import { SpeakerWaveIcon } from "../../../icons/SpeakerWave";
+import { SpeakerXMarkIcon } from "../../../icons/SpeakerXMark";
+import { XMarkIcon } from "../../../icons/XMark";
+import { openWidgetMetric } from "../../../lib/metrics";
+import { settingsState, setGlobalShow } from "../../../store";
 import { CTAButton } from "./CTAButton";
-import { XMarkIcon } from "../icons/XMark";
-import { SpeakerXMarkIcon } from "../icons/SpeakerXMark";
-import { SpeakerWaveIcon } from "../icons/SpeakerWave";
-import { Title } from "./Title";
 import { SocialButtons } from "./SocialButtons";
-import { openWidgetMetric } from "../lib/metrics";
-import { MinusIcon } from "../icons/Minus";
+import { Title } from "./Title";
+
 let long =
   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 

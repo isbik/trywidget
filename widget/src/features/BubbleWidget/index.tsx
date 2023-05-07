@@ -1,14 +1,14 @@
 import { Component, Show, onMount } from "solid-js";
+import { wait } from "../../lib/wait";
 import {
-  globalShow,
-  setGlobalShow,
-  setSettingsState,
   setWidgetData,
+  setSettingsState,
   settingsState,
+  setGlobalShow,
   widget,
-} from "./store";
-import { VideoWidget } from "./components/VideoWidget";
-import { wait } from "./lib/wait";
+  globalShow,
+} from "../../store";
+import { VideoWidget } from "./ui/VideoWidget";
 
 const fetchData = async () => {
   const script = document.querySelector("#tw_bubble");
@@ -28,7 +28,7 @@ const fetchData = async () => {
   }
 };
 
-const App: Component = () => {
+const BubbleWidget: Component = () => {
   onMount(async () => {
     await wait();
 
@@ -81,4 +81,4 @@ const App: Component = () => {
   );
 };
 
-export default App;
+export default BubbleWidget;

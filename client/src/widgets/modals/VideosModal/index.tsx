@@ -107,7 +107,7 @@ export const VideosModal = () => {
                             'flex flex-col gap-2 border-2  text-primary border-primary rounded-2xl centered   w-full m-auto transition-all',
                             isUploading && 'max-w-[120px] min-h-[120px] rounded-full',
                             !isUploading &&
-                                'min-h-[120px] max-w-[400px] w-full border-dashed hover:border-white hover:bg-primary hover:text-white'
+                                'min-h-[120px] max-w-[400px] w-full border-dashed hover:border-white hover:bg-primary hover:text-white cursor-pointer'
                         )}
                         disabled={isUploading}
                         onFile={handleUploadFile}

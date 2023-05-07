@@ -13,6 +13,7 @@ urlpatterns = [
     path('oauth/', include('apps.oauth.urls')),
     path('', include('apps.widgets.urls')),
     path('plans/', include('apps.plans.urls')),
+    path('', include('apps.feedback.urls')),
 ]
 
 if settings.DEBUG:
