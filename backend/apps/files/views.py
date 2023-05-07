@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework.mixins import ListModelMixin, DestroyModelMixin
 from rest_framework.viewsets import GenericViewSet
 
+from shared.plans.check_plan import check_plan_permission
+
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
@@ -30,6 +32,7 @@ def upload(request):
     file_path = os.path.join(settings.TEMP_ROOT, f'{file_id}')
 
     if range_start == 0:
+        check_plan_permission(request.user, 'videos')
         file_dir = os.path.dirname(file_path)
         if not os.path.exists(file_dir):
             os.makedirs(file_dir)
@@ -44,7 +47,7 @@ def upload(request):
     file_handle.close()
 
     if file_size == total_size:
-        name = request.POST.get('file_name', "")
+        name = request.POST.get('file_name', '')
         user = request.user
 
         file = File.objects.create(name=name,
@@ -59,7 +62,7 @@ def upload(request):
         serializer = FileSerializer(file)
         return Response(serializer.data)
 
-    return Response({"file_id": file_id})
+    return Response({'file_id': file_id})
 
 
 class ListDeleteFileViewSet(ListModelMixin, DestroyModelMixin, GenericViewSet):

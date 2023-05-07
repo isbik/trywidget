@@ -1,4 +1,3 @@
-from django.http import HttpRequest
 from rest_framework import status
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -12,6 +11,8 @@ from .serializers import (WidgetCreateSerializer, WidgetRetrieveSerializer,
 from rest_framework.response import Response
 
 from django.contrib.auth import get_user_model
+
+from shared.plans.check_plan import check_plan_permission
 
 
 class WidgetViewSet(ModelViewSet):
@@ -38,6 +39,10 @@ class WidgetViewSet(ModelViewSet):
         self.perform_destroy(instance)
         return Response(serializer_data, status=status.HTTP_200_OK)
 
+    def create(self, request, *args, **kwargs):
+        check_plan_permission(request.user, 'widgets')
+        return super().create(request, *args, **kwargs)
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -49,13 +54,10 @@ class PublicWidget(RetrieveModelMixin, GenericViewSet):
     permission_classes = (AllowAny,)
     queryset = Widget.objects.all()
     serializer_class = PublicDataSerializer
+    lookup_field = 'slug'
 
-    def retrieve(self, request: HttpRequest, pk=None):
-
-        try:
-            instance = Widget.objects.get(slug=pk)
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
 
         try:
             plan = instance.user.userplan.plan
