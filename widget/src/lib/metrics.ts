@@ -1,4 +1,5 @@
 import { settingsState } from "../store";
+import { getWidgetUrl } from "./getWidgetSlug";
 
 const callMetric = (key: string) => {
   const settings = settingsState();
@@ -17,8 +18,17 @@ const callMetric = (key: string) => {
     window.ym?.(settings.yandexCounter, "reachGoal", key);
   }
 
-  const url = "https://trywiget.ru/api/public/widgets";
-  fetch(url);
+  const url = getWidgetUrl();
+
+  const body = { full_watched: true };
+
+  fetch(url, {
+    method: "patch",
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   // TODO add requests to server
 };

@@ -1,4 +1,5 @@
 import { Component, Show, onMount } from "solid-js";
+import { getWidgetUrl } from "../../lib/getWidgetSlug";
 import { wait } from "../../lib/wait";
 import {
   globalShow,
@@ -11,15 +12,9 @@ import {
 import { VideoWidget } from "./ui/VideoWidget";
 
 const fetchData = async () => {
-  const script = document.querySelector("#tw_bubble");
-
-  const slug = script?.getAttribute("data-widget");
-  const url =
-    script?.getAttribute("data-url") ||
-    "https://trywiget.ru/api/public/widgets";
-
   try {
-    const res = await fetch(url + slug + "/");
+
+    const res = await fetch(getWidgetUrl());
 
     const data = await res.json();
     return data;

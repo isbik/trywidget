@@ -15,8 +15,6 @@ export const WidgetPreview = ({ device, setFrame }: Props) => {
 
     const renderKey = useStore($renderKey);
 
-    console.log(renderKey);
-
     useEffect(() => {
         if (!iframeRef.current) return;
 

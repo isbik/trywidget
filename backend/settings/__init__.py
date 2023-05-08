@@ -42,12 +42,12 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'shared.common.add_slash_middleware.AddSlashMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'shared.cors.public_cors_middleware.PublicCorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'shared.cors.public_cors_middleware.PublicCorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
