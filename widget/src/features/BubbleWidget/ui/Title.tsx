@@ -1,9 +1,7 @@
 import { Show } from "solid-js";
-import { settingsState } from "../../../store";
+import { settingsState, widgetState } from "../../../store";
 
-type Props = {};
-
-export const Title = (props: Props) => {
+export const Title = () => {
   return (
     <Show when={settingsState().showTitle}>
       <p
@@ -13,7 +11,7 @@ export const Title = (props: Props) => {
           "text-align": settingsState().titleAlign as any,
         }}
       >
-        Название виджета
+        {widgetState()?.name}
       </p>
     </Show>
   );

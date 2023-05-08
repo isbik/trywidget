@@ -1,6 +1,3 @@
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { cn } from '../../lib/cn';
 import {
     ArrowRightOnRectangleIcon,
     ArrowUpCircleIcon,
@@ -9,11 +6,14 @@ import {
     LinkIcon,
     UserIcon,
 } from '@heroicons/react/24/solid';
-import { useRouter } from 'next/router';
 import { api } from '@vw/src/api/api';
-import { useStore } from 'effector-react';
 import { $user } from '@vw/src/features/user/model';
 import dayjs from 'dayjs';
+import { useStore } from 'effector-react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { cn } from '../../lib/cn';
 
 type Props = {
     children: React.ReactNode;
@@ -76,7 +76,7 @@ export const AppLayout = ({ children }: Props) => {
             >
                 <div className="flex items-center gap-3 p-4 mb-16">
                     <img className="w-8 h-8" src="/static/logo.svg" alt="logo" />
-                    <p className="font-black leading-5">Embedless</p>
+                    <p className="font-black leading-5">Trywidget</p>
                 </div>
 
                 <ul className="flex flex-col grow text-[14px] overflow-y-auto">

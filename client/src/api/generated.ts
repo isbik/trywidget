@@ -155,6 +155,29 @@ export interface PublicData {
     plan: PlanInPublic;
 }
 
+export interface AnalyticUpdate {
+    /**
+     * Open widget
+     * @default false
+     */
+    open_widget?: boolean;
+    /**
+     * Full watched
+     * @default false
+     */
+    full_watched?: boolean;
+    /**
+     * Click cta
+     * @default false
+     */
+    click_cta?: boolean;
+    /**
+     * Unique watched
+     * @default false
+     */
+    unique_watched?: boolean;
+}
+
 export interface WidgetsList {
     /** ID */
     id?: number;
@@ -227,4 +250,31 @@ export interface WidgetUpdate {
     video_id?: number | null;
     /** Settings */
     settings?: object;
+}
+
+export interface AnalyticRetrieve {
+    /**
+     * Open widget
+     * @min 0
+     * @max 2147483647
+     */
+    open_widget?: number;
+    /**
+     * Full watched
+     * @min 0
+     * @max 2147483647
+     */
+    full_watched?: number;
+    /**
+     * Click cta
+     * @min 0
+     * @max 2147483647
+     */
+    click_cta?: number;
+    /**
+     * Unique watched
+     * @min 0
+     * @max 2147483647
+     */
+    unique_watched?: number;
 }

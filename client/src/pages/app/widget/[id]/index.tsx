@@ -1,28 +1,31 @@
-import Link from 'next/link';
-import React, { useEffect } from 'react';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
-import { WidgetLayout } from '@vw/src/shared/layouts/WidgetLayout';
-import { useForm } from 'react-hook-form';
+import { $analytics, fetchAnalytics } from '@vw/src/features/widget/analytics.model';
 import {
     $updateLoading,
     $widget,
     fetchWidgetFx,
     updateWidget,
 } from '@vw/src/features/widget/model';
-import { useRouter } from 'next/router';
-import { useUnit } from 'effector-react';
+import { WidgetLayout } from '@vw/src/shared/layouts/WidgetLayout';
 import { cn } from '@vw/src/shared/lib/cn';
+import { useUnit } from 'effector-react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 type Props = {};
 
 const WidgetAnalyticPage = (props: Props) => {
     const router = useRouter();
 
-    const [widget, updateLoading] = useUnit([$widget, $updateLoading]);
+    const [widget, updateLoading, analytics] = useUnit([$widget, $updateLoading, $analytics]);
 
     useEffect(() => {
         if (router.isReady) {
-            fetchWidgetFx(Number(router.query.id));
+            const id = Number(router.query.id);
+            fetchWidgetFx(id);
+            fetchAnalytics(id);
         }
     }, [router.isReady]);
 
@@ -45,6 +48,8 @@ const WidgetAnalyticPage = (props: Props) => {
     const onSubmit = handleSubmit(async (data) => {
         updateWidget({ settings: data });
     });
+
+    console.log(analytics);
 
     return (
         <WidgetLayout>
@@ -136,12 +141,12 @@ const WidgetAnalyticPage = (props: Props) => {
 
                 <div className="p-6 bg-white border border-base-300 rounded-xl">
                     <div className="mb-4 text-sm">Просмотрено полностью</div>
-                    <div className="stat-value text-primary">25.6K</div>
+                    <div className="stat-value text-primary">{analytics.full_watched}</div>
                 </div>
 
                 <div className="p-6 bg-white border border-base-300 rounded-xl">
                     <div className="mb-4 text-sm">Открытие виджета</div>
-                    <div className="stat-value text-primary">2.6M</div>
+                    <div className="stat-value text-primary">{analytics.open_widget}</div>
                 </div>
                 {/* <div className="p-6 bg-white border border-base-300 rounded-xl">
                     <div className="mb-4 text-sm">Уникальных показов</div>
@@ -149,7 +154,7 @@ const WidgetAnalyticPage = (props: Props) => {
                 </div> */}
                 <div className="p-6 bg-white border border-base-300 rounded-xl">
                     <div className="mb-4 text-sm">Кликов по cta</div>
-                    <div className="stat-value text-primary">2.6M</div>
+                    <div className="stat-value text-primary">{analytics.click_cta}</div>
                 </div>
             </div>
         </WidgetLayout>

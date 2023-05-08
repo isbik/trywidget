@@ -1,16 +1,15 @@
 import { CheckBadgeIcon } from '@heroicons/react/24/solid';
-import React from 'react';
 
 type Props = {};
 
 export const AnyWebsite = (props: Props) => {
     const logos = [
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogos-world.net%2Fwp-content%2Fuploads%2F2020%2F10%2FWix-Logo-2015-present.jpg&f=1&nofb=1&ipt=35aeb9c191a46479fa10c20aa8fdadfef9217341a7889735543ede1a13cc1439&ipo=images',
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogos-world.net%2Fwp-content%2Fuploads%2F2020%2F10%2FWordPress-Logo.png&f=1&nofb=1&ipt=05fe4ac1de586f9e497b9110ad81f9705879ece77cb4ef50c7a1717d2e7d549b&ipo=images',
-        'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Flogos-download.com%2Fwp-content%2Fuploads%2F2016%2F11%2FTilda_logo_logotype.png&f=1&nofb=1&ipt=35790f3c9818a4ca61e95e3e2c6c07f3cd344177b1ddb3b214455a2ba8950d1a&ipo=images',
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogos-world.net%2Fwp-content%2Fuploads%2F2020%2F11%2FShopify-Logo.png&f=1&nofb=1&ipt=024853fa9fbc555430c32f8bbabb285e4f624b227af9dc6df640c5ce6c73d571&ipo=images',
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fitcarg.com%2Fassets%2Fimg%2Fbitrix24%2Fbitrix24_logo.png&f=1&nofb=1&ipt=9edfc52a6075c69dc96c5569416744fd4ded1185ad152f65a07608197b7842c9&ipo=images',
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fclipground.com%2Fimages%2Fhtml-5-logo-png-4.png&f=1&nofb=1&ipt=6c4c19a0855911db624517d9c8573ee9fa58c5c7df0125dc00ff64bb6a505078&ipo=images',
+        '/static/logos/html.png',
+        '/static/logos/bitrix.png',
+        '/static/logos/tilda.png',
+        '/static/logos/wordpress.png',
+        '/static/logos/wix.jpg',
+        '/static/logos/Shopify.png',
     ];
 
     return (

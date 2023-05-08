@@ -10,7 +10,7 @@ import { SpeakerWaveIcon } from "../../../icons/SpeakerWave";
 import { SpeakerXMarkIcon } from "../../../icons/SpeakerXMark";
 import { XMarkIcon } from "../../../icons/XMark";
 import { openWidgetMetric } from "../../../lib/metrics";
-import { settingsState, setGlobalShow, widgetState } from "../../../store";
+import { setGlobalShow, settingsState, widgetState } from "../../../store";
 import { CTAButton } from "./CTAButton";
 import { SocialButtons } from "./SocialButtons";
 import { Title } from "./Title";
@@ -377,7 +377,7 @@ export const VideoWidget = (props: Props) => {
 
                 {currentTime() > settingsState().ctaTimeToShow && <CTAButton />}
 
-                {settingsState().showControls && (
+                {/* {settingsState().showControls && (
                   <div class="relative rounded-full overflow-hidden mb-1">
                     <div class="w-full bg-black/80 h-[5px]"></div>
                     <div
@@ -387,7 +387,7 @@ export const VideoWidget = (props: Props) => {
                       }}
                     ></div>
                   </div>
-                )}
+                )} */}
 
                 {widget?.plan?.is_hide_logo !== true && (
                   <a

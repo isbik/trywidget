@@ -1,13 +1,13 @@
+import Link from 'next/link';
+import { AnyWebsite } from '../features/home/ui/AnyWebsite';
+import { IntegrationSteps } from '../features/home/ui/IntegrationSteps';
+import { Labels } from '../features/home/ui/Labels';
+import { Opportunities } from '../features/home/ui/Opportunities';
+import { Review } from '../features/home/ui/Review';
+import { UseCases } from '../features/home/ui/UseCases';
 import { Footer } from '../shared/ui/components/Footer';
 import { GetStartedNow } from '../shared/ui/components/GetStartedNow';
 import { Header } from '../shared/ui/components/Header';
-import { Labels } from '../features/home/ui/Labels';
-import { IntegrationSteps } from '../features/home/ui/IntegrationSteps';
-import { AnyWebsite } from '../features/home/ui/AnyWebsite';
-import { Review } from '../features/home/ui/Review';
-import { UseCases } from '../features/home/ui/UseCases';
-import { Opportunities } from '../features/home/ui/Opportunities';
-import Link from 'next/link';
 import { FeedbackForm } from '../widgets/FeedbackForm';
 
 const Home = () => {
@@ -36,12 +36,50 @@ const Home = () => {
                         <Labels />
                     </div>
 
-                    <div className="relative ml-auto w-fit max-md:hidden">
-                        <img
-                            className="max-w-[500px] absolute h-full right-0"
-                            src="/static/landing/woman.png"
-                            alt="Женщина"
-                        />
+                    <div className="relative ml-auto -mr-32 max-md:hidden xl:mr-48 w-fit">
+                        <div className="absolute hover:shadow-2xl hover:scale-[1.2] transition-all hover:z-10 overflow-hidden border-4 shadow-xl rounded-3xl right-36 border-[#B250FF] -top-8">
+                            <img
+                                className="w-[250px] min-w-[250px] object-cover h-[350px]"
+                                src="/static/landing/selfie.jpg"
+                                alt="Селфи"
+                            />
+                        </div>
+                        <div className="rounded-3xl border-4 absolute hover:shadow-2xl hover:z-10 hover:scale-[1.2] transition-all -right-8 shadow-xl top-4 overflow-hidden border-[#0066FF]">
+                            <img
+                                className="w-[250px] min-w-[250px] object-cover  h-[350px] "
+                                src="/static/landing/laywer.jpg"
+                                alt="Адвокат"
+                            />
+
+                            <div className="absolute flex justify-center gap-4 bottom-4 left-4 right-4 ">
+                                <img
+                                    src="/static/logos/vk.svg"
+                                    className="h-[40px] w-[40px] object-cover rounded-xl"
+                                    alt="Вконтакте"
+                                />
+                                <img
+                                    src="/static/logos/telegram.svg"
+                                    className="h-[40px] w-[40px] object-cover rounded-xl"
+                                    alt="Телеграм"
+                                />
+                                <img
+                                    src="/static/logos/whatsapp.svg"
+                                    className="h-[40px] w-[40px] object-cover rounded-xl"
+                                    alt="Ватсапп"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="absolute hover:shadow-2xl hover:scale-[1.2] transition-all overflow-hidden shadow-xl rounded-3xl right-16 top-24 border-4 border-[#101128]">
+                            <img
+                                className="w-[250px] min-w-[250px] object-cover  h-[350px]"
+                                src="/static/landing/woman.jpg"
+                                alt="Женщина"
+                            />
+                            <button className="absolute hover:shadow-2xl transition-all p-2 text-white cursor-pointer rounded-3xl bottom-2 right-4 left-4 bg-[#101128]">
+                                Подать заявку
+                            </button>
+                        </div>
                     </div>
                 </div>
             </main>

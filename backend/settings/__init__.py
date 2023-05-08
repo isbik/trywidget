@@ -1,58 +1,14 @@
-from pathlib import Path
 import os
-import sys
-import dotenv
+
+from .core import *
 from .cors import *
 from .database import *
 from .oauth import *
 from .celery import *
 from .email import *
 from .drf import *
+from .logging import *
 
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-PROJECT_ROOT = os.path.dirname(__file__)
-
-sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
-
-dotenv_file = os.path.join(BASE_DIR, '.env.example')
-
-if os.path.isfile(dotenv_file):
-    dotenv.load_dotenv(dotenv_file)
-
-
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', True)
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -77,6 +33,7 @@ MY_APPS = [
     'apps.widgets.apps.WidgetsConfig',
     'apps.auth.apps.AuthConfig',
     'apps.feedback.apps.FeedbackConfig',
+    'apps.payments.apps.PaymentsConfig',
 ]
 
 INSTALLED_APPS += MY_APPS
@@ -100,9 +57,6 @@ ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -119,9 +73,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Europe/Moscow'
@@ -133,23 +84,12 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'users.User'
 
-TEMP_URL = 'temp/'
-TEMP_ROOT = os.path.join(BASE_DIR, 'temp')
-
 API_URL = os.environ.get('API_URL')
 
-
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
-
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
 
-
-CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost:3000')
 
 MAX_FILE_SIZE = 1024 * 1024 * 50
 

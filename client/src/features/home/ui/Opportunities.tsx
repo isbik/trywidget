@@ -1,14 +1,14 @@
 import { CheckBadgeIcon, SparklesIcon } from '@heroicons/react/24/solid';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 type Props = {};
 
 export const Opportunities = (props: Props) => {
     const ctaItems = ['Настройка стилей', 'Переход по ссылке', 'Открытие формы'];
 
-    const [borderRadius, setBorderRadius] = useState(20);
+    const [borderRadius, setBorderRadius] = useState(10);
     const [scale, setScale] = useState(5);
-    const [color, setColor] = useState(240);
+    const [color, setColor] = useState(270);
 
     return (
         <section className="bg-[#EEF1F7]">
@@ -21,12 +21,12 @@ export const Opportunities = (props: Props) => {
                     <div className="flex flex-col items-center">
                         <div className="relative">
                             <img
-                                src="/static/landing/review-person.png"
+                                src="/static/landing/woman-2.jpg"
                                 className="h-[400px] w-[250px] object-cover rounded-xl"
-                                alt=""
+                                alt="Фотосессия"
                             />
-                            <button className="absolute py-3 text-white outline-dashed outline-4 outline-offset-4 grow bottom-4 left-4 right-4 bg-primary rounded-xl">
-                                Записаться на курс
+                            <button className="absolute py-3 text-white outline-dashed outline-4 outline-offset-4 grow bottom-4 left-4 right-4 bg-[#bf00c5] rounded-xl">
+                                Записаться на съемку
                             </button>
                         </div>
 
@@ -70,25 +70,25 @@ export const Opportunities = (props: Props) => {
 
                         <div className="relative">
                             <img
-                                src="/static/landing/review-person.png"
+                                src="/static/landing/man.jpg"
                                 className="h-[400px] w-[250px] object-cover rounded-xl"
-                                alt=""
+                                alt="Мужчина"
                             />
-                            <div className="absolute flex justify-center gap-3 py-3 text-white outline-dashed outline-4 outline-offset-4 grow bottom-4 left-4 right-4 rounded-xl">
+                            <div className="absolute flex justify-center gap-3 py-1 text-white outline-dashed outline-4 outline-offset-4 grow bottom-4 left-4 right-4 rounded-xl">
                                 <img
                                     src="/static/logos/vk.svg"
                                     className="h-[40px] w-[40px] object-cover rounded-xl"
-                                    alt=""
+                                    alt="Вконтакте"
                                 />
                                 <img
                                     src="/static/logos/telegram.svg"
                                     className="h-[40px] w-[40px] object-cover rounded-xl"
-                                    alt=""
+                                    alt="Телеграм"
                                 />
                                 <img
                                     src="/static/logos/whatsapp.svg"
                                     className="h-[40px] w-[40px] object-cover rounded-xl"
-                                    alt=""
+                                    alt="Ватсапп"
                                 />
                             </div>
                         </div>
@@ -97,9 +97,9 @@ export const Opportunities = (props: Props) => {
                     <div className="flex flex-col items-center">
                         <div className="relative h-[400px] w-[250px] min-h-[400px]">
                             <img
-                                src="/static/landing/review-person.png"
+                                src="/static/landing/woman-walking.jpg"
                                 className="h-[80px] w-[50px] object-cover bottom-0 left-0 absolute"
-                                alt=""
+                                alt="Женщина идет"
                                 style={{
                                     borderRadius,
                                     borderWidth: '1px',
@@ -134,14 +134,10 @@ export const Opportunities = (props: Props) => {
                     </div>
                 </div>
 
-                <div className="flex gap-1 mb-8 max-w-[200px] m-auto">
+                <div className="flex gap-1 mb-8 max-w-[350px] m-auto font-bold">
                     <SparklesIcon className="w-6 text-primary" />
-                    более 30 настроек
+                    более 30 настроек и других функций
                 </div>
-
-                <p className="text-2xl font-black text-center md:text-4xl text-primary">
-                    И множество других <span className="bg-yellow-300 md:p-2">функций</span>
-                </p>
             </div>
         </section>
     );

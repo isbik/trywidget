@@ -1,12 +1,12 @@
 import { Component, Show, onMount } from "solid-js";
 import { wait } from "../../lib/wait";
 import {
-  setWidgetData,
-  setSettingsState,
-  settingsState,
-  setGlobalShow,
-  widgetState,
   globalShow,
+  setGlobalShow,
+  setSettingsState,
+  setWidgetData,
+  settingsState,
+  widgetState,
 } from "../../store";
 import { VideoWidget } from "./ui/VideoWidget";
 

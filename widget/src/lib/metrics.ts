@@ -17,6 +17,9 @@ const callMetric = (key: string) => {
     window.ym?.(settings.yandexCounter, "reachGoal", key);
   }
 
+  const url = "https://trywiget.ru/api/public/widgets";
+  fetch(url);
+
   // TODO add requests to server
 };
 

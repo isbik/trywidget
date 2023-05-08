@@ -13,7 +13,7 @@ from uuid import uuid4
 from apps.users.services.email import get_user_by_verify_token, get_user_by_email, get_user_by_password_token
 from .serializer import UserSerializer, Email, Password
 from apps.emails.services.token import send_token
-from shared.errors import wrong_data_error
+from shared.errors import wrong_data_error, user_not_found_error, invalid_token_error
 
 
 @api_view(['POST'])
@@ -72,19 +72,19 @@ def verify_email_view(request, token):
 def recovery_password(request):
     email = request.data.get('email')
     user = get_user_by_email(email)
+
     if user is None:
-        return redirect("{}/error?type=user_not_found".format(settings.CLIENT_URL))
+        return JsonResponse(user_not_found_error, status=status.HTTP_404_NOT_FOUND)
 
     token = uuid4()
     user.password_token = token
     user.save()
-    send_token(email,
-               'Recovery',
-               'recovery.html',
-               token=token,
-               client_url=settings.CLIENT_URL)
 
-    return redirect(f'{settings.CLIENT_URL}/app')
+    url = f'{settings.CLIENT_URL}/password/recovery/{token}'
+
+    send_token(email, 'Восстановление пароля', 'recovery.html', url=url)
+
+    return JsonResponse({"data": "ok"}, status=200)
 
 
 @swagger_auto_schema(method='POST', request_body=Password())
@@ -95,10 +95,10 @@ def verify_password_token(request, token):
 
     user = get_user_by_password_token(token)
     if user is None:
-        return redirect(f'{settings.CLIENT_URL}/error?type=invalid_token')
+        return JsonResponse(invalid_token_error, status=status.HTTP_400_BAD_REQUEST)
 
     user.set_password(request.data.get('password'))
     user.password_token = ''
     user.save()
 
-    return redirect("{}/login".format(settings.CLIENT_URL))
+    return JsonResponse({"data": "ok"}, status=200)

@@ -38,6 +38,7 @@ class WidgetViewSet(ModelViewSet):
     def analytics(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.serializer_class(instance)
+        print(serializer.data)
         return Response(serializer.data)
 
     def get_queryset(self):

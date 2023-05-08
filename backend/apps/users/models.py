@@ -29,26 +29,36 @@ def get_default_trial_end():
 
 
 class User(AbstractBaseUser):
-    email = models.EmailField(verbose_name='email',
-                              unique=True,
-                              db_index=True,
-                              max_length=254)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+
+    email = models.EmailField(
+        verbose_name='email',
+        unique=True,
+        db_index=True,
+        max_length=254
+    )
+
     next_payment_date = models.DateTimeField(null=True)
     trial_end = models.DateTimeField(default=get_default_trial_end)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    # tokens
+    email_verify_token = models.CharField(max_length=255, null=True)
+    password_token = models.CharField(max_length=255, null=True)
+
+    # analytics
     visit_count = models.IntegerField(default=0)
     last_login_at = models.DateTimeField(auto_now_add=True)
-    email_verify_token = models.CharField(max_length=255,
-                                          null=True)
-    password_token = models.CharField(max_length=255,
-                                      null=True)
 
     USERNAME_FIELD = 'email'
 
     objects = UserManager()
+
+    class Meta:
+        db_table = 'user'
 
     @property
     def is_staff(self):

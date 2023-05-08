@@ -14,6 +14,7 @@ urlpatterns = [
     path('', include('apps.widgets.urls')),
     path('plans/', include('apps.plans.urls')),
     path('', include('apps.feedback.urls')),
+    path('payments/', include('apps.payments.urls')),
 ]
 
 if settings.DEBUG:

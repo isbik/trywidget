@@ -1,4 +1,5 @@
 import {
+    ArrowPathIcon,
     ChevronDoubleLeftIcon,
     ComputerDesktopIcon,
     DevicePhoneMobileIcon,
@@ -22,6 +23,7 @@ import {
     $widgetLoading,
 } from '@vw/src/features/widget/model';
 import { useUnit } from 'effector-react';
+import { renderKeyUpdated } from '@vw/src/widgets/WidgetPreview/model';
 
 const WidgetEditor = dynamic(
     () => import('@vw/src/widgets/WidgetPreview').then((mod) => mod.WidgetPreview),
@@ -142,6 +144,13 @@ const WidgetPage = (props: Props) => {
                         )}
                     >
                         <DevicePhoneMobileIcon className="w-4" />
+                    </button>
+
+                    <button
+                        onClick={() => renderKeyUpdated()}
+                        className={cn('btn btn-sm btn-square btn-ghost')}
+                    >
+                        <ArrowPathIcon className="w-4" />
                     </button>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import 'keen-slider/keen-slider.min.css';
-import React, { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
+import { useState } from 'react';
 
 type Props = {};
 
@@ -32,49 +32,43 @@ export const UseCases = (props: Props) => {
             profession: 'Блогер',
             description:
                 'Блогеры могут использовать видеовиджеты для показа своих видео-блогов на своих веб-сайтах и в социальных сетях. Они также могут использовать видеовиджеты для создания коллекции видеороликов, которые они могут продавать или предоставлять доступ к ним за подписку.',
-            videoUrl: '/static/landing/videos/блогер.mp4',
-            buttonText: 'Снять ролик',
+            imageUrl: '/static/landing/use/blogger.jpg',
+            buttonText: 'Заказать рекламу',
         },
         {
             profession: 'Учителя',
             description:
                 'Учителя могут использовать видеовиджеты для проведения онлайн-уроков и показа обучающих видеороликов на своих веб-сайтах. Они также могут использовать видеовиджеты для создания библиотеки обучающих видеороликов, которые ученики могут просматривать в любое время.',
-            videoUrl: '/static/landing/videos/учитель.mp4',
-            buttonText: 'Помочь с уроками',
+            imageUrl: '/static/landing/use/teacher.jpg',
+            buttonText: 'Пробный урок',
         },
         {
             profession: 'Фотограф',
             description:
                 'Фотографы могут использовать видеовиджеты для создания слайд-шоу своих фотографий, которые они могут показывать на своих веб-сайтах и в социальных сетях. Они также могут использовать видеовиджеты для создания обучающих видеороликов, которые помогут своим клиентам улучшить свои навыки фотографирования.',
-            videoUrl: '/static/landing/videos/учитель.mp4',
+            imageUrl: '/static/landing/use/photographer.jpg',
             buttonText: 'Заказать съемку',
         },
         {
             profession: 'Юрист',
             description:
                 'Юристы могут использовать видеовиджеты для проведения онлайн-консультаций и показа видеороликов с рекомендациями по правовым вопросам на своих веб-сайтах и в социальных сетях. Они также могут использовать видеовиджеты для создания обучающих видеороликов, которые помогут своим клиентам лучше понимать юридические вопросы.',
-            videoUrl: '/static/landing/videos/учитель.mp4',
+            imageUrl: '/static/landing/use/laywer.jpg',
             buttonText: 'Оформить документы',
         },
-        {
-            profession: 'Агент по недвижимости',
-            description:
-                'Агент по недвижимости может использовать видеовиджет для демонстрации виртуальных туров по объектам недвижимости, основных моментов по соседству и отзывов клиентов. Это может помочь потенциальным покупателям лучше ознакомиться с недвижимостью и окрестностями, прежде чем планировать физическое посещение.',
-            videoUrl: '/static/landing/videos/риэлетор.mp4',
-            buttonText: 'Подобрать дом',
-        },
+
         {
             profession: 'Фитнес-тренер:',
             description:
                 'Фитнес-тренер может использовать видеовиджет, чтобы делиться тренировками, демонстрациями упражнений и мотивационными сообщениями. Это может помочь клиентам оставаться вовлеченными в достижение своих целей в фитнесе и обеспечить удобный способ доступа к тренировкам из дома.',
-            videoUrl: '/static/landing/videos/фитнес тренер.mp4',
+            imageUrl: '/static/landing/use/coach.jpg',
             buttonText: 'Бесплатная тренировка',
         },
         {
             profession: 'Музыкант',
             description:
                 'Музыкант может использовать виджет видео для обмена музыкальными клипами, живыми выступлениями и кадрами из-за кулис. Это может помочь создать их фан-базу и обеспечить более личную связь с аудиторией.',
-            videoUrl: '/static/landing/videos/музыкант.mp4',
+            imageUrl: '/static/landing/use/musician.jpg',
             buttonText: 'Пробное занятие',
         },
     ];
@@ -86,23 +80,13 @@ export const UseCases = (props: Props) => {
             </h2>
 
             <div ref={sliderRef} className="m-auto keen-slider">
-                {items.map(({ profession, description, videoUrl, buttonText }, index) => (
+                {items.map(({ profession, description, imageUrl, buttonText }, index) => (
                     <div key={profession} className="flex gap-6 keen-slider__slide">
                         <div className="relative h-fit">
-                            <video
+                            <img
                                 className="bg-red-400 h-[300px] min-w-[200px] rounded-xl object-cover"
-                                src={videoUrl}
-                                muted
-                                autoPlay={currentSlide + 1 === index}
-                                loop
-                                preload="auto"
-                                onClick={(event) => {
-                                    if (event.currentTarget.paused) {
-                                        event.currentTarget.play();
-                                    } else {
-                                        event.currentTarget.pause();
-                                    }
-                                }}
+                                src={imageUrl}
+                                alt={profession}
                             />
                             <button className="absolute py-2 text-white bg-primary left-2 right-2 bottom-2 rounded-xl">
                                 {buttonText}

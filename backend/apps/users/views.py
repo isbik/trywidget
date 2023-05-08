@@ -1,11 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.contrib.auth.models import User
-from django.http import JsonResponse
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from apps.users.serializer import UserSerializer
+from apps.plans.serializers import PlanSerializer
 
 
 class UserMeView(APIView):
@@ -13,5 +11,14 @@ class UserMeView(APIView):
 
     def get(self, request):
         user = request.user
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+        user_serializer = UserSerializer(user)
+        response_data = user_serializer.data
+
+        try:
+            plan = user.userplan.plan
+            plan_serializer = PlanSerializer(plan)
+            response_data['plan'] = plan_serializer.data
+        except:
+            response_data['plan'] = None
+
+        return Response(response_data)

@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate_email(self, value):
         if is_email_taken(value):
-            raise ValidationError('email is already taken')
+            raise ValidationError('Почта уже используется')
         return value
 
     class Meta:
@@ -38,7 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         plain_message = strip_tags(html_message)
         send_email.delay(
-            subject='Register',
+            subject='Регистрация',
             recipient_list=[user.email],
             message=plain_message,
             html_message=html_message
