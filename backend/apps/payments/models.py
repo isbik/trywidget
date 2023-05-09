@@ -3,13 +3,13 @@ from uuid import uuid4
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from apps.plans.models import TIME_PERIOD_CHOICES, Plans
+from apps.plans.models import TIME_PERIOD_CHOICES, Plan
 
 
 class Payments(models.Model):
     payment_id = models.UUIDField(default=uuid4, editable=False, unique=True)
     price = models.IntegerField()
-    time_period = models.IntegerField(choices=TIME_PERIOD_CHOICES)
+    time_period = models.CharField(choices=TIME_PERIOD_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
 
@@ -19,11 +19,8 @@ class Payments(models.Model):
     )
 
     plan = models.ForeignKey(
-        Plans, on_delete=models.CASCADE, related_name="plans"
+        Plan, on_delete=models.CASCADE, related_name="plans"
     )
-
-    def __str__(self):
-        return self.payment_id
 
     class Meta:
         db_table = 'payment'

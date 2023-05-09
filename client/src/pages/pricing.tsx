@@ -1,15 +1,17 @@
-import { CheckBadgeIcon, CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
-import { cn } from '../shared/lib/cn';
-import { Footer } from '../shared/ui/components/Footer';
-import { Header } from '../shared/ui/components/Header';
-import { GetStartedNow } from '../shared/ui/components/GetStartedNow';
+import { CheckBadgeIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { createEffect, createEvent, createStore, sample } from 'effector';
+import { useStore } from 'effector-react';
+import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { api } from '../api/api';
-import { InfinityIcon } from '../shared/ui/icons/Infinity';
+import { $user } from '../features/user/model';
+import { cn } from '../shared/lib/cn';
 import { plural } from '../shared/lib/plural';
-import { useStore } from 'effector-react';
-import { createEffect, createEvent, createStore, sample } from 'effector';
-import { NextSeo } from 'next-seo';
+import { Footer } from '../shared/ui/components/Footer';
+import { GetStartedNow } from '../shared/ui/components/GetStartedNow';
+import { Header } from '../shared/ui/components/Header';
+import { InfinityIcon } from '../shared/ui/icons/Infinity';
 
 const $plans = createStore([]);
 
@@ -31,6 +33,9 @@ sample({
 });
 
 const PlansPage = () => {
+    const router = useRouter();
+
+    const user = useStore($user);
     const plans = useStore($plans);
 
     const [isYear, setIsYear] = useState(true);
@@ -38,6 +43,25 @@ const PlansPage = () => {
     useEffect(() => {
         fetchPlans();
     }, []);
+
+    const handleCreatePayment = (plan_id: string) => {
+        if (!user) {
+            router.push('/login');
+            return;
+        }
+
+        api.post('payments/', {
+            json: {
+                plan_id,
+                time_period: isYear ? 'year' : 'month',
+            },
+        })
+            .json()
+            .then(({ payment_id }) => {
+                console.log(payment_id);
+                // TODO redirect to yokassa
+            });
+    };
 
     return (
         <>
@@ -92,6 +116,7 @@ const PlansPage = () => {
                                     </p>
 
                                     <button
+                                        onClick={() => handleCreatePayment(plan.id)}
                                         className={cn(
                                             'w-fit px-6 py-2 mt-auto transition-all border rounded border-primary text-primary hover:bg-primary hover:text-white',
                                             index === 1 && 'bg-primary text-white hover:scale-105'

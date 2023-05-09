@@ -1,9 +1,10 @@
+import { useStore } from 'effector-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { api } from '../api/api';
-import { fetchUser } from '../features/user/model';
+import { $user, fetchUser } from '../features/user/model';
 import { CONFIG } from '../shared/config/config';
 import { cn } from '../shared/lib/cn';
 import { GoogleIcon } from '../shared/ui/icons/Google';
@@ -88,6 +89,14 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
 
         return 'Попробуйте ещё раз';
     };
+
+    const user = useStore($user);
+
+    useEffect(() => {
+        if (user) {
+            router.push('/app');
+        }
+    }, [user]);
 
     return (
         <form
