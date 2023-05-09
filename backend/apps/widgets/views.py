@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -38,7 +39,6 @@ class WidgetViewSet(ModelViewSet):
     def analytics(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.serializer_class(instance)
-        print(serializer.data)
         return Response(serializer.data)
 
     def get_queryset(self):
@@ -83,10 +83,12 @@ class PublicWidget(RetrieveModelMixin, GenericViewSet):
         serializer = self.get_serializer({'widget': instance, 'plan': plan})
         return Response(serializer.data)
 
+    @swagger_auto_schema(responses={200: 'No content'})
     @action(
         detail=True,
         methods=['patch'],
         serializer_class=AnalyticUpdateSerializer,
+        throttle_classes=[]
     )
     def analytics(self, request, *args, **kwargs):
         instance = self.get_object()
