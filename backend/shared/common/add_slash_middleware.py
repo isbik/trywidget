@@ -5,7 +5,7 @@ class AddSlashMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if not request.path.endswith('/'):
-            request.path += '/'
-            request.path_info = request.path
+        # if not request.path.endswith('/'):
+        #     request.path += '/'
+        #     request.path_info = request.path
         return self.get_response(request)

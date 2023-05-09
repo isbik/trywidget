@@ -28,9 +28,11 @@ const callMetric = (key: string) => {
     headers: {
       "Content-Type": "application/json",
     },
-  });
-
-  // TODO add requests to server
+  })
+    .then((res) => res.json())
+    .catch((e) => {
+      console.error(e);
+    });
 };
 
 export const openWidgetMetric = () => {

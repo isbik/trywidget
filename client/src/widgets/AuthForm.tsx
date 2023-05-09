@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { GoogleIcon } from '../shared/ui/icons/Google';
+import { api } from '../api/api';
+import { fetchUser } from '../features/user/model';
 import { CONFIG } from '../shared/config/config';
 import { cn } from '../shared/lib/cn';
-import { api } from '../api/api';
-import { useRouter } from 'next/router';
-import { fetchUser } from '../features/user/model';
+import { GoogleIcon } from '../shared/ui/icons/Google';
 
 type Props = {
     type?: 'login' | 'register';
