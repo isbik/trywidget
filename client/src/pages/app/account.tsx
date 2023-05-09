@@ -1,10 +1,19 @@
+import { CheckBadgeIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { $user } from '@vw/src/features/user/model';
+import { cn } from '@vw/src/shared/lib/cn';
+import { plural } from '@vw/src/shared/lib/plural';
 import { AppLayout } from '@vw/src/shared/ui/components/AppLayout';
+import { InfinityIcon } from '@vw/src/shared/ui/icons/Infinity';
+import { useStore } from 'effector-react';
 import Link from 'next/link';
-import React from 'react';
 
 type Props = {};
 
 const AccountPage = (props: Props) => {
+    const user = useStore($user);
+
+    const plan = user?.plan;
+
     return (
         <AppLayout>
             <h1 className="mb-16 text-3xl">Настройки аккаунта</h1>
@@ -40,11 +49,51 @@ const AccountPage = (props: Props) => {
             <div className="mb-8 bg-white border rounded-md border-base-300 sm:w-96">
                 <div className="card-body">
                     <h2 className="card-title">Текущий тариф</h2>
-                    <span className="mb-4 text-primary">Базовый тариф</span>
+                    <span className="mb-4 text-primary">
+                        {plan?.display_name || 'Пробный тариф'}
+                    </span>
                     <ul>
-                        <li>3 видеовиджета</li>
-                        <li>1 сайт</li>
-                        <li>Базовая аналитика за 30 дней</li>
+                        <li>
+                            <li className="flex items-center gap-2">
+                                <InfinityIcon className="w-4 text-primary" /> просмотров
+                            </li>
+                            <li className="flex items-center gap-2">
+                                <CheckBadgeIcon className="w-4 text-primary" />
+                                {plan.max_widgets}{' '}
+                                {plural(plan.max_widgets, ['виджет', 'виджета', 'виджетов'])}
+                            </li>
+                            <li className="flex items-center gap-2">
+                                <CheckBadgeIcon className="w-4 text-primary" />
+                                {plan.max_widgets * 2} видео
+                            </li>
+
+                            <li
+                                className={cn(
+                                    'flex items-center gap-2',
+                                    !plan.is_hide_logo && 'line-through'
+                                )}
+                            >
+                                {!plan.is_hide_logo ? (
+                                    <XMarkIcon className="w-4 text-[#A9A9A9]" />
+                                ) : (
+                                    <CheckBadgeIcon className="w-4 text-primary" />
+                                )}
+                                Скрытие логотипа
+                            </li>
+                            <li
+                                className={cn(
+                                    'flex items-center gap-2',
+                                    !plan.is_support && 'line-through'
+                                )}
+                            >
+                                {!plan.is_support ? (
+                                    <XMarkIcon className="w-4 text-[#A9A9A9]" />
+                                ) : (
+                                    <CheckBadgeIcon className="w-4 text-primary" />
+                                )}
+                                Премиум-поддержка
+                            </li>
+                        </li>
                     </ul>
                     <Link href="/pricing" className="btn">
                         Сменить

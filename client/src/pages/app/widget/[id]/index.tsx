@@ -140,18 +140,15 @@ const WidgetAnalyticPage = (props: Props) => {
                 <div className="w-full"></div>
 
                 <div className="p-6 bg-white border border-base-300 rounded-xl">
+                    <div className="mb-4 text-sm">Открытие виджета</div>
+                    <div className="stat-value text-primary">{analytics.open_widget}</div>
+                </div>
+
+                <div className="p-6 bg-white border border-base-300 rounded-xl">
                     <div className="mb-4 text-sm">Просмотрено полностью</div>
                     <div className="stat-value text-primary">{analytics.full_watched}</div>
                 </div>
 
-                <div className="p-6 bg-white border border-base-300 rounded-xl">
-                    <div className="mb-4 text-sm">Открытие виджета</div>
-                    <div className="stat-value text-primary">{analytics.open_widget}</div>
-                </div>
-                {/* <div className="p-6 bg-white border border-base-300 rounded-xl">
-                    <div className="mb-4 text-sm">Уникальных показов</div>
-                    <div className="stat-value text-primary">2.6M</div>
-                </div> */}
                 <div className="p-6 bg-white border border-base-300 rounded-xl">
                     <div className="mb-4 text-sm">Кликов по cta</div>
                     <div className="stat-value text-primary">{analytics.click_cta}</div>

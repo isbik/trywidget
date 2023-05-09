@@ -1,4 +1,4 @@
-import React from 'react';
+import { useFormContext } from 'react-hook-form';
 import {
     CustomizeDivider,
     CustomizeInputColor,
@@ -7,7 +7,6 @@ import {
     CustomizeInputSwitch,
     CustomizeInputText,
 } from '../atoms';
-import { useFormContext } from 'react-hook-form';
 
 export const CTASettings = () => {
     const { watch } = useFormContext();
@@ -68,6 +67,7 @@ export const CTASettings = () => {
                     </div>
 
                     <CustomizeDivider title="Стили" />
+                    <CustomizeInputNumber name="ctaFontSize" title="Размер текса" />
                     <CustomizeInputColor name="ctaButtonColor" title="Цвет кнопки" />
                     <CustomizeInputColor name="ctaTextColor" title="Цвет текста" />
                     <CustomizeInputNumber name="ctaBorderRadius" title="Закругление" />

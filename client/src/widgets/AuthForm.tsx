@@ -94,7 +94,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
 
     useEffect(() => {
         if (user) {
-            router.push('/app');
+            router.replace('/app');
         }
     }, [user]);
 

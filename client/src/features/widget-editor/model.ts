@@ -1,51 +1,12 @@
-import { WidgetSettings } from '@vw/src/shared/types';
+import { SETTINGS_DEFAULT, WidgetSettings } from '@vw/src/shared/types';
 import { createEvent, createStore } from 'effector';
 
 export const setWidgetSettings = createEvent<WidgetSettings>();
 
-export const $widgetSettings = createStore({
-    showControls: false,
-    shape: 'rectangle',
-    height: 100,
-    width: 100,
-    scaleView: 2,
-    placement: 'left',
-    edgeMargins: 10,
-    isDragWidget: true,
-    playSize: 10,
-    playColor: '#fcaeee',
-    playIconColors: '#fcaeee',
-    showBorder: true,
-    borderColor: '#fcaeee',
-    borderHoverColor: '#fcaeee',
-    showTitle: true,
-    titleColor: '#fcaeee',
-    titleAlign: 'left',
-
-    ctaShow: true,
-    ctaText: 'Регистрация',
-    ctaClickAction: 'link',
-    ctaOpenLink: 'test.com',
-    ctaOpenNewTab: true,
-    ctaClickSelector: '#selector',
-    ctaButtonColor: '#aaa111',
-    ctaTextColor: '#aaa111',
-    ctaBorderRadius: 12,
-    ctaTimeToShow: 1,
-    ctaIsFontWeight: 'bold',
-
-    showingPreview: false,
-    showingCondition: 'immediately',
-    showingAfterTime: 1,
-    showingSelector: '#showing',
-
-    showingAgainTime: 10,
-    showingAgainUnit: 'seconds',
-
-    showingAllPages: false,
-    showingOnlyPages: ['test.com'],
-    showingIgnorePages: ['test.com'],
-}).on(setWidgetSettings, (store, payload) => ({
-    ...store,
-    ...payload,
-}));
+export const $widgetSettings = createStore(SETTINGS_DEFAULT).on(
+    setWidgetSettings,
+    (store, payload) => ({
+        ...store,
+        ...payload,
+    })
+);

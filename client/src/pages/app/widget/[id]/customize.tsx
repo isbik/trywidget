@@ -8,22 +8,22 @@ import {
 import { CTASettings } from '@vw/src/features/widget-editor/components/CTASettings';
 import { ShowingSettings } from '@vw/src/features/widget-editor/components/ShowingSettings';
 import { StyleSettings } from '@vw/src/features/widget-editor/components/StyleSettings';
-import { cn } from '@vw/src/shared/lib/cn';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { SETTINGS_DEFAULT } from '../../../../shared/types';
-import { useRouter } from 'next/router';
 import {
+    $updateLoading,
     $widget,
+    $widgetLoading,
     fetchWidgetFx,
     updateWidget,
-    $updateLoading,
-    $widgetLoading,
 } from '@vw/src/features/widget/model';
-import { useUnit } from 'effector-react';
+import { cn } from '@vw/src/shared/lib/cn';
 import { renderKeyUpdated } from '@vw/src/widgets/WidgetPreview/model';
+import { useUnit } from 'effector-react';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { SETTINGS_DEFAULT } from '../../../../shared/types';
 
 const WidgetEditor = dynamic(
     () => import('@vw/src/widgets/WidgetPreview').then((mod) => mod.WidgetPreview),
@@ -71,7 +71,7 @@ const WidgetPage = (props: Props) => {
 
     const [frame, setFrame] = useState<Window>();
 
-    const [device, setDevice] = useState<'mobile' | 'desktop'>('mobile');
+    const [device, setDevice] = useState<'mobile' | 'desktop'>('desktop');
 
     const { ...methods } = useForm({ values: { ...SETTINGS_DEFAULT, ...(widget.settings || {}) } });
 

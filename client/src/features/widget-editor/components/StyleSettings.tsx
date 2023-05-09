@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import {
-    CustomizeInputNumber,
-    CustomizeInputSwitch,
-    CustomizeInputColor,
-    CustomizeBlock,
-    CustomizeDivider,
-    CustomizeInputShape,
-    CustomizeInputAlign,
-    CustomizeExpand,
-} from '../atoms';
 import { useFormContext } from 'react-hook-form';
+import {
+    CustomizeExpand,
+    CustomizeInputAlign,
+    CustomizeInputColor,
+    CustomizeInputNumber,
+    CustomizeInputShape,
+    CustomizeInputSwitch,
+} from '../atoms';
 
 type Props = {};
 
