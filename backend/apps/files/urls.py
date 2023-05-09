@@ -6,6 +6,6 @@ file_router = DefaultRouter()
 file_router.register('', views.ListDeleteFileViewSet, basename='file')
 
 urlpatterns = [
-    path('upload', views.upload, name='upload'),
+    path('upload/', views.upload, name='upload'),
     path('', include(file_router.urls))
 ]

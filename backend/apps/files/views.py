@@ -2,7 +2,8 @@ from uuid import uuid4
 import os
 from django.conf import settings
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, \
+    throttle_classes
 from rest_framework.permissions import IsAuthenticated
 
 from .models import File
@@ -17,6 +18,7 @@ from shared.plans.check_plan import check_plan_permission
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
+@throttle_classes([])
 def upload(request):
     header = request.headers.get('Content-Range')
     error = get_header_content_range_error(header)
