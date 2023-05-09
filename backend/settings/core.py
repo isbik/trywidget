@@ -12,7 +12,7 @@ PROJECT_ROOT = os.path.dirname(__file__)
 
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
-dotenv_file = os.path.join(BASE_DIR, '.env.example')
+dotenv_file = os.path.join(BASE_DIR, '.env')
 
 if os.path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
@@ -53,5 +53,4 @@ TEMPLATES = [
 ]
 
 
-# CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost:3001')
-CLIENT_URL = 'http://localhost:3001'
+CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost:3000')
