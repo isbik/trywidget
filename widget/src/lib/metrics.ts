@@ -22,8 +22,8 @@ const callMetric = (key: string) => {
 
   const body = { full_watched: true };
 
-  fetch(url, {
-    method: "patch",
+  fetch(url + "analytics/", {
+    method: "PATCH",
     body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
