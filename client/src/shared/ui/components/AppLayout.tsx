@@ -7,7 +7,7 @@ import {
     UserIcon,
 } from '@heroicons/react/24/solid';
 import { api } from '@vw/src/api/api';
-import { $user } from '@vw/src/features/user/model';
+import { $user, userReset } from '@vw/src/features/user/model';
 import dayjs from 'dayjs';
 import { useStore } from 'effector-react';
 import Link from 'next/link';
@@ -48,7 +48,10 @@ export const AppLayout = ({ children }: Props) => {
 
     const handleLogout = () => {
         api.get('auth/logout');
-        router.push('/');
+
+        userReset();
+
+        router.replace('/');
     };
 
     const showUpdate = () => {

@@ -1,6 +1,12 @@
 import { settingsState } from "../store";
 import { getWidgetUrl } from "./getWidgetSlug";
 
+const MAP = {
+  tw_open: "click_cta",
+  tw_cta_click: "full_watched",
+  tw_full_watched: "open_widget",
+} as any;
+
 const callMetric = (key: string) => {
   const settings = settingsState();
 
@@ -20,7 +26,9 @@ const callMetric = (key: string) => {
 
   const url = getWidgetUrl();
 
-  const body = { full_watched: true };
+  if (url.includes("https://trywidget.ru")) return;
+
+  const body = { [MAP[key]]: true };
 
   fetch(url + "analytics/", {
     method: "PATCH",
@@ -30,9 +38,7 @@ const callMetric = (key: string) => {
     },
   })
     .then((res) => res.json())
-    .catch((e) => {
-      console.error(e);
-    });
+    .catch(console.error);
 };
 
 export const openWidgetMetric = () => {

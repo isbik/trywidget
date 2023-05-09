@@ -1,4 +1,5 @@
 import { Show } from "solid-js";
+import { clickCtaMetric } from "../../../lib/metrics";
 import { settingsState } from "../../../store";
 
 export const CTAButton = () => {
@@ -10,12 +11,15 @@ export const CTAButton = () => {
 
     const action = settings.ctaClickAction;
 
+    clickCtaMetric();
+
     if (action === "link") {
       window.open(
         settings.ctaOpenLink,
         settings.ctaOpenNewTab ? "_blank" : "_self",
       );
     }
+
     if (action === "scroll") {
       document.getElementById(settings.ctaClickSelector)?.scrollIntoView();
     }
@@ -29,7 +33,7 @@ export const CTAButton = () => {
     <Show when={settingsState().ctaShow}>
       <button
         onClick={handleClick}
-        class="m-auto transition-all px-2 py-2 w-full my-1 max-w-[300px] hover:opacity-90 cursor-pointer"
+        class="m-auto transition-all px-2 py-3 w-full my-1 max-w-[300px] hover:opacity-90 cursor-pointer"
         style={{
           background: settingsState().ctaButtonColor,
           color: settingsState().ctaTextColor,

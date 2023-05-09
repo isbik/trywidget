@@ -9,7 +9,7 @@ import { MinusIcon } from "../../../icons/Minus";
 import { SpeakerWaveIcon } from "../../../icons/SpeakerWave";
 import { SpeakerXMarkIcon } from "../../../icons/SpeakerXMark";
 import { XMarkIcon } from "../../../icons/XMark";
-import { openWidgetMetric } from "../../../lib/metrics";
+import { fullWatchedMetric, openWidgetMetric } from "../../../lib/metrics";
 import { setGlobalShow, settingsState, widgetState } from "../../../store";
 import { CTAButton } from "./CTAButton";
 import { SocialButtons } from "./SocialButtons";
@@ -87,14 +87,16 @@ export const VideoWidget = (props: Props) => {
   });
 
   const onClickWrapper = (event: MouseEvent) => {
-    setExpanded(true);
     setMuted(false);
 
     const settings = settingsState();
 
     if (!expanded() && videoRef) {
       videoRef.currentTime = 0;
+      openWidgetMetric();
     }
+
+    setExpanded(true);
 
     if (expanded() && settings.enableExpandFullScreen) {
       if (settings.placement === "left") {
@@ -108,8 +110,6 @@ export const VideoWidget = (props: Props) => {
     } else {
       calculatePosition();
     }
-
-    openWidgetMetric();
   };
 
   const wrapperWidth = createMemo(() => {
@@ -194,6 +194,14 @@ export const VideoWidget = (props: Props) => {
 
   const [currentTime, setCurrentTime] = createSignal(0);
   const [totalTime, setTotalTime] = createSignal(0);
+
+  createEffect(() => {
+    const diff = totalTime() - currentTime();
+
+    if (diff < 0.5) {
+      fullWatchedMetric();
+    }
+  });
 
   onMount(() => {
     videoRef?.addEventListener("loadeddata", () => {

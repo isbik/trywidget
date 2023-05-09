@@ -1,4 +1,4 @@
-import { api, getCookie } from '@vw/src/api/api';
+import { api } from '@vw/src/api/api';
 import { User } from '@vw/src/api/generated';
 import { createEffect, createEvent, createStore, sample } from 'effector';
 
@@ -17,4 +17,7 @@ sample({
     filter: (loading) => !loading,
 });
 
+export const userReset = createEvent();
 export const $user = createStore<null | User>(null).on(fetchUserFx.doneData, (_, data) => data);
+
+$user.on(userReset, () => null);
