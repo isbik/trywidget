@@ -38,6 +38,7 @@ class WidgetsListSerializer(WidgetRetrieveSerializer):
 class WidgetCreateSerializer(WidgetBaseSerializer):
     class Meta(WidgetBaseSerializer.Meta):
         fields = ('id', 'name', 'video')
+        read_only_fields = ('video',)
 
 
 class WidgetUpdateSerializer(WidgetBaseSerializer):
