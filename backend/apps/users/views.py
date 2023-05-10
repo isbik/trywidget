@@ -1,3 +1,5 @@
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -9,6 +11,7 @@ from apps.plans.serializers import PlanSerializer
 class UserMeView(APIView):
     permission_classes = [IsAuthenticated]
 
+    # @swagger_auto_schema(responses={200: UserSerializer()})
     def get(self, request):
         user = request.user
         user_serializer = UserSerializer(user)

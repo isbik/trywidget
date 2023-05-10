@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.mixins import RetrieveModelMixin
@@ -19,6 +21,15 @@ from shared.plans.check_plan import check_plan_permission
 from rest_framework.decorators import action
 
 
+@method_decorator(
+    name='destroy',
+    decorator=swagger_auto_schema(
+        responses={200: openapi.Response(
+            'Destroyed',
+            WidgetRetrieveSerializer,
+        )}
+    )
+)
 class WidgetViewSet(ModelViewSet):
     queryset = Widget.objects.all()
     serializer_class = WidgetRetrieveSerializer

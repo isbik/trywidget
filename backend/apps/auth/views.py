@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from drf_yasg import openapi
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.contrib.auth import get_user_model, authenticate, login, logout
@@ -15,8 +16,17 @@ from .serializer import UserSerializer, Email, Password, ChangePasswordSerialize
 from apps.emails.services.token import send_token
 from shared.errors import wrong_data_error, user_not_found_error, invalid_token_error
 
+data_ok_schema = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={'data': openapi.Schema(type=openapi.TYPE_STRING)},
+)
 
-@swagger_auto_schema(method='POST', request_body=LoginSerializer())
+
+@swagger_auto_schema(
+    method='POST',
+    request_body=LoginSerializer(),
+    responses={200: data_ok_schema}
+)
 @api_view(['POST'])
 def login_view(request: HttpRequest):
     email = request.data.get('email', None)
@@ -32,6 +42,10 @@ def login_view(request: HttpRequest):
     return JsonResponse({'data': 'ok'}, status=status.HTTP_200_OK)
 
 
+@swagger_auto_schema(
+    method='GET',
+    responses={200: data_ok_schema}
+)
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def logout_view(request):
@@ -48,6 +62,7 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = []
     serializer_class = UserSerializer
 
+    @swagger_auto_schema(responses={200: data_ok_schema})
     def post(self, *args, **kwargs):
         super().post(*args, **kwargs)
         return HttpResponse({"data": "ok"})
@@ -68,7 +83,11 @@ def verify_email_view(request, token):
     return HttpResponse(status=200)
 
 
-@swagger_auto_schema(method='POST', request_body=Email())
+@swagger_auto_schema(
+    method='POST',
+    request_body=Email(),
+    responses={200: data_ok_schema},
+)
 @api_view(['POST'])
 def recovery_password(request):
     email = request.data.get('email')
@@ -88,7 +107,11 @@ def recovery_password(request):
     return JsonResponse({"data": "ok"}, status=200)
 
 
-@swagger_auto_schema(method='POST', request_body=Password())
+@swagger_auto_schema(
+    method='POST',
+    request_body=Password(),
+    responses={200: data_ok_schema},
+)
 @api_view(['POST'])
 def verify_password_token(request, token):
     serializer = Password(data=request.data)
@@ -105,7 +128,14 @@ def verify_password_token(request, token):
     return JsonResponse({"data": "ok"}, status=200)
 
 
-@swagger_auto_schema(method='POST', request_body=ChangePasswordSerializer())
+@swagger_auto_schema(
+    method='POST',
+    request_body=ChangePasswordSerializer(),
+    responses={
+        200: data_ok_schema,
+        401: openapi.Schema(type=openapi.TYPE_OBJECT, properties={'detail': openapi.Schema(type=openapi.TYPE_STRING)})
+    },
+)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def change_password(request):

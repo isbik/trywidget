@@ -55,14 +55,13 @@ class Password(serializers.Serializer):
     password = serializers.CharField(min_length=8, write_only=True)
 
 
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(min_length=8, write_only=True)
+
+
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True,
                                          min_length=8)
     new_password = serializers.CharField(write_only=True,
                                          min_length=8)
-
-
-class LoginSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField(write_only=True,
-                                     min_length=8)
