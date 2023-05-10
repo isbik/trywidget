@@ -11,11 +11,12 @@ from drf_yasg.utils import swagger_auto_schema
 from uuid import uuid4
 
 from apps.users.services.email import get_user_by_verify_token, get_user_by_email, get_user_by_password_token
-from .serializer import UserSerializer, Email, Password
+from .serializer import UserSerializer, Email, Password, ChangePasswordSerializer, LoginSerializer
 from apps.emails.services.token import send_token
 from shared.errors import wrong_data_error, user_not_found_error, invalid_token_error
 
 
+@swagger_auto_schema(method='POST', request_body=LoginSerializer())
 @api_view(['POST'])
 def login_view(request: HttpRequest):
     email = request.data.get('email', None)
@@ -102,3 +103,23 @@ def verify_password_token(request, token):
     user.save()
 
     return JsonResponse({"data": "ok"}, status=200)
+
+
+@swagger_auto_schema(method='POST', request_body=ChangePasswordSerializer())
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def change_password(request):
+    serializer = ChangePasswordSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+
+    new_password = request.data.get('new_password')
+    old_password = request.data.get('old_password')
+
+    user = request.user
+
+    if user.check_password(old_password):
+        user.set_password(new_password)
+        user.save()
+        login(request, user)
+        return JsonResponse({'status': 'ok'}, status=200)
+    return JsonResponse({'detail': 'invalid password'}, status=401)
