@@ -4,24 +4,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 
-from apps.users.serializer import UserSerializer
-from apps.plans.serializers import PlanSerializer
+from apps.users.serializer import UserMeSerializer
 
 
 class UserMeView(APIView):
     permission_classes = [IsAuthenticated]
 
-    # @swagger_auto_schema(responses={200: UserSerializer()})
+    @swagger_auto_schema(responses={200: UserMeSerializer()})
     def get(self, request):
         user = request.user
-        user_serializer = UserSerializer(user)
-        response_data = user_serializer.data
-
-        try:
-            plan = user.userplan.plan
-            plan_serializer = PlanSerializer(plan)
-            response_data['plan'] = plan_serializer.data
-        except:
-            response_data['plan'] = None
-
-        return Response(response_data)
+        user_serializer = UserMeSerializer(user)
+        return Response(user_serializer.data)
