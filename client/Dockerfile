@@ -1,20 +1,14 @@
-FROM node:14-alpine
+FROM node:16-alpine
 
-# Set working directory
-WORKDIR /build
+WORKDIR /app
 
-# Copy package.json and yarn.lock to the container
-COPY package.json yarn.lock ./
+COPY package*.json  ./
 
-# Install dependencies
-RUN npm i 
+RUN npm install --quiet --only=production
 
-# Copy the rest of the app to the container
 COPY . .
 
+RUN npm run --silent build
 
-# Expose port 3000
-EXPOSE 3000
 
-# Start the app
-CMD ["npm","run", "dev"]
+CMD npm run start

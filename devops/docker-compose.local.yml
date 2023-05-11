@@ -34,6 +34,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
   celery:
     build:
       context: ../backend
@@ -44,8 +45,6 @@ services:
       - ../backend/:/app
     depends_on:
       - redis
-
-    
 
   # client:
   #   build: ../client
