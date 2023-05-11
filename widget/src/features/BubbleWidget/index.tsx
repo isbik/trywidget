@@ -1,6 +1,5 @@
 import { Component, Show, onMount } from "solid-js";
 import { getWidgetUrl } from "../../lib/getWidgetSlug";
-import { wait } from "../../lib/wait";
 import {
   globalShow,
   setGlobalShow,
@@ -13,7 +12,6 @@ import { VideoWidget } from "./ui/VideoWidget";
 
 const fetchData = async () => {
   try {
-
     const res = await fetch(getWidgetUrl());
 
     const data = await res.json();
@@ -25,29 +23,10 @@ const fetchData = async () => {
 
 const BubbleWidget: Component = () => {
   onMount(async () => {
-    await wait();
-
     const widget = await fetchData();
 
     setWidgetData(widget);
-  });
 
-  onMount(() => {
-    window["widget"] = {
-      setSettings: (data) => {
-        setSettingsState({ ...(settingsState() || {}), ...data });
-      },
-    };
-
-    // For dev only
-    document.querySelectorAll("[data-vidget-id]").forEach((e, index, all) => {
-      if (index !== all.length - 2) {
-        e.parentElement?.closest("div")?.remove();
-      }
-    });
-  });
-
-  onMount(() => {
     let settings = settingsState();
 
     const currentPage = window.location.origin;
@@ -69,8 +48,23 @@ const BubbleWidget: Component = () => {
     }
   });
 
+  onMount(() => {
+    window["widget"] = {
+      setSettings: (data) => {
+        setSettingsState({ ...(settingsState() || {}), ...data });
+      },
+    };
+
+    // For dev only
+    document.querySelectorAll("[data-vidget-id]").forEach((e, index, all) => {
+      if (index !== all.length - 2) {
+        e.parentElement?.closest("div")?.remove();
+      }
+    });
+  });
+
   return (
-    <Show when={globalShow() && widgetState() && settingsState()}>
+    <Show when={globalShow() && widgetState()}>
       <VideoWidget />
     </Show>
   );

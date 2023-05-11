@@ -106,4 +106,4 @@ class PublicWidget(RetrieveModelMixin, GenericViewSet):
         serializer = self.serializer_class(data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         instance.increase_analytic_fields(serializer.validated_data)
-        return Response(status=status.HTTP_200_OK)
+        return Response(data={'data': 'ok'}, status=status.HTTP_200_OK)

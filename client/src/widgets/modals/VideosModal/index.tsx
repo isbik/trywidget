@@ -1,6 +1,16 @@
-import React, { useEffect } from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
 import { CloudArrowUpIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import * as Dialog from '@radix-ui/react-dialog';
+import {
+    $isUploading,
+    $uploadError,
+    $uploadProgress,
+    uploadFileFx,
+} from '@vw/src/shared/lib/chunkUploadFile';
+import { cn } from '@vw/src/shared/lib/cn';
+import { FileUpload } from '@vw/src/shared/ui/components/FileUpload';
+import { useUnit } from 'effector-react';
+import { useEffect } from 'react';
+import { attachWidgetVideo } from '../../WidgetList/model';
 import {
     $selectedWidget,
     $videos,
@@ -9,16 +19,6 @@ import {
     fetchVideos,
     videosModalOpenChanged,
 } from './model';
-import { useUnit } from 'effector-react';
-import {
-    $isUploading,
-    $uploadError,
-    $uploadProgress,
-    uploadFileFx,
-} from '@vw/src/shared/lib/chunkUploadFile';
-import { cn } from '@vw/src/shared/lib/cn';
-import { attachWidgetVideo } from '../../WidgetList/model';
-import { FileUpload } from '@vw/src/shared/ui/components/FileUpload';
 
 export const VideosModal = () => {
     const [videos, videosModalOpen, selectedWidget] = useUnit([
@@ -77,9 +77,16 @@ export const VideosModal = () => {
                                     src={video.preview_image_url}
                                     alt="widget"
                                     className="object-cover w-full rounded h-[120px] mb-2"
-                                    onClick={() =>
-                                        attachWidgetVideo({ video, selectedWidget: selectedWidget })
-                                    }
+                                    onClick={() => {
+                                        if (!selectedWidget) {
+                                            return;
+                                        }
+
+                                        attachWidgetVideo({
+                                            video,
+                                            selectedWidget: selectedWidget,
+                                        });
+                                    }}
                                     role="presentation"
                                 />
 
@@ -93,7 +100,7 @@ export const VideosModal = () => {
                                 </p>
                                 <button
                                     type="button"
-                                    onClick={() => deleteVideo(video.id)}
+                                    onClick={() => video.id && deleteVideo(video.id)}
                                     className="absolute btn btn-xs top-2 right-2 btn-circle"
                                 >
                                     <XMarkIcon className="w-4" />

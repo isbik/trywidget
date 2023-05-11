@@ -1,4 +1,5 @@
 import ky from 'ky';
+import { CONFIG } from '../shared/config/config';
 
 // get cookie value by key
 export const getCookie = (key: string) => {
@@ -11,10 +12,8 @@ export const getCookie = (key: string) => {
     return null;
 };
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
-
 const created = ky.create({
-    prefixUrl: BASE_URL,
+    prefixUrl: CONFIG.API_URL,
 });
 
 export const api = created.extend({

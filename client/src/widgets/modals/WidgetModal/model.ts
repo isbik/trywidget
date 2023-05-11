@@ -1,4 +1,5 @@
 import { api } from '@vw/src/api/api';
+import { WidgetUpdate } from '@vw/src/api/generated';
 import { createEffect, createEvent, createStore, sample } from 'effector';
 import { or, reset } from 'patronum';
 
@@ -49,19 +50,23 @@ sample({
     target: createWidgetFx,
 });
 
-export const updateWidgetFx = createEffect(async (data) => {
-    return api.patch('widgets/' + data.id + '/', { json: data }).json();
+export const updateWidgetFx = createEffect<WidgetUpdate, WidgetUpdate>(async (data) => {
+    return api.patch('widgets/' + data.id + '/', { json: data }).json<WidgetUpdate>();
 });
 
 sample({
+    // @ts-ignore
     clock: formSubmitted,
     source: {
         name: $widgetName,
-        description: $widgetDescription,
+        // description: $widgetDescription,
         id: $widgetId,
     },
+    fn({ name, id }) {
+        return { name, id };
+    },
     filter: ({ id }) => {
-        return id !== null;
+        return Boolean(id);
     },
     target: updateWidgetFx,
 });

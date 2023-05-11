@@ -196,9 +196,11 @@ export const VideoWidget = (props: Props) => {
   const [totalTime, setTotalTime] = createSignal(0);
 
   createEffect(() => {
+    if (!expanded()) return;
+
     const diff = totalTime() - currentTime();
 
-    if (diff < 0.5) {
+    if (diff < 0.5 && expanded()) {
       fullWatchedMetric();
     }
   });
@@ -288,9 +290,10 @@ export const VideoWidget = (props: Props) => {
             }
 
             .close-icon {
-                display: ${!expanded() && "none"};
+                display: ${expanded() ? "flex" : "none"};
             }
-            .vw-wrapper:hover .close-icon{
+
+            .vw-wrapper:hover .close-icon {
               display: flex;
             }
           `}
@@ -323,7 +326,7 @@ export const VideoWidget = (props: Props) => {
         >
           <button
             onclick={handleCloseClick}
-            class="close-icon absolute z-10 bg-slate-300/50 rounded-full w-6 h-6 flex items-center justify-center transition-[top,right] cursor-pointer"
+            class="border-none close-icon absolute z-10 bg-slate-100 rounded-full w-6 h-6 flex items-center justify-center cursor-pointer"
             style={{
               top: closeIconTop(),
               right: closeIconRight(),
@@ -336,7 +339,7 @@ export const VideoWidget = (props: Props) => {
             <>
               <button
                 onclick={handleMuteClick}
-                class="absolute top-10 right-2 z-10 bg-slate-300/50 rounded-full w-6 h-6 flex items-center justify-center"
+                class="cursor-pointer border-none absolute top-10 right-2 z-10 bg-slate-100 rounded-full w-6 h-6 flex items-center justify-center"
               >
                 {muted() ? (
                   <SpeakerXMarkIcon class="w-4" />
@@ -401,7 +404,7 @@ export const VideoWidget = (props: Props) => {
                   <a
                     href="https://trywidget.ru"
                     target="_blank"
-                    class="gap-2 bg-black/80 p-[4px] text-center text-white text-[12px] mt-1 -mx-2 -mb-3 w-[calc(100%+16px)] flex justify-center items-center"
+                    class="gap-2 bg-black/80 p-[4px] text-center text-white text-[12px] mt-1 -mx-2 -mb-1 w-[calc(100%+16px)] flex justify-center items-center"
                   >
                     <img class="w-4 h-4" src="/static/logo.svg" alt="Логотип" />
                     Trywidget

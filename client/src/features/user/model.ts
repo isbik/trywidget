@@ -1,10 +1,10 @@
 import { api } from '@vw/src/api/api';
-import { User } from '@vw/src/api/generated';
+import { UserMe } from '@vw/src/api/generated';
 import { createEffect, createEvent, createStore, sample } from 'effector';
 
 export const fetchUser = createEvent();
 
-export const fetchUserFx = createEffect<unknown, User>(() => {
+export const fetchUserFx = createEffect<unknown, UserMe>(() => {
     return api.get('users/me').json();
 });
 
@@ -18,6 +18,6 @@ sample({
 });
 
 export const userReset = createEvent();
-export const $user = createStore<null | User>(null).on(fetchUserFx.doneData, (_, data) => data);
+export const $user = createStore<null | UserMe>(null).on(fetchUserFx.doneData, (_, data) => data);
 
 $user.on(userReset, () => null);

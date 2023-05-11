@@ -14,6 +14,12 @@ type Props = {
     title?: string;
 };
 
+type FormValues = {
+    email: string;
+    password: string;
+    passwordAgain: string;
+};
+
 export const getErrors = (jsonError: any) => {
     return Object.keys(jsonError || {})
         .map((key) => {
@@ -33,7 +39,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
         register,
         handleSubmit,
         formState: { isValid },
-    } = useForm({
+    } = useForm<FormValues>({
         defaultValues: {
             email: '',
             password: '',
@@ -48,7 +54,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
         if (type === 'register') await handleRegister(data);
     });
 
-    const handleLogin = async (data) => {
+    const handleLogin = async (data: FormValues) => {
         setLoading(true);
 
         try {
@@ -63,7 +69,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
         }
     };
 
-    const handleRegister = async (data) => {
+    const handleRegister = async (data: FormValues) => {
         if (data.password !== data.passwordAgain) {
             setError('Пароли не совпадают');
             return;

@@ -1,9 +1,9 @@
 import { api } from '@vw/src/api/api';
+import { File as ApiFile, WidgetsList } from '@vw/src/api/generated';
 import { createEffect, createEvent, createStore, sample } from 'effector';
 import { createGate } from 'effector-react';
-import { createWidgetFx, updateWidgetFx } from '../modals/WidgetModal/model';
 import { deleteWidgetFx } from '../modals/DeleteWidgetModal/model';
-import { WidgetsList } from '@vw/src/api/generated';
+import { createWidgetFx, updateWidgetFx } from '../modals/WidgetModal/model';
 
 export const WidgetListGate = createGate();
 
@@ -39,9 +39,12 @@ $widgets.on(deleteWidgetFx.doneData, (widgets, id) => {
     return widgets.filter((w) => w.id !== id);
 });
 
-export const attachWidgetVideo = createEvent<{ selectedWidget: any; video: any }>();
+export const attachWidgetVideo = createEvent<{ selectedWidget: WidgetsList; video: ApiFile }>();
 
-export const attachWidgetVideoFx = createEffect(async ({ selectedWidget: widget, video }) => {
+export const attachWidgetVideoFx = createEffect<
+    { selectedWidget: WidgetsList; video: ApiFile },
+    WidgetsList
+>(async ({ selectedWidget: widget, video }) => {
     await api.patch('widgets/' + widget.id + '/', {
         json: {
             video_id: video.id,

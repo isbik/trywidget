@@ -1,11 +1,12 @@
 import { api } from '@vw/src/api/api';
+import { File as ApiFile } from '@vw/src/api/generated';
 import { createEffect, createEvent, createStore } from 'effector';
 
 const CHUNK_SIZE = 1024 * 1024 * 1; // 1 MB
 
 export const uploadProgressChanged = createEvent<number>();
 
-export const uploadFileFx = createEffect((file: File) => {
+export const uploadFileFx = createEffect<File, ApiFile, any>((file: File) => {
     const totalSize = file.size;
 
     let uploadedSize = 0;

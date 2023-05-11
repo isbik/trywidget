@@ -59,21 +59,21 @@ const AccountPage = (props: Props) => {
                             </li>
                             <li className="flex items-center gap-2">
                                 <CheckBadgeIcon className="w-4 text-primary" />
-                                {plan.max_widgets}{' '}
-                                {plural(plan.max_widgets, ['виджет', 'виджета', 'виджетов'])}
+                                {plan?.max_widgets || 1}{' '}
+                                {plural(plan?.max_widgets || 1, ['виджет', 'виджета', 'виджетов'])}
                             </li>
                             <li className="flex items-center gap-2">
                                 <CheckBadgeIcon className="w-4 text-primary" />
-                                {plan.max_widgets * 2} видео
+                                {(plan?.max_widgets || 1) * 2} видео
                             </li>
 
                             <li
                                 className={cn(
                                     'flex items-center gap-2',
-                                    !plan.is_hide_logo && 'line-through'
+                                    !plan?.is_hide_logo && 'line-through'
                                 )}
                             >
-                                {!plan.is_hide_logo ? (
+                                {!plan?.is_hide_logo ? (
                                     <XMarkIcon className="w-4 text-[#A9A9A9]" />
                                 ) : (
                                     <CheckBadgeIcon className="w-4 text-primary" />
@@ -83,10 +83,10 @@ const AccountPage = (props: Props) => {
                             <li
                                 className={cn(
                                     'flex items-center gap-2',
-                                    !plan.is_support && 'line-through'
+                                    !plan?.is_support && 'line-through'
                                 )}
                             >
-                                {!plan.is_support ? (
+                                {!plan?.is_support ? (
                                     <XMarkIcon className="w-4 text-[#A9A9A9]" />
                                 ) : (
                                     <CheckBadgeIcon className="w-4 text-primary" />

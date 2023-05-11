@@ -5,6 +5,7 @@ import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { api } from '../api/api';
+import { Plan } from '../api/generated';
 import { $user } from '../features/user/model';
 import { cn } from '../shared/lib/cn';
 import { plural } from '../shared/lib/plural';
@@ -13,12 +14,12 @@ import { GetStartedNow } from '../shared/ui/components/GetStartedNow';
 import { Header } from '../shared/ui/components/Header';
 import { InfinityIcon } from '../shared/ui/icons/Infinity';
 
-const $plans = createStore([]);
+const $plans = createStore<Plan[]>([]);
 
 const fetchPlans = createEvent();
 
 const fetchPlansFx = createEffect(() => {
-    return api.get('plans/').json();
+    return api.get('plans/').json<Plan[]>();
 });
 
 $plans.on(fetchPlansFx.doneData, (_, plans) => plans);
@@ -44,7 +45,7 @@ const PlansPage = () => {
         fetchPlans();
     }, []);
 
-    const handleCreatePayment = (plan_id: string) => {
+    const handleCreatePayment = (plan_id: number) => {
         if (!user) {
             router.push('/login');
             return;
@@ -56,7 +57,7 @@ const PlansPage = () => {
                 time_period: isYear ? 'year' : 'month',
             },
         })
-            .json()
+            .json<{ payment_id: string }>()
             .then(({ payment_id }) => {
                 console.log(payment_id);
                 // TODO redirect to yokassa
@@ -116,7 +117,7 @@ const PlansPage = () => {
                                     </p>
 
                                     <button
-                                        onClick={() => handleCreatePayment(plan.id)}
+                                        onClick={() => handleCreatePayment(plan.id!)}
                                         className={cn(
                                             'w-fit px-6 py-2 mt-auto transition-all border rounded border-primary text-primary hover:bg-primary hover:text-white',
                                             index === 1 && 'bg-primary text-white hover:scale-105'

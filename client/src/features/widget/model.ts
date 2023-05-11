@@ -11,7 +11,7 @@ export const $widget = createStore<any>({}).on(fetchWidgetFx.doneData, (_, widge
 
 export const updateWidget = createEvent<any>();
 
-export const updateWidgetFx = createEffect(async (widget) => {
+export const updateWidgetFx = createEffect(async (widget: any) => {
     await api.patch('widgets/' + widget.id + '/', {
         json: {
             ...widget,

@@ -1,8 +1,7 @@
-import React from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
 import { XMarkIcon } from '@heroicons/react/24/solid';
-import { $addWebsiteWidgetSlug, addWebsiteWidgetSlugChanged } from './model';
+import * as Dialog from '@radix-ui/react-dialog';
 import { useStore } from 'effector-react';
+import { $addWebsiteWidgetSlug, addWebsiteWidgetSlugChanged } from './model';
 
 export const AddWidgetWebsiteModal = () => {
     const widgetSlug = useStore($addWebsiteWidgetSlug);
@@ -20,7 +19,7 @@ export const AddWidgetWebsiteModal = () => {
 
                     <div className="p-2 mb-2 rounded bg-[#EEF1F7] select-all">
                         <code>
-                            {`<script src="${window.location.origin}/public/widget.js" data-widget="${widgetSlug}" data-nscript="afterInteractive"></script>`}
+                            {`<script defer src="${window.location.origin}/public/widget.js" data-widget="${widgetSlug}"></script>`}
                         </code>
                     </div>
 

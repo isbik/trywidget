@@ -9,6 +9,33 @@
  * ---------------------------------------------------------------
  */
 
+export interface Login {
+    /**
+     * Email
+     * @format email
+     * @minLength 1
+     */
+    email: string;
+    /**
+     * Password
+     * @minLength 8
+     */
+    password: string;
+}
+
+export interface ChangePassword {
+    /**
+     * Old password
+     * @minLength 8
+     */
+    old_password: string;
+    /**
+     * New password
+     * @minLength 8
+     */
+    new_password: string;
+}
+
 export interface Email {
     /**
      * Email
@@ -73,6 +100,35 @@ export interface File {
     created_at?: string;
 }
 
+export interface Plan {
+    /** ID */
+    id?: number;
+    /**
+     * Display name
+     * @minLength 1
+     * @maxLength 56
+     */
+    display_name: string;
+    /**
+     * Price
+     * @min -2147483648
+     * @max 2147483647
+     */
+    price: number;
+    /**
+     * Max widgets
+     * @min -2147483648
+     * @max 2147483647
+     */
+    max_widgets: number;
+    /** Is hide logo */
+    is_hide_logo: boolean;
+    /** Is support */
+    is_support: boolean;
+    /** Active */
+    active: boolean;
+}
+
 export interface Feedback {
     /**
      * Name
@@ -130,7 +186,7 @@ export interface WidgetPublic {
      * @maxLength 100
      */
     name: string;
-    video: FileInWidget;
+    video?: FileInWidget;
     /** Settings */
     settings?: object;
 }
@@ -178,6 +234,66 @@ export interface AnalyticUpdate {
     unique_watched?: boolean;
 }
 
+export interface UserMe {
+    /** ID */
+    id?: number;
+    plan: Plan;
+    /**
+     * Последний вход
+     * @format date-time
+     */
+    last_login?: string | null;
+    /** Is active */
+    is_active?: boolean;
+    /** Is admin */
+    is_admin?: boolean;
+    /**
+     * Email
+     * @format email
+     * @minLength 1
+     * @maxLength 254
+     */
+    email: string;
+    /**
+     * Next payment date
+     * @format date-time
+     */
+    next_payment_date?: string | null;
+    /**
+     * Trial end
+     * @format date-time
+     */
+    trial_end?: string;
+    /**
+     * Created at
+     * @format date-time
+     */
+    created_at?: string;
+    /**
+     * Email verify token
+     * @minLength 1
+     * @maxLength 255
+     */
+    email_verify_token?: string | null;
+    /**
+     * Password token
+     * @minLength 1
+     * @maxLength 255
+     */
+    password_token?: string | null;
+    /**
+     * Visit count
+     * @min -2147483648
+     * @max 2147483647
+     */
+    visit_count?: number;
+    /**
+     * Last login at
+     * @format date-time
+     */
+    last_login_at?: string;
+}
+
 export interface WidgetsList {
     /** ID */
     id?: number;
@@ -187,7 +303,7 @@ export interface WidgetsList {
      * @maxLength 100
      */
     name: string;
-    video: FileInWidget;
+    video?: FileInWidget;
     /**
      * Slug
      * @format uuid
@@ -222,7 +338,7 @@ export interface WidgetRetrieve {
      * @maxLength 100
      */
     name: string;
-    video: FileInWidget;
+    video?: FileInWidget;
     /**
      * Updated at
      * @format date

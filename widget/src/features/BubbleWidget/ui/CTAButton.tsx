@@ -33,7 +33,7 @@ export const CTAButton = () => {
     <Show when={settingsState().ctaShow}>
       <button
         onClick={handleClick}
-        class="m-auto transition-all px-2 py-3 w-full my-1 max-w-[300px] hover:opacity-90 cursor-pointer"
+        class="border-none m-auto transition-all px-2 py-3 w-full my-1 max-w-[300px] hover:opacity-90 cursor-pointer"
         style={{
           background: settingsState().ctaButtonColor,
           color: settingsState().ctaTextColor,

@@ -22,7 +22,7 @@ class WidgetBaseSerializer(serializers.ModelSerializer):
 
 
 class WidgetRetrieveSerializer(WidgetBaseSerializer):
-    video = FileInWidgetSerializer()
+    video = FileInWidgetSerializer(required=False)
 
 
 class WidgetPublicSerializer(WidgetRetrieveSerializer):

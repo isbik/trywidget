@@ -2,9 +2,9 @@ import { settingsState } from "../store";
 import { getWidgetUrl } from "./getWidgetSlug";
 
 const MAP = {
-  tw_open: "click_cta",
-  tw_cta_click: "full_watched",
-  tw_full_watched: "open_widget",
+  tw_open: "open_widget",
+  tw_cta_click: "click_cta",
+  tw_full_watched: "full_watched",
 } as any;
 
 const callMetric = (key: string) => {

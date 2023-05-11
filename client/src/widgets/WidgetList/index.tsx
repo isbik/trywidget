@@ -1,19 +1,16 @@
 import { EyeIcon, PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { WidgetsList as WidgetListType } from '@vw/src/api/generated';
+import { cn } from '@vw/src/shared/lib/cn';
 import { ResponsiveTable } from '@vw/src/shared/ui/components/ResponsiveTable/ResponsiveTable';
 import { useGate, useStore } from 'effector-react';
 import Link from 'next/link';
-import React from 'react';
-import { $widgets, WidgetListGate } from './model';
-import { deleteWidgetIdChanged } from '../modals/DeleteWidgetModal/model';
-import { selectEditWidget } from '../modals/WidgetModal/model';
 import { addWebsiteWidgetSlugChanged } from '../modals/AddWidgetWebsite/model';
+import { deleteWidgetIdChanged } from '../modals/DeleteWidgetModal/model';
 import { selectedWidgetIdChanged, videosModalOpenChanged } from '../modals/VideosModal/model';
-import { WidgetPublic } from '@vw/src/api/generated';
-import { cn } from '@vw/src/shared/lib/cn';
+import { selectEditWidget } from '../modals/WidgetModal/model';
+import { $widgets, WidgetListGate } from './model';
 
-type Props = {};
-
-export const WidgetsList = (props: Props) => {
+export const WidgetsList = () => {
     useGate(WidgetListGate);
 
     const widgets = useStore($widgets).map((widget) => ({
@@ -22,7 +19,7 @@ export const WidgetsList = (props: Props) => {
         id: widget.id as number,
     }));
 
-    const handleOpenAddVideoModal = (widget: WidgetPublic) => {
+    const handleOpenAddVideoModal = (widget: WidgetListType) => {
         videosModalOpenChanged(true);
         selectedWidgetIdChanged(widget.id as number);
     };
@@ -33,7 +30,7 @@ export const WidgetsList = (props: Props) => {
             headers={{
                 id: '',
                 name: 'Название',
-                preview_image_url: 'Видео',
+                video: 'Видео',
                 actions: '',
             }}
             customRenderers={{
@@ -53,8 +50,8 @@ export const WidgetsList = (props: Props) => {
                         {name}
                     </Link>
                 ),
-                preview_image_url: (widget) =>
-                    widget.video ? (
+                video: (widget) =>
+                    widget?.video ? (
                         <div className="relative w-fit">
                             <img
                                 src={widget.video.preview_image_url}
@@ -82,7 +79,7 @@ export const WidgetsList = (props: Props) => {
                 actions: (widget) => (
                     <div className="flex items-center gap-2">
                         <button
-                            onClick={() => addWebsiteWidgetSlugChanged(widget.slug)}
+                            onClick={() => addWebsiteWidgetSlugChanged(widget.slug || null)}
                             type="button"
                             className="btn"
                         >

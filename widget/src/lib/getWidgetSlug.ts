@@ -1,5 +1,6 @@
 export const getWidgetUrl = () => {
-  const script = document.querySelector("#tw_bubble");
+  const script = document.querySelector("[data-widget]");
+
   const slug = script?.getAttribute("data-widget");
 
   if (!slug) return "";

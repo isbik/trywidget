@@ -101,7 +101,7 @@ export const SETTINGS_DEFAULT: WidgetSettings = {
     showingAgainTime: 10,
     showingAgainUnit: 'seconds',
 
-    showingAllPages: false,
+    showingAllPages: true,
     showingOnlyPages: [''],
     showingIgnorePages: [''],
 };

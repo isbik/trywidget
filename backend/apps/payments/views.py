@@ -8,7 +8,20 @@ from apps.users.models import User
 from apps.plans.models import UserPlan
 from datetime import datetime, timedelta
 
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
+
+data_ok_schema = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={'payment_id': openapi.Schema(type=openapi.TYPE_STRING)},
+)
+
+
+@swagger_auto_schema(
+    method='POST',
+    responses={201: data_ok_schema}
+)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_payment_view(request):

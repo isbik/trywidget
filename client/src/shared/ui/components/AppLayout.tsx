@@ -49,9 +49,9 @@ export const AppLayout = ({ children }: Props) => {
     const handleLogout = () => {
         api.get('auth/logout');
 
-        userReset();
-
-        router.replace('/');
+        router.replace('/').then(() => {
+            userReset();
+        });
     };
 
     const showUpdate = () => {

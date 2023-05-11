@@ -11,7 +11,6 @@ import dayjs from 'dayjs';
 import { useStore } from 'effector-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import React from 'react';
 
 const AddWidgetWebsiteModal = dynamic(
     import('@vw/src/widgets/modals/AddWidgetWebsite').then((mod) => mod.AddWidgetWebsiteModal),
@@ -26,19 +25,28 @@ const AppPage = (props: Props) => {
     const user = useStore($user);
 
     const trialEndDays = () => {
-        if (!user || user?.plan) return;
+        if (!user?.plan) return;
 
         return dayjs(user.trial_end).diff(new Date(), 'days');
     };
 
     const showEndTrial = () => {
-        return trialEndDays() <= 3;
+        const days = trialEndDays();
+        return days ? days <= 3 : false;
     };
 
     const paymentRestDays = () => {
-        if (user || !user?.plan) return;
+        if (!user?.plan) return;
 
         return dayjs(user.next_payment_date).diff(new Date(), 'days');
+    };
+
+    const showPaymentEnds = () => {
+        const days = paymentRestDays();
+
+        if (typeof days !== 'number') return false;
+
+        return days >= 1 && days <= 3;
     };
 
     return (
@@ -67,14 +75,14 @@ const AppPage = (props: Props) => {
                         {trialEndDays() === 0
                             ? 'Ваш тестовый период закончился.'
                             : `Тестовый период заканчивается через ${trialEndDays()} ${plural(
-                                  trialEndDays(),
+                                  trialEndDays() || 1,
                                   ['день', 'дня', 'дней']
                               )}.`}
                         Пожалуйста, продлите тариф.
                     </Link>
                 )}
 
-                {paymentRestDays() > 1 && paymentRestDays() <= 3 && (
+                {showPaymentEnds() && (
                     <Link href={'/pricing'} className="block px-4 py-2 mb-8 rounded bg-warning">
                         Ваша подписка заканчивается. Пожалуйста, продлите тариф.
                     </Link>

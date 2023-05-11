@@ -1,11 +1,13 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
-import '../app/index.css';
-import { useEffect } from 'react';
-import { fetchUser, fetchUserFx } from '../features/user/model';
-import { useRouter } from 'next/router';
 import { DefaultSeo } from 'next-seo';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
+import '../application//index.css';
+
+import { fetchUser } from '../features/user/model';
 import { NEXT_SEO } from '../shared/config/next-seo';
 
 export default function App({ Component, pageProps }: AppProps) {

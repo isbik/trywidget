@@ -49,8 +49,6 @@ const WidgetAnalyticPage = (props: Props) => {
         updateWidget({ settings: data });
     });
 
-    console.log(analytics);
-
     return (
         <WidgetLayout>
             <div className="flex flex-wrap gap-4 mb-8">
