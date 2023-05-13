@@ -21,8 +21,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken',
     'rest_framework',
-    'drf_yasg',
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ['drf_yasg',]
 
 MY_APPS = [
     'apps.users.apps.UsersConfig',

@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model, login
 from django.http import HttpRequest
 from django.conf import settings
 from django.shortcuts import redirect
+from django.conf import settings
 
 from apps.oauth.models import OAuth
 
@@ -17,7 +18,7 @@ SCOPES = 'email profile'
 def google(request: HttpRequest):
     url = "https://accounts.google.com/o/oauth2/v2/auth"
 
-    redirect_uri = request.build_absolute_uri('/') + "oauth/google/callback"
+    redirect_uri = settings.API_URL + "oauth/google/callback"
     params = {
         "response_type": "code",
         "redirect_uri":  redirect_uri,
@@ -38,7 +39,7 @@ def google_callback(request: HttpRequest):
         'client_secret': settings.GOOGLE_CLIENT_SECRET,
         'scope': SCOPES,
         'grant_type': 'authorization_code',
-        'redirect_uri': request.build_absolute_uri('/') + "oauth/google/callback"
+        'redirect_uri': settings.API_URL + "oauth/google/callback"
     }
 
     response = requests.post(
