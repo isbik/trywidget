@@ -27,7 +27,7 @@ TEMP_URL = 'temp/'
 TEMP_ROOT = os.path.join(BASE_DIR, 'temp')
 
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static-backend/'
 STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = 'media/'

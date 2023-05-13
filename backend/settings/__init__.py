@@ -9,6 +9,7 @@ from .email import *
 from .drf import *
 from .logging import *
 
+ALLOW_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
