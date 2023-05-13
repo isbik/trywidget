@@ -5,13 +5,15 @@ export const NEXT_SEO: NextSeoProps = {
     description:
         'Видеовиджет можно установить для любого сайта и легко интегрировать в любую CMS, WordPress, Bitrix и т.д.',
     openGraph: {
+        url: 'https://trywidget.ru',
         type: 'website',
         locale: 'ru_RU',
-        url: 'https://trywidget.ru',
         siteName: 'Видеовиджет для сайта',
+        title: 'Видеовиджет для сайта, который легко интегрировать в любую CMS, WordPress, Bitrix и т.д.',
         images: [
             {
-                url: 'https://trywidget.ru/static/favicon.svg',
+                url: '/static/open-graph.png',
+                alt: 'Og Image Alt',
             },
         ],
     },

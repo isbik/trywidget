@@ -106,7 +106,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
 
     return (
         <form
-            className="relative max-w-md border bg-base-100 sm:card w-96 card-body"
+            className="relative max-w-md sm:border bg-base-100 sm:card w-96 card-body"
             onSubmit={onSubmit}
         >
             <Link href="/">

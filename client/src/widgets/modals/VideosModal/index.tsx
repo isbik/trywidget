@@ -129,7 +129,9 @@ export const VideosModal = () => {
                             <>
                                 <CloudArrowUpIcon className="w-6" />
 
-                                <p className="text-base">Добавьте или перенесите видео до 50мб</p>
+                                <p className="text-base text-center">
+                                    Добавьте или перенесите видео до 50мб
+                                </p>
                             </>
                         )}
                     </FileUpload>

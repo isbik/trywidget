@@ -1,6 +1,9 @@
-import React from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import * as Dialog from '@radix-ui/react-dialog';
+import { cn } from '@vw/src/shared/lib/cn';
+import { useStore, useUnit } from 'effector-react';
+import Link from 'next/link';
+import React from 'react';
 import {
     $error,
     $loading,
@@ -9,13 +12,9 @@ import {
     $widgetModal,
     $widgetName,
     formSubmitted,
-    widgetDescriptionChanged,
     widgetModalChanged,
     widgetNameChanged,
 } from './model';
-import { useStore, useUnit } from 'effector-react';
-import { cn } from '@vw/src/shared/lib/cn';
-import Link from 'next/link';
 
 export const WidgetModal = () => {
     const open = useStore($widgetModal);

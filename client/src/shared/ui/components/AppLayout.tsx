@@ -5,6 +5,7 @@ import {
     FilmIcon,
     LinkIcon,
     UserIcon,
+    XMarkIcon,
 } from '@heroicons/react/24/solid';
 import { api } from '@vw/src/api/api';
 import { $user, userReset } from '@vw/src/features/user/model';
@@ -42,7 +43,7 @@ export const AppLayout = ({ children }: Props) => {
         },
     ];
 
-    const [openDrawer, setOpenDrawer] = useState(true);
+    const [openDrawer, setOpenDrawer] = useState(false);
 
     const router = useRouter();
 
@@ -66,20 +67,27 @@ export const AppLayout = ({ children }: Props) => {
 
     return (
         <main
-            className={cn(
-                'flex max-sm:flex-col transition-all pl-[240px] bg-base-200 h-full',
-                !openDrawer && 'max-sm:pl-0'
-            )}
+            className={cn('flex max-sm:flex-col transition-all sm:pl-[240px] bg-base-200 h-full')}
         >
+            <div className={cn('fixed w-screen h-screen bg-black/60', !openDrawer && 'hidden')} />
+
             <nav
                 className={cn(
                     'transition-all min-w-[240px] w-[240px] h-screen flex flex-col fixed left-0 border-r bg-white',
-                    !openDrawer && 'max-sm:-translate-x-full'
+                    !openDrawer && 'max-sm:-translate-x-full',
+                    openDrawer && 'translate-x-0 max-md:z-10'
                 )}
             >
-                <div className="flex items-center gap-3 p-4 mb-16">
+                <div className="flex items-center gap-3 p-4 mb-4 md:mb-16">
                     <img className="w-8 h-8" src="/static/logo.svg" alt="logo" />
-                    <p className="font-black leading-5">Trywidget</p>
+                    <p className="mr-auto font-black leading-5">Trywidget</p>
+                    <button
+                        type="button"
+                        onClick={() => setOpenDrawer(!openDrawer)}
+                        className="sm:hidden btn-sm btn btn-ghost btn-square"
+                    >
+                        <XMarkIcon className="w-4" />
+                    </button>
                 </div>
 
                 <ul className="flex flex-col grow text-[14px] overflow-y-auto">
@@ -130,8 +138,12 @@ export const AppLayout = ({ children }: Props) => {
             </nav>
 
             <div className="p-2 bg-[#EEF1F7] sm:hidden">
-                <button className="btn btn-sm btn-square" onClick={() => setOpenDrawer((p) => !p)}>
-                    <Bars3Icon />
+                <button
+                    className="btn btn-ghost btn-sm btn-outline btn-square"
+                    onClick={() => setOpenDrawer((p) => !p)}
+                    type="button"
+                >
+                    <Bars3Icon className="w-4" />
                 </button>
             </div>
 

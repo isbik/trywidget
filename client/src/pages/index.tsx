@@ -16,7 +16,7 @@ const Home = () => {
             <Header />
 
             <main className="py-32">
-                <div className="container flex">
+                <div className="container flex flex-col md:flex-row">
                     <div className="flex flex-col grow max-w-[500px]">
                         <h1 className="mb-8 text-4xl font-black uppercase md:text-6xl">
                             Видеовиджет для сайта{' '}
@@ -36,7 +36,7 @@ const Home = () => {
                         <Labels />
                     </div>
 
-                    <div className="relative ml-auto -mr-32 max-md:hidden xl:mr-48 w-fit">
+                    <div className="h-[350px] max-md:mt-16 max-md:pl-[50%] relative m-auto md:ml-auto md:-mr-32 xl:mr-48 w-fit">
                         <div className="absolute hover:shadow-2xl hover:scale-[1.2] transition-all hover:z-10 overflow-hidden border-4 shadow-xl rounded-3xl right-36 border-[#B250FF] -top-8">
                             <img
                                 className="w-[250px] min-w-[250px] object-cover h-[350px]"

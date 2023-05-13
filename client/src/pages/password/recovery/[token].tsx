@@ -1,6 +1,5 @@
 import { api } from '@vw/src/api/api';
 import { cn } from '@vw/src/shared/lib/cn';
-import { getErrors } from '@vw/src/widgets/AuthForm';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -42,9 +41,9 @@ const PasswordRecoverPage = () => {
         <>
             <NextSeo title="Восстановление пароля" />
 
-            <div className="h-full bg-[#EEF1F7] centered">
+            <div className="h-full sm:bg-[#EEF1F7] centered">
                 <form
-                    className="max-w-md border card w-96 bg-base-100 card-body"
+                    className="max-w-md sm:border card w-96 bg-base-100 card-body"
                     onSubmit={handleSubmit}
                 >
                     {isSubmitted ? (
@@ -75,7 +74,7 @@ const PasswordRecoverPage = () => {
                                 />
                             </div>
 
-                            <div className="flex gap-4">
+                            <div className="flex flex-col gap-4 sm:flex-row">
                                 <Link
                                     href="/"
                                     className={cn('btn btn-outline flex-[0_1_50%]')}

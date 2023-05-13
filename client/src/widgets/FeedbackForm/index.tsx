@@ -34,7 +34,10 @@ export const FeedbackForm = (props: Props) => {
 
     return (
         <section className="py-16 centered">
-            <form onSubmit={onSubmit} className="p-8 px-16 card card-bordered bg-[#EEF1F7]">
+            <form
+                onSubmit={onSubmit}
+                className="py-8 md:px-16 card md:selection:card-bordered md:bg-[#EEF1F7]"
+            >
                 <h2 className="max-w-md mb-12 text-2xl font-black text-center">
                     Остались вопросы или предложения, заполните форму и мы свяжемся с вами как можно
                     скорее!

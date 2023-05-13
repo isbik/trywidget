@@ -47,9 +47,9 @@ const LoginPage = () => {
         <>
             <NextSeo title="Восстановление пароля" />
 
-            <div className="h-full bg-[#EEF1F7] centered">
+            <div className="h-full sm:bg-[#EEF1F7] centered">
                 <form
-                    className="max-w-md border card w-96 bg-base-100 card-body"
+                    className="max-w-md sm:border card w-96 bg-base-100 card-body"
                     onSubmit={handleSubmit}
                 >
                     {isSubmitted ? (
@@ -88,7 +88,7 @@ const LoginPage = () => {
                                 <p className="block px-4 py-2 rounded bg-error">{errorMessage()}</p>
                             )}
 
-                            <div className="flex gap-4">
+                            <div className="flex flex-col gap-4 sm:flex-row">
                                 <Link
                                     href="/"
                                     className={cn('btn btn-outline flex-[0_1_50%]')}

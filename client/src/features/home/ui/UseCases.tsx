@@ -81,10 +81,13 @@ export const UseCases = (props: Props) => {
 
             <div ref={sliderRef} className="m-auto keen-slider">
                 {items.map(({ profession, description, imageUrl, buttonText }, index) => (
-                    <div key={profession} className="flex gap-6 keen-slider__slide">
-                        <div className="relative h-fit">
+                    <div
+                        key={profession}
+                        className="flex flex-col gap-6 keen-slider__slide sm:flex-row"
+                    >
+                        <div className="relative w-full h-fit">
                             <img
-                                className="bg-red-400 h-[300px] min-w-[200px] rounded-xl object-cover"
+                                className="bg-red-400 h-[300px] min-w-[200px] rounded-xl object-cover w-full object-[50%_top]"
                                 src={imageUrl}
                                 alt={profession}
                             />
@@ -94,12 +97,13 @@ export const UseCases = (props: Props) => {
                         </div>
 
                         <div className="flex flex-col gap-2">
-                            <h3 className="text-2xl font-bold">{profession}</h3>
+                            <h3 className="text-2xl font-bold max-sm:text-center">{profession}</h3>
                             <p>{description}</p>
                         </div>
                     </div>
                 ))}
             </div>
+
             {loaded && instanceRef.current && (
                 <div className="flex justify-center gap-4 mt-8">
                     {[...Array(instanceRef.current.track.details.slides.length).keys()].map(

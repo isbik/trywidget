@@ -1,12 +1,11 @@
 import { useKeenSlider } from 'keen-slider/react';
-import React from 'react';
 
 type Props = {};
 
 export const Review = (props: Props) => {
     const [sliderRef] = useKeenSlider({
-        initial: 0,
-        slides: { perView: 1 },
+        initial: 1,
+        slides: { perView: 1, spacing: 8 },
         loop: true,
         breakpoints: {
             '(min-width: 800px)': {
@@ -40,7 +39,7 @@ export const Review = (props: Props) => {
             <h2 className="mb-16 text-3xl font-black text-center md:text-5xl">
                 Что говорят наши клиенты ❤️
             </h2>
-            <div ref={sliderRef} className="keen-slider">
+            <div ref={sliderRef} className="keen-slider max-md:!overflow-visible">
                 {reviews.map(({ author, text }) => (
                     <div
                         key={author}
