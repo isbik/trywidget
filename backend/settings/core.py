@@ -53,4 +53,4 @@ TEMPLATES = [
 ]
 
 
-CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost')
+CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost:3000')
