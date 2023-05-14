@@ -1,4 +1,5 @@
 import { Bars3BottomRightIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { cn } from '../../lib/cn';
@@ -10,7 +11,7 @@ export const Header = () => {
         <header className="border-[#e3e3e3] border-b max-sm:fixed  bg-white max-sm:z-30 w-screen shadow-[0px_0px_20px_rgba(0,0,0,0.1)]">
             <div className="container flex items-center gap-4 h-[70px]">
                 <Link href={'/'} className="mr-auto" aria-label="Логотип">
-                    <img src="/static/logo.svg" alt="Логотип" className="w-[50px]" />
+                    <Image width={50} height={50} src="/static/logo.svg" alt="Логотип" />
                 </Link>
 
                 <Link href="/pricing" className="max-sm:hidden btn btn-ghost">

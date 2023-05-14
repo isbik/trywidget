@@ -1,4 +1,4 @@
-import React from 'react';
+import Image from 'next/image';
 
 type Props = {};
 
@@ -43,7 +43,7 @@ export const IntegrationSteps = (props: Props) => {
                             className="bg-white relative flex flex-col p-6 border rounded-md min-w-[300px] hover:shadow-xl transition-all"
                         >
                             <div className="absolute p-4 bg-white border rounded-full centered -top-4 -right-4">
-                                <img className="w-8 h-8" src={image} alt={name} />
+                                <Image width={32} height={32} src={image} alt={name} />
                             </div>
 
                             <div className="flex items-center gap-6 mb-2">

@@ -1,4 +1,4 @@
-from core import DEBUG
+from .core import DEBUG
 
 if DEBUG:
     LOGGING = {

@@ -11,6 +11,7 @@ import { api } from '@vw/src/api/api';
 import { $user, userReset } from '@vw/src/features/user/model';
 import dayjs from 'dayjs';
 import { useStore } from 'effector-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -79,7 +80,7 @@ export const AppLayout = ({ children }: Props) => {
                 )}
             >
                 <div className="flex items-center gap-3 p-4 mb-4 md:mb-16">
-                    <img className="w-8 h-8" src="/static/logo.svg" alt="logo" />
+                    <Image width={50} height={50} src="/static/logo.svg" alt="logo" />
                     <p className="mr-auto font-black leading-5">Trywidget</p>
                     <button
                         type="button"

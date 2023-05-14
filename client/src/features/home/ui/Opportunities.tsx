@@ -1,4 +1,5 @@
 import { CheckBadgeIcon, SparklesIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
 import { useState } from 'react';
 
 type Props = {};
@@ -6,7 +7,7 @@ type Props = {};
 export const Opportunities = (props: Props) => {
     const ctaItems = ['Настройка стилей', 'Переход по ссылке', 'Открытие формы'];
 
-    const [borderRadius, setBorderRadius] = useState(10);
+    const [borderRadius, setBorderRadius] = useState(30);
     const [scale, setScale] = useState(5);
     const [color, setColor] = useState(270);
 
@@ -20,10 +21,12 @@ export const Opportunities = (props: Props) => {
                 <div className="flex flex-wrap items-start justify-center gap-16 mb-16 sm:gap-32">
                     <div className="flex flex-col items-center">
                         <div className="relative">
-                            <img
-                                src="/static/landing/woman-2.jpg"
-                                className="h-[400px] w-[250px] object-cover rounded-xl"
+                            <Image
+                                width={250}
+                                height={400}
+                                className="rounded-xl"
                                 alt="Фотосессия"
+                                src="/static/landing/woman-2.jpg"
                             />
                             <button className="absolute py-3 text-white outline-dashed outline-4 outline-offset-4 grow bottom-4 left-4 right-4 bg-[#bf00c5] rounded-xl">
                                 Записаться на съемку
@@ -69,9 +72,11 @@ export const Opportunities = (props: Props) => {
                         </div>
 
                         <div className="relative">
-                            <img
+                            <Image
                                 src="/static/landing/man.jpg"
-                                className="h-[400px] w-[250px] object-cover rounded-xl"
+                                width={250}
+                                height={400}
+                                className="shadow-xl rounded-xl"
                                 alt="Мужчина"
                             />
                             <div className="absolute flex justify-center gap-3 py-1 text-white outline-dashed outline-4 outline-offset-4 grow bottom-4 left-4 right-4 rounded-xl">
@@ -95,19 +100,21 @@ export const Opportunities = (props: Props) => {
                     </div>
 
                     <div className="flex flex-col items-center">
-                        <div className="relative h-[400px] w-[250px] min-h-[400px]">
-                            <img
+                        <div
+                            className="relative overflow-hidden"
+                            style={{
+                                borderRadius,
+                                borderWidth: '4px',
+                                borderStyle: 'solid',
+                                borderColor: `hsl(${color}, 100%, 50%)`,
+                            }}
+                        >
+                            <Image
+                                width={250}
+                                height={400}
                                 src="/static/landing/woman-walking.jpg"
-                                className="h-[80px] w-[50px] object-cover bottom-0 left-0 absolute"
+                                className="h-full"
                                 alt="Женщина идет"
-                                style={{
-                                    borderRadius,
-                                    borderWidth: '1px',
-                                    borderStyle: 'solid',
-                                    borderColor: `hsl(${color}, 100%, 50%)`,
-                                    transform: `scale(${scale})`,
-                                    transformOrigin: 'bottom left',
-                                }}
                             />
                         </div>
 
