@@ -56,7 +56,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
-          cd trywidget-master/
+          cd trywidget-master/devops/
           sudo docker compose stop
           sudo docker compose rm -f backend
           sudo docker compose rm -f client
