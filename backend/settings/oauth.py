@@ -1,2 +1,4 @@
-GOOGLE_CLIENT_ID = '731356962407-mhrscd07dts3fuctse7456h38vdekd44.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = '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'
+import os
+
+GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
