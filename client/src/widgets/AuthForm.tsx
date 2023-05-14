@@ -93,7 +93,7 @@ export const AuthForm = ({ title, type = 'login' }: Props) => {
             return 'Пользователь не был найден';
         }
 
-        return 'Попробуйте ещё раз';
+        return typeof error === 'string' ? error : 'Попробуйте ещё раз';
     };
 
     const user = useStore($user);

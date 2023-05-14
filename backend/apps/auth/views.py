@@ -80,7 +80,7 @@ def verify_email_view(request, token):
 
     login(request, user)
 
-    return HttpResponse(status=200)
+    return redirect("{}/app".format(settings.CLIENT_URL))
 
 
 @swagger_auto_schema(
@@ -152,4 +152,5 @@ def change_password(request):
         user.save()
         login(request, user)
         return JsonResponse({'status': 'ok'}, status=200)
+
     return JsonResponse({'detail': 'invalid password'}, status=401)

@@ -25,13 +25,15 @@ class FeedbackView(generics.CreateAPIView):
     serializer_class = FeedbackSerializer
 
     def perform_create(self, serializer):
+        user_id = self.request.user.id
 
-        instance = serializer.save(user=self.request.user)
+        instance = serializer.save(user=self.request.user if user_id else None)
+
         context = {
             'name': getattr(instance, 'name'),
             'email': getattr(instance, 'email'),
             'text': getattr(instance, 'text'),
-            'user_id': self.request.user.id,
+            'user_id': user_id,
         }
 
         html_message = render_to_string('emails/feedback.html', context)

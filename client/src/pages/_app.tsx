@@ -32,8 +32,11 @@ export default function App({ Component, pageProps }: AppProps) {
                 <title>Видео виджет на сайт</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta charSet="utf-8" />
+                <link rel="icon" type="image/x-icon" href="/favicon.ico" />
             </Head>
+
             <DefaultSeo {...NEXT_SEO} />
+
             <Component {...pageProps} />
         </>
     );
