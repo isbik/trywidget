@@ -1,3 +1,5 @@
+  GNU nano 2.9.8                                                                                          docker-compose.yml
+
 version: "3.8"
 
 services:
@@ -15,8 +17,7 @@ services:
 
   backend:
     restart: unless-stopped
-    build:
-      context: ../backend
+    image: trywidget/trywidget_backend:v1
     env_file:
       - .env
     volumes:
@@ -30,9 +31,7 @@ services:
       - celery
 
   celery:
-    build:
-      context: ../backend
-      dockerfile: ../backend/Dockerfile.celery
+    image: trywidget/trywidget_celery:v1
     command: celery -A config worker -B -l INFO
     depends_on:
       - redis
@@ -42,6 +41,8 @@ services:
     restart: always
     ports:
       - "6381:6379"
+    volumes:
+      - redis_data:/data
 
   postgres:
     restart: always
@@ -58,7 +59,7 @@ services:
 
   client:
     restart: unless-stopped
-    build: ../client
+    image: trywidget/trywidget_client:v1
     depends_on:
       - backend
 
@@ -66,3 +67,4 @@ volumes:
   postgres_data:
   static_value:
   media_value:
+  redis_data:

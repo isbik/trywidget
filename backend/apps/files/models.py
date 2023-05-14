@@ -6,6 +6,8 @@ import os
 
 from apps.files.services import generate_preview
 
+import shutil
+
 
 class File(models.Model):
     name = models.CharField(max_length=256)
@@ -48,7 +50,7 @@ class File(models.Model):
 
         MEDIA_URL = settings.MEDIA_URL.lstrip('/')
         if os.path.isfile(old_file_path):
-            os.rename(old_file_path, file_path)
+            shutil.move(old_file_path, file_path)
             self.url = f'{MEDIA_URL}{folder}{file_name}'
 
         temp_image_name = file_name.split(".")

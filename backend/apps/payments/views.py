@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+from django.shortcuts import get_object_or_404
 
 data_ok_schema = openapi.Schema(
     type=openapi.TYPE_OBJECT,
@@ -26,21 +27,15 @@ data_ok_schema = openapi.Schema(
 @permission_classes([IsAuthenticated])
 def create_payment_view(request):
     # user can have only unpaid payment
-    plan = Plan.objects.get(id=request.data['plan_id'])
+    plan = get_object_or_404(Plan, id=request.data['plan_id'])
 
-    payment = Payments.objects.get(user=request.user, is_paid=False)
-
-    if payment:
-        payment.price = plan.price
-        payment.time_period = request.data['time_period']
-        payment.plan = plan
-    else:
-        payment = Payments.objects.create(
-            price=plan.price,
-            time_period=request.data['time_period'],
-            user=request.user,
-            plan=plan,
-        )
+    payment, created = Payments.objects.get_or_create(
+        user=request.user,
+        price=plan.price,
+        time_period=request.data['time_period'],
+        plan=plan,
+        is_paid=False,
+    )
 
     payment.save()
 
@@ -56,7 +51,7 @@ def yookassa_payment_hook(request):
     payment_id = object['id']
     is_paid = object['paid']
 
-    payment = Payments.objects.get(payment_id=payment_id, is_paid=False)
+    payment = get_object_or_404(Payments, payment_id=payment_id, is_paid=False)
     payment.is_paid = is_paid
     payment.save()
 
