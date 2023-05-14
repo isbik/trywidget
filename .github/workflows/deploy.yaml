@@ -16,5 +16,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          script: cd trywidget-master && git checkout production -f && git pull origin HEAD && docker-compose -f ./devops/docker-compose.prod.yml up -d --build --remove-orphans
+          script: cd trywidget-master && git fetch --all && git checkout production -f && git pull origin HEAD && docker-compose -f ./devops/docker-compose.prod.yml up -d --build --remove-orphans
 
