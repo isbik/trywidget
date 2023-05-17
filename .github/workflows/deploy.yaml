@@ -33,7 +33,7 @@ jobs:
         uses: docker/build-push-action@v4.0.0
         with:
           context: ./backend/
-          file: Dockerfile.celery
+          file: ./backend/Dockerfile.celery
           push: true
           tags: trywidget/trywidget_celery:v1
 
