@@ -52,7 +52,7 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
-        username: ${{ secrets.USER }}
+        username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
@@ -60,6 +60,15 @@ jobs:
           sudo docker compose stop
           sudo docker compose rm -f backend
           sudo docker compose rm -f client
-          sudo docker compose pull backend
-          sudo docker compose pull client
+          touch backend.env
+          echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> backend.env
+          echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> backend.env
+          echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> backend.env
+          echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> backend.env
+          echo API_URL=${{ secrets.API_URL }} >> backend.env
+          echo ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }} >> backend.env
+          echo ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }} >> backend.env
+          echo CLIENT_URL=${{ secrets.CLIENT_URL }} >> backend.env
+          touch client.env
+          echo NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} >> client.env
           sudo docker-compose up -d
