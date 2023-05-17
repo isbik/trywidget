@@ -54,3 +54,5 @@ TEMPLATES = [
 
 
 CLIENT_URL = os.environ.get('CLIENT_URL', 'http://localhost:3000')
+
+ALLOWED_HOSTS = ['trywidget.ru']
