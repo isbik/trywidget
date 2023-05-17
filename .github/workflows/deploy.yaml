@@ -71,4 +71,8 @@ jobs:
           echo CLIENT_URL=${{ secrets.CLIENT_URL }} >> backend.env
           touch client.env
           echo NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} >> client.env
+          touch postgres.env
+          echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> postgres.env
+          echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> postgres.env
+          echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> postgres.env
           sudo docker-compose up -d
