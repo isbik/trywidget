@@ -57,10 +57,9 @@ const PlansPage = () => {
                 time_period: isYear ? 'year' : 'month',
             },
         })
-            .json<{ payment_id: string }>()
-            .then(({ payment_id }) => {
-                console.log(payment_id);
-                // TODO redirect to yokassa
+            .json<{ url: string }>()
+            .then(({ url }) => {
+                window.location.href = url;
             });
     };
 

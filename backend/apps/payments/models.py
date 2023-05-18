@@ -8,6 +8,7 @@ from apps.plans.models import TIME_PERIOD_CHOICES, Plan
 
 class Payments(models.Model):
     payment_id = models.UUIDField(default=uuid4, editable=False, unique=True)
+    internal_payment_id = models.CharField(max_length=256)
     price = models.IntegerField()
     time_period = models.CharField(choices=TIME_PERIOD_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)

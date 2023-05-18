@@ -8,6 +8,8 @@ from .celery import *
 from .email import *
 from .drf import *
 from .logging import *
+from .payment import *
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',

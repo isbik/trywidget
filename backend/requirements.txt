@@ -30,3 +30,4 @@ urllib3==1.26.15
 vine==5.0.0
 wcwidth==0.2.6
 redis==4.5.4
+yookassa==2.3.5

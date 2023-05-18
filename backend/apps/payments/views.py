@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -7,6 +8,7 @@ from apps.plans.models import Plan
 from apps.users.models import User
 from apps.plans.models import UserPlan
 from datetime import datetime, timedelta
+from apps.payments.services import create_yookassa_payment, calculate_price
 
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -29,17 +31,33 @@ def create_payment_view(request):
     # user can have only unpaid payment
     plan = get_object_or_404(Plan, id=request.data['plan_id'])
 
-    payment, created = Payments.objects.get_or_create(
-        user=request.user,
-        price=plan.price,
-        time_period=request.data['time_period'],
-        plan=plan,
-        is_paid=False,
-    )
+    try:
 
-    payment.save()
+        time_period = request.data['time_period']
+        price = calculate_price(int(plan.price), time_period)
 
-    return JsonResponse({"payment_id": payment.payment_id})
+        payment, created = Payments.objects.get_or_create(
+            user=request.user,
+            price=plan.price,
+            time_period=time_period,
+            plan=plan,
+            is_paid=False,
+        )
+
+        youkassa_payment = create_yookassa_payment(
+            amount=price,
+            description=plan.display_name,
+            return_url=f"{settings.CLIENT_URL}/payments/{payment.payment_id}"
+        )
+
+        payment.internal_payment_id = youkassa_payment.id,
+
+        payment.save()
+
+        url = youkassa_payment.confirmation.confirmation_url
+    except Exception as e:
+        print(e)
+    return JsonResponse({"url":  url})
 
 
 @api_view(['POST'])
@@ -51,8 +69,14 @@ def yookassa_payment_hook(request):
     payment_id = object['id']
     is_paid = object['paid']
 
-    payment = get_object_or_404(Payments, payment_id=payment_id, is_paid=False)
+    payment = get_object_or_404(
+        Payments,
+        internal_payment_id=payment_id,
+        is_paid=False
+    )
+
     payment.is_paid = is_paid
+
     payment.save()
 
     user_plan = UserPlan.objects.create(

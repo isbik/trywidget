@@ -31,6 +31,8 @@ const AppPage = (props: Props) => {
     };
 
     const showEndTrial = () => {
+        if (user?.plan) return false;
+
         const days = trialEndDays();
         return days ? days <= 3 : false;
     };
