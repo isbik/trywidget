@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
 import { Footer } from '../shared/ui/components/Footer';
 import { Header } from '../shared/ui/components/Header';
 
@@ -874,42 +873,7 @@ const PrivacyPage = (props: Props) => {
                         поддерживает такую информацию в актуальном состоянии.
                     </span>
                 </p>
-                <p
-                    style={{
-                        marginTop: '12.0pt',
-                        marginRight: '0in',
-                        marginBottom: '12.0pt',
-                        marginLeft: '0in',
-                        textAlign: 'justify',
-                        lineHeight: 'normal',
-                    }}
-                >
-                    <b>
-                        <span style={{ fontSize: '12.0pt', color: 'black' }}>
-                            Использование Captcha
-                        </span>
-                    </b>
-                </p>
-                <p
-                    style={{
-                        marginTop: '12.0pt',
-                        marginRight: '0in',
-                        marginBottom: '12.0pt',
-                        marginLeft: '0in',
-                        textAlign: 'justify',
-                        lineHeight: 'normal',
-                    }}
-                >
-                    <span style={{ fontSize: '12.0pt', color: 'black' }}>
-                        В Сайт интегрирована Captcha, которая представляет собой разновидность
-                        Файлов куки, целью которых в данном случае является <b>(1)</b> защита
-                        Пользователя от возможного спама, поступающего от третьих лиц в сети
-                        Интернет, а также от иного нерелевантного и/или запрещенного контента, и{' '}
-                        <b>(2)</b> идентификация Пользователя с целью его отличия от ботов/роботов,
-                        и <b>(3)</b> улучшение возможностей Пользователя в пользовании контентом
-                        Сайта.
-                    </span>
-                </p>
+
                 <p
                     style={{
                         marginTop: '12.0pt',
@@ -1070,66 +1034,8 @@ const PrivacyPage = (props: Props) => {
                             lineHeight: 'normal',
                         }}
                     >
-                        <span style={{ fontSize: '12.0pt' }}>посредством банковской карты.</span>
-                    </li>
-                    <li
-                        style={{
-                            color: 'black',
-                            marginBottom: '0in',
-                            textAlign: 'justify',
-                            lineHeight: 'normal',
-                        }}
-                    >
                         <span style={{ fontSize: '12.0pt' }}>
-                            с помощью платежной системы Pay Pal.
-                        </span>
-                    </li>
-                    <li
-                        style={{
-                            color: 'black',
-                            marginBottom: '0in',
-                            textAlign: 'justify',
-                            lineHeight: 'normal',
-                        }}
-                    >
-                        <span style={{ fontSize: '12.0pt' }}>
-                            с помощью платежной системы Яндекс.Деньги.
-                        </span>
-                    </li>
-                    <li
-                        style={{
-                            color: 'black',
-                            marginBottom: '0in',
-                            textAlign: 'justify',
-                            lineHeight: 'normal',
-                        }}
-                    >
-                        <span style={{ fontSize: '12.0pt' }}>
-                            с помощью платежной системы Apple Pay.
-                        </span>
-                    </li>
-                    <li
-                        style={{
-                            color: 'black',
-                            marginBottom: '0in',
-                            textAlign: 'justify',
-                            lineHeight: 'normal',
-                        }}
-                    >
-                        <span style={{ fontSize: '12.0pt' }}>
-                            с помощью платежной системы Google Pay.
-                        </span>
-                    </li>
-                    <li
-                        style={{
-                            color: 'black',
-                            marginBottom: '0in',
-                            textAlign: 'justify',
-                            lineHeight: 'normal',
-                        }}
-                    >
-                        <span style={{ fontSize: '12.0pt' }}>
-                            а также следующим способом: ЮKassa.
+                            с помощью платежной системы ЮKassa.
                         </span>
                     </li>
                 </ul>
